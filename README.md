@@ -1,5 +1,7 @@
 # A Programming Paradigm for Spatiotemporal Composability
 
+**[Read the paper (PDF)](paper.pdf)** · Draft of August 13, 2026
+
 > This is a preprint under active revision. The content may change substantially; please cite the latest version and check back before relying on specific results.
 
 Modern software---from plugin systems to self-evolving agent harnesses---increasingly requires _dynamic composition_, yet its formal foundations remain underdeveloped. We identify two orthogonal dimensions of the problem: _temporal composability_, the ability to completely revert a component's side effects upon removal, and _spatial composability_, the ability to declare and reactively manage inter-component dependencies.
