@@ -1,10 +1,18 @@
 # T\* — the finite characteristic suite, executable
 
-$T^\star = \{(\rho_{r,s}, V_{r,s})\}$, the 60 canonical experiments of
-`../signatures.md` §§1.4–14.3, expressed so they run against real Cordis
-builds. Until now the suite existed only on paper: the scripts were derived
-line by line in `../derivations.md` (Appendix E) and nothing executed them, so
-no build had ever been checked against Theorem 2.
+$T^\star = \{(\rho_{r,s}, V_{r,s})\}$, the **75** canonical experiments of
+`../signatures.md` §§1.4–14.3 **as closed by `../alphabet-audit.md`**, expressed
+so they run against real Cordis builds. Until now the suite existed only on
+paper: the scripts were derived line by line in `../derivations.md`
+(Appendix E) and in the audit's §3, and nothing executed them, so no build had
+ever been checked against Theorem 2.
+
+The audit (deliverable D5) found ten gaps in premise (D-A) and closed them
+with 16 new occurrence letters — D7–D12, X10, V6, the new alphabet
+$\Sigma_{\text{O-Update}} = \{W1..W6\}$, P7, A8 — and lifted A4 out of the
+unrealizable column by adding Definition 2′'s environment read label. The
+tables go **92 / 86 / 60 → 108 / 103 / 75**, and this suite grows with them,
+additively: no existing script, letter or verdict changed.
 
 Every entry records the chain the manuscript claims —
 
@@ -25,7 +33,7 @@ The environment conventions are `../../proof/src/target.mjs`'s, unchanged.
 ```bash
 cd paper/formal/tstar
 
-# (a) the reference model — the executable specification. This must be 60/60:
+# (a) the reference model — the executable specification. This must be 75/75:
 #     it is Theorem 2's soundness gate, the specification satisfying its own suite.
 node run-tstar.mjs
 
@@ -54,21 +62,43 @@ aligned build, the default) and `UPSTREAM_LIB`.
 
 ## Results
 
-| target | scripts | occurrence letters |
-| --- | :-: | :-: |
-| reference model (`adapter-model.mjs`) | **60 / 60** | 86 / 86 |
-| calculus-aligned build (`deepseek-harness/vendor/cordis`) | **50 / 60** | 77 / 86 |
-| published upstream `@deepseek-ai/cordis` 4.0.1 | **49 / 60** | 79 / 86 |
-| distributed (`cordis-node`, two nodes over the upstream build) | **49 / 60** | 78 / 86 |
+| target | scripts | occurrence letters | (pre-closure) |
+| --- | :-: | :-: | :-: |
+| reference model (`adapter-model.mjs`) | **75 / 75** | 103 / 103 | 60/60, 86/86 |
+| calculus-aligned build (`deepseek-harness/vendor/cordis`) | **59 / 75** | 86 / 103 | 50/60, 77/86 |
+| published upstream `@deepseek-ai/cordis` 4.0.1 | **58 / 75** | 88 / 103 | 49/60, 79/86 |
+| distributed (`cordis-node`, two nodes over the upstream build) | **58 / 75** | 83 / 103 | 49/60, 78/86 |
 
 A script credits its target letter only when it passed *and* the target's
 schedule took the canonical branch; a `branch` clause reported unrealized
-leaves the letter untested on that run even though the script conformed.
+leaves the letter untested on that run even though the script conformed. The
+same now applies to a script's *co-realized* letters, which are the letters of
+the same window: crediting them on any pass over-credited exactly the
+schedule-dependent L-Divert scripts. On the distributed target, where no
+L-Divert script takes its canonical branch, the old rule credited D4 to five
+scripts none of which diverted (84/103); the corrected rule reports 83.
 
-Findings F1–F7 below explain every failure: 10 on the aligned build
-(7 × F1, plus F2, F3, F4) and 11 on upstream (7 × F1, plus F2, F3, 2 × F5).
-F1–F3 hit both builds; F4 and F6 are the aligned build's alone; F5 is
-upstream's alone; F7 is a defect in D1 itself.
+One script is **not presentable** on any certificate-erased target: S-Upd-4
+(W5) has to place its input inside the L-Raise → L-Unload window, and no
+ordinary event occurs there on any fair schedule. See F11.
+
+Findings F1–F11 below explain every failure.
+
+| | aligned | upstream | distributed |
+| --- | :-: | :-: | :-: |
+| F1 spurious deactivation of a never-activated fiber | 7 | 7 | 7 |
+| F2 parent/child teardown order inverted | 1 | 1 | 1 |
+| F3 orchestrator-inserted child disposed with its parent | 1 | 1 | 1 |
+| F4 A4 resolved at the label level | 1 | — | — |
+| F5 upstream's two premise violations | — | 2 | 2 |
+| **F8 `update` at a Reloading fiber forces no re-resolution** | 1 | 1 | 1 |
+| **F9 `update` is gated on context liveness, not on the registry** | 2 | 2 | 2 |
+| **F10 the registry premise is unread by `setval` and by the read label** | 2 | 2 | 2 |
+| **F11 W5 is not presentable (notation, not a defect)** | 1 | 1 | 1 |
+| total not passed | 16 | 17 | 17 |
+
+F6 (a canonical branch the pin does not select) and F7 (a defect in D1's own
+S-Iso-3) are coverage/derivation findings and cost no script.
 
 ## What a verdict is
 
@@ -119,7 +149,8 @@ and are skipped where the channel does not exist.
 ## DSL extensions
 
 `dsl-ext.mjs` wraps `../../proof/src/dsl.mjs`; nothing under `../../proof/` was
-modified. Four kinds of addition were needed.
+modified. Six kinds of addition were needed — four for the original 60, two
+for the audit's closure.
 
 1. **Missing step constructors.** `raiseUnless(f, x)` — required by L-Iter's
    T11 and L-Raise's X3 — had no builder, though both adapters interpret the
@@ -160,9 +191,55 @@ modified. Four kinds of addition were needed.
 4. **Mid-settle report reads (`snapshot`).** M7's observation is a *blocking*
    decision whose evidence exists only strictly inside a settle: the parent
    must still be in the registry while its child is being torn down. S-Rem-5
-   snapshots the report at `inv(C,b)`.
+   snapshots the report at `inv(C,b)`. The snapshot now carries the store as
+   well as the states, because D8's observation is a binding that must be
+   *live* at the pointed configuration and *withdrawn* at quiescence; the
+   lenient probe is the meaningful one strictly inside a settle, since σ_γ
+   unions Active tables only (which is B6's content). Watchers stack, so
+   S-Div-5 arms the snapshot and the retirement on one marker, in that order.
 
-Two further harness conventions, both stated rather than assumed:
+5. **The anchored-input notation `at ε do λ` (`atEvent`, `cert`).** The audit's
+   §3.5. Three of the new letters — D7, W4, W5 — are windows at *non-quiescent*
+   configurations, which §5.4's `ρ ::= λ … | settle` notation cannot address
+   while Definition 3 clause 1 makes them conformance-relevant all the same.
+   `atEvent(ε, λ)` delivers λ synchronously at the first occurrence of ε during
+   the next settle. **This is notation, not machinery**: it is the same one-shot
+   `createTrace` watcher `pin` already used, and the two differ only in intent —
+   a `pin` steers the schedule of a script whose printed ρ is quiescent-only,
+   whereas an anchor *is* the printed ρ. Its correctness obligation is (D-F): ε
+   must be produced on every fair schedule, argued per script in `anchorNote`
+   and enforced by `tstar.test.mjs`; `observe.mjs` additionally records whether
+   each anchor actually fired, and an undelivered anchor is reported as its own
+   violation kind rather than as a mysterious word diff.
+
+   ε ranges over the ordinary event vocabulary and, through `cert(r, n)`, over
+   the rule-certificate channel. Two of the audit's three anchors are rendered
+   in the ordinary vocabulary so the experiments stay presentable on real
+   builds (S-Div-4 anchors on a `mark` step instead of `cert(L-Begin,P)`;
+   S-Upd-3 on `inv(C,b)` instead of `cert(L-Leave,P)` — the same window in both
+   cases). The third cannot be; see F11.
+
+6. **The environment read label `read(n,k)` (`readLabel`).** The audit's §3.6,
+   closing GAP-10 and with it the paper's §9 interface-scope limitation, by
+   exactly one channel. It is Definition 2′'s seventh $\Lambda_{\mathrm{orch}}$
+   label: Algorithm 6 run from $n$'s resolution context, $\Psi = \mathrm{id}$,
+   premise $n \in \mathrm{dom} F_\gamma$ (occurrence A8), emitting the same
+   `read:` / `readfail:` letters a read *step* emits. Again no new machinery:
+   all three adapters already expose the proxy-mediated read as `readVia`; what
+   was missing was its status as an *input*, with a refusal class of its own and
+   a place in ρ. It is what makes A4 reachable (S-Acc-3) and it lets T\* drive
+   the channel that kills `proxy-skips-inactive-check`.
+
+Three further harness conventions, all stated rather than assumed:
+
+- **The read label is delivered, not pre-checked.** The O-Retire convention
+  below records the registry membership *instead of* attempting the input,
+  because the adapters' `retire` swallows the attempt. The opposite choice is
+  made for `update`, `setval` and `read`: the adapters do deliver those to the
+  target, so the harness delivers them and records what came back. Synthesizing
+  the refusal there would make W6, P7 and A8 vacuous — they exist precisely to
+  test whether the target consults the premise, and all three convicted the
+  reference semantics itself until `model.mjs` was repaired (audit §6).
 
 - **O-Retire's refusal.** The adapters' `retire` is unconditional, but
   O-Retire has a premise ($n \in \mathrm{dom}\,F_\gamma$) whose violation is a
@@ -324,10 +401,120 @@ provider is later added under r1 only") without amending the script. The fix is
 one component: add a provider inserted under r1 after the reassignment, whose
 non-satisfaction of C then witnesses that r2 won.
 
+### F8 — `update` at a Reloading fiber forces no re-resolution (both builds)
+
+*Script:* S-Div-4 (D7, D9, D12, with W1).
+
+This is the audit's GAP-1 tested, and the answer is that neither build
+implements the window. `update(n,cfg)` delivered while $\theta_n =
+\mathsf{Reloading}$ must, by D7, make the fiber's next iteration boundary
+divergent: `model.mjs:242` tests the restart mark *before* it computes
+`targetOf`, so `stale` is a third divergence trigger beside ⊥-target and
+changed-provider. Observed:
+
+```
+spec: mark:P:m0 | deactivated:P | mark:P:m0 | apply:P:a | revert:P:a
+      | deactivated:P | mark:P:m0 | apply:P:a | apply:P:b | active:P
+impl: mark:P:m0 | apply:P:a | apply:P:b | active:P            (both builds)
+```
+
+— one episode where the specification has three. The two builds fail it
+differently, and the difference is instructive:
+
+- the **aligned** build writes the new entry (`fiber._config` becomes the new
+  config) but the running episode keeps the old one and no restart occurs;
+- **upstream** writes nothing at all. `update()` is invoked on the wrapper
+  `ctx.plugin()` returns, which prototypes on the fiber, so `this._config = …`
+  lands on the wrapper and never reaches the fiber. The aligned build's
+  `const fiber = this.ctx.fiber` is exactly the repair for this.
+
+Either way the input is *accepted* and then *dropped*, which is the one outcome
+Definition 3 clause 1 excludes: an accepted orchestration label is part of the
+bisimulation. W1's Active sub-case is honoured on both builds (S-Lea-3/V5
+passes); it is the Reloading sub-case that is missing, so D7 and W1 are both
+uncovered on every real target. **This is a new defect class**, and it is the
+one the audit predicted: eight of its ten gaps were at `update` or at a rule
+consuming `update`.
+
+### F9 — `update` is gated on context liveness, not on registry membership (both builds)
+
+*Scripts:* S-Upd-3 (W4), S-Upd-5 (W6).
+
+Both builds' `update()` opens with `assertActive()`, which throws
+`cannot create effect on inactive context`. That is not the premise the
+calculus states, and the two experiments catch it from both sides:
+
+- **W4 (S-Upd-3), the wrong refusal.** The specification accepts an update at
+  an `Unloading` fiber and does nothing observable with it: "the update at an
+  Unloading fiber perturbs no event, no certificate and no report field". Both
+  builds **refuse** it. Everything else in the run agrees with the
+  specification letter for letter — the entire divergence is
+  `refusals: spec [] ≠ impl [{update, P, PARENT_ABSENT}]`. An input the
+  specification enables and the implementation refuses is a §6.3 case (a)
+  failure however inert the input is. On the **aligned** build that refusal is
+  the *entire* divergence; on **upstream** and on the **distributed** target the
+  same script also convicts F5 a second time, with
+  `revert:P:a | revert:C:b` where the specification requires
+  `revert:C:b | revert:P:a` — the provider's inverse running before its
+  dependent's, i.e. `unload-without-guard` again, now witnessed from an
+  `update` script rather than from S-Unl-2's.
+- **W6 (S-Upd-5), the right refusal for the wrong reason.** Here the
+  specification *does* refuse, and both builds refuse too — so they are ahead
+  of the pre-repair reference semantics, which accepted the input and rewrote a
+  removed record. But the reason is the effect-context reason, not
+  "no such entry"; Definition 7 gives one $\mathsf{block}(\varrho)$ per premise
+  schema and Definition 3 clause 1 compares them.
+
+The two together show the refusal is incidental: the same check fires at an
+`Unloading` fiber, which *is* in $\mathrm{dom}\,F_\gamma$, and at a removed
+one, which is not. No build consults the registry.
+
+### F10 — the registry premise is unread by `setval` and by the read label (both builds)
+
+*Scripts:* S-Set-1 (P7), S-Acc-2 (A8).
+
+The other two faces of GAP-7, and both were defects of `model.mjs` too until
+the integration pass repaired them (audit §6 items 2 and 3), which is why these
+two scripts are worth their place: they convicted the specification first.
+
+- **P7.** `setval` at a removed name is refused for P4's reason ("no own
+  binding"), because O-Remove has cleared the table and the $\mathcal A_k$
+  precondition fails before any registry check.
+- **A8.** The read label at a removed name is *served*: both builds run
+  Algorithm 6 against the disposed fiber's context and answer
+  `readfail:C:k1:INACTIVE_ACCESS`, where the specification refuses with
+  "no such entry" and emits nothing. The distinction is not cosmetic — one
+  reason says "not yet", the other "never again".
+
+### F11 — W5 is presentable only in the certificate-instrumented vocabulary
+
+*Script:* S-Upd-4, reported as **not presented** on all three real targets.
+
+Its input has to land inside the window between L-Raise and L-Unload, and in
+the reference semantics no *ordinary* event occurs there on any fair schedule:
+the only rule that can delay L-Unload is the reliance guard, and no fiber can
+hold a committed edge to a fiber that raised during its own Reloading, so the
+window is entered and left with nothing observable in between. The audit's own
+ρ therefore anchors on `cert(L-Raise, P)` — a channel §5.4's vocabulary proviso
+says a real build does not have.
+
+So §5.4's proviso, which the manuscript states for the *observing* half of an
+experiment, turns out to bind the *driving* half as well: there are windows a
+certificate-erased implementation cannot be placed in, whatever the alphabet
+says about their reachability. This refines ambiguity A16 rather than
+contradicting it — the audit's alternative bookkeeping (D7, W4, W5
+"interface-unrealizable in the script language while real in the calculus")
+turns out to be the right reading for **W5 alone**: D7 and W4 both have
+ordinary-vocabulary anchors selecting the same window, and are presented and
+convicting on every target. The paper should record W5 as reachable in the
+calculus, presentable in the instrumented vocabulary, and *not presentable
+against an uninstrumented implementation* — a fourth status, and the only
+letter that has it.
+
 ## Coverage against the alphabet
 
-`run-tstar.mjs` reports, per target, which of D1 §15's 86 reachable occurrences
-the passing scripts realize. On the reference model this is 86/86, which is
+`run-tstar.mjs` reports, per target, which of the **103** reachable occurrences
+the passing scripts realize. On the reference model this is 103/103, which is
 obligation **(D-C)** (CF5) checked rather than asserted; `tstar.test.mjs`
 checks the same claim statically. On a real build the uncovered set is the
 interesting output — it names the letters the build's own behaviour prevents
@@ -335,15 +522,27 @@ the suite from presenting:
 
 | target | uncovered |
 | --- | --- |
-| aligned | A3, D3, I3, M4, P2, R3, R4, T7, X4 |
-| upstream | A3, I3, I7, M4, R3, R4, T7 |
-| distributed | A3, D4, I3, I7, M4, R3, R4, T7 |
+| aligned | A3, A8, D3, D7, D10, I3, M4, P2, P7, R3, R4, T7, W1, W4, W5, W6, X4 |
+| upstream | A3, A8, D7, D10, I3, I7, M4, P7, R3, R4, T7, W1, W4, W5, W6 |
+| distributed | A3, A8, D4, D7, D8, D9, D10, D11, D12, I3, I7, M4, P7, R3, R4, T7, W1, W4, W5, W6 |
 
-`I3, M4, R3, R4` are uncovered only because their scripts fail on F1 (the
-spurious deactivation); they would return the moment F1 is decided.
-`A3, T7` are F3. `P2, X4` are F4; `I7` is F5. `D3` (aligned) and `D4`
-(distributed) are F6 — schedules whose canonical branch the pin did not
-select, not conformance failures.
+Of the pre-closure set: `I3, M4, R3, R4` are uncovered only because their
+scripts fail on F1 (the spurious deactivation); `A3, T7` are F3; `P2, X4` are
+F4; `I7` is F5; `D3` (aligned) and `D4` (distributed) are F6.
+
+Of the sixteen new letters, **nine are covered on every real target** —
+D8, D9, D11, D12 (the L-Divert accumulator column), X10, V6, W2, W3, A4 — and
+that is the closure's practical yield: the suite now exercises the per-item
+inverse classes at the divert entry, the blocking L-Leave window, `update` at a
+pending and at a failed fiber, and the external declared-inactive access, none
+of which any earlier artifact could index. The seven that are not are exactly
+the findings: `D7, W1` are F8; `W4, W6` are F9; `P7, A8` are F10; `W5` is F11.
+`D10` is F6 again — with the pin in place both builds let the registered child
+run to completion before the teardown reaches it (`registered:G:K |
+apply:K:kk | … | deactivated:K`), so the canonical branch is not selected; the
+report clauses pass and the script conforms. The distributed target loses
+`D4, D8, D9, D11, D12` for the same reason its predecessor lost `D4`: its
+schedule takes the non-diverting branch of every L-Divert script.
 
 ## What T\* does not catch that the 32-obligation suite does
 
@@ -360,21 +559,24 @@ evidence about the alphabet rather than about the suite:
   subsume the obligation suite, the alphabet needs an occurrence for "A_k
   overwrite with a live committed reader" — which is exactly PB-2's
   under-specification, still open.
-- **C5.3 (declared-inactive access).** This is Correction C5's external
-  Def.-23 read realizing A4. D1 §14.3 records the letter as excluded from the
-  *lifecycle-window* reading and keeps 86/6, so no canonical script indexes it
-  and T\* does not exercise it. `dsl-ext.mjs` exports `readVia` so that an
-  additive entry can, the day §14.3's strict reading (87/5) is adopted.
+- ~~**C5.3 (declared-inactive access).**~~ **Closed.** This was Correction C5's
+  external Def.-23 read realizing A4, which no canonical script could index
+  because $\Lambda_{\mathrm{orch}}$ had no read label. The audit added the
+  label (GAP-10) and A4 became reachable; **S-Acc-3** is that obligation,
+  derived from the alphabet rather than borrowed, and it passes on all four
+  targets. This is the one place where the closure lets T\* *subsume* an
+  obligation of the older suite outright.
 
-Both belong in the alphabet audit a concurrent deliverable is running.
+The first belongs in the alphabet audit's own open list: it is PB-2, and §5
+of that document names the missing proof.
 
 ## Files
 
 | file | contents |
 | --- | --- |
-| `scripts.mjs` | the 60 canonical scripts as data, each with rule, target letters, co-realized letters, Appendix E citation, component data, Λ_orch program, and any schedule note |
+| `scripts.mjs` | the 75 canonical scripts as data, each with rule, target letters, co-realized letters, derivation citation (Appendix E for the original 60, the audit's §3 for the 15 the closure adds), component data, Λ_orch program, and any schedule note or anchor argument |
 | `verdicts.mjs` | $V_{r,s}$ per script: the load-bearing clauses of the derivation, each carrying the sentence it convicts |
 | `observe.mjs` | the script interpreter and the observation (word, certificate word, report, refusals, snapshots, external reads) |
 | `dsl-ext.mjs` | the DSL extensions described above; re-exports `../../proof/src/dsl.mjs` unchanged |
-| `run-tstar.mjs` | the runner: per-script pass/fail with realized letters, coverage against the 86, failures by rule and clause |
-| `tstar.test.mjs` | `node:test` wrapper; also checks the suite's own structural obligations (60 scripts, 86 letters, no unrealizable claim, every waiver justified) |
+| `run-tstar.mjs` | the runner: per-script pass / fail / not-presented with realized letters, coverage against the 103, failures by rule and clause |
+| `tstar.test.mjs` | `node:test` wrapper; also checks the suite's own structural obligations (75 scripts, 103 letters, no unrealizable claim, every schedule waiver justified, every anchor argued for (D-F)) |

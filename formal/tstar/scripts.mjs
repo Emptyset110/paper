@@ -1056,6 +1056,10 @@ define({
   }),
   program: [
     insert('Q'), settle(), insert('C'),
+    // Two watchers on one marker, in order: the snapshot reads the report at
+    // the pointed configuration (D8 needs k1 to be LIVE there), then the
+    // retirement arms the divergence.
+    pin('apply:C:a', snapshot('mid')),
     pin('apply:C:a', retire('Q')),
     settle({ tag: 'star' }),
   ],

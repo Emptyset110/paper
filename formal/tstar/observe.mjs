@@ -100,6 +100,10 @@ export async function observe(sys, script) {
     return out
   }
 
+  const probeKeys = script.keys ?? ['k1', 'k2']
+  const probeStore = () => Object.fromEntries(probeKeys.map(k => [k, sys.readKey(k)]))
+  const probeStoreLenient = () => Object.fromEntries(probeKeys.map(k => [k, sys.readKeyLenient(k)]))
+
   const ctxFor = (parent) => {
     let ctx = parent ? sys.childCtx(handles[parent]) : null
     for (const op of ambient) {
@@ -157,7 +161,11 @@ export async function observe(sys, script) {
         ambient.push({ kind: 'intercept', key: action.key, arg: action.config })
         return
       case 'snapshot':
-        snaps[action.tag] = { states: rec.statesBefore }
+        // A mid-settle read of the report. `storeLenient` is the one that means
+        // anything strictly inside a settle: σ_γ unions ACTIVE tables only, so a
+        // binding a still-Reloading fiber has already provided is invisible to
+        // the strict probe (that is B6's content) and visible to the lenient one.
+        snaps[action.tag] = { states: rec.statesBefore, store: probeStore(), storeLenient: probeStoreLenient() }
         return
       case 'insert':
         handles[action.name] = sys.insert(ctxFor(action.parent ?? null), comps[action.name], action.config)
@@ -256,13 +264,8 @@ export async function observe(sys, script) {
     }
   }
 
-  const keys = script.keys ?? ['k1', 'k2']
-  const store = {}
-  const storeLenient = {}
-  for (const key of keys) {
-    store[key] = sys.readKey(key)
-    storeLenient[key] = sys.readKeyLenient(key)
-  }
+  const store = probeStore()
+  const storeLenient = probeStoreLenient()
 
   return {
     id: script.id,

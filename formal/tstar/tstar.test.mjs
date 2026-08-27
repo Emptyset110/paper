@@ -15,16 +15,19 @@ import { runSuite } from './run-tstar.mjs'
 
 const ALL_LETTERS = Object.values(REACHABLE_ALPHABET).flat()
 
-test('T* has exactly 60 canonical scripts with unique ids (D1 §15)', () => {
-  assert.equal(TSTAR_SCRIPTS.length, 60)
-  assert.equal(new Set(TSTAR_SCRIPTS.map(s => s.id)).size, 60)
+test('T* has exactly 75 canonical scripts with unique ids (D1 §15 + audit §4.2)', () => {
+  assert.equal(TSTAR_SCRIPTS.length, 75)
+  assert.equal(new Set(TSTAR_SCRIPTS.map(s => s.id)).size, 75)
 })
 
 test('every script carries its traceability chain: rule, letters, Appendix E item', () => {
   for (const script of TSTAR_SCRIPTS) {
     assert.ok(REACHABLE_ALPHABET[script.rule], `${script.id}: unknown rule ${script.rule}`)
     assert.ok(script.letters.length > 0, `${script.id}: no target occurrence`)
-    assert.match(script.source, /^E\.[A-Z]{2}\.[A-Z]?\w+\(/, `${script.id}: no Appendix E citation`)
+    // Appendix E for the original 60; the alphabet audit's §3 for the 15 the
+    // closure adds, whose derivations were written there (a later integration
+    // pass folds §3 into Appendix D/E and the citations move with it).
+    assert.match(script.source, /^(E\.[A-Z]{2}\.[A-Z]?\w+\(|D5 §\d)/, `${script.id}: no derivation citation`)
     assert.equal(typeof script.components, 'function', `${script.id}: components must be a factory`)
     assert.ok(Array.isArray(script.program) && script.program.length > 0, `${script.id}: empty ρ`)
   }
@@ -48,14 +51,14 @@ test('every target letter belongs to its rule\'s reachable alphabet', () => {
   }
 })
 
-test('the 60 scripts index all 86 reachable occurrences (CF5 / obligation (D-C))', () => {
+test('the 75 scripts index all 103 reachable occurrences (CF5 / obligation (D-C))', () => {
   const realized = new Set()
   for (const script of TSTAR_SCRIPTS) {
     for (const letter of [...script.letters, ...(script.alsoRealizes ?? [])]) realized.add(letter)
   }
   const uncovered = ALL_LETTERS.filter(l => !realized.has(l))
   assert.deepEqual(uncovered, [], `occurrences with no canonical experiment: ${uncovered.join(', ')}`)
-  assert.equal(ALL_LETTERS.length, 86)
+  assert.equal(ALL_LETTERS.length, 103)
 })
 
 test('every script has a verdict V_{r,s} with at least one load-bearing clause', () => {
@@ -84,6 +87,13 @@ test('every schedule pin and every non-invariant word is justified in writing', 
       assert.ok(script.scheduleNote || script.schedulePin,
         `${script.id}: waives word ≡-equality without citing Appendix E's schedule note`)
     }
+    // The audit's §3.5 `at ε do λ` carries one correctness obligation, (D-F):
+    // the anchor event must be produced on every fair schedule of ρ, so that
+    // the attempt point is determinate.
+    if (script.program.some(a => a.do === 'anchor')) {
+      assert.ok(script.anchorNote,
+        `${script.id}: anchors an input without arguing (D-F) for the anchor event`)
+    }
   }
 })
 
@@ -92,7 +102,11 @@ test('every schedule pin and every non-invariant word is justified in writing', 
 const run = await runSuite()
 
 for (const result of run.results) {
-  test(`T* ${result.id} — ${result.rule} [${result.letters.join(',')}] (${result.source})`, () => {
+  // A script whose ρ can only be driven through the certificate channel is not
+  // an experiment a certificate-erased target can be subjected to at all: it is
+  // skipped there, not failed (§5.4's vocabulary proviso; README finding F11).
+  const skip = result.status === 'not-presented' ? 'not presentable on this target' : false
+  test(`T* ${result.id} — ${result.rule} [${result.letters.join(',')}] (${result.source})`, { skip }, () => {
     for (const violation of result.violations) {
       assert.fail(`${violation.kind}: ${violation.why}${violation.error ? ` [threw: ${violation.error}]` : ''}`)
     }

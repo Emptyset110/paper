@@ -192,12 +192,16 @@ function coverage(results) {
     // canonical branch was taken: a `branch` clause reported unrealized means
     // the target's schedule never presented the occurrence, so the letter is
     // untested on this run even though the script conformed.
+    // The same applies to the co-realized letters: they are the letters of the
+    // window the derivation points at, and a run that took another branch did
+    // not present that window either. (Pre-closure this credited them on any
+    // pass, which over-credited exactly the schedule-dependent L-Divert
+    // scripts — e.g. D4 on the distributed target, where no divert occurs.)
     if (r.status === 'pass' && !r.unrealized.length) {
-      for (const letter of r.letters) realized.add(letter)
+      for (const letter of [...r.letters, ...(r.alsoRealizes ?? [])]) realized.add(letter)
     } else {
       for (const letter of r.letters) notRealized.add(letter)
     }
-    if (r.status === 'pass') for (const letter of r.alsoRealizes ?? []) realized.add(letter)
   }
   const all = Object.values(REACHABLE_ALPHABET).flat()
   for (const letter of realized) notRealized.delete(letter)
