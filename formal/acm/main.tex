@@ -1,0 +1,851 @@
+%% A Finite Characterization of Plugin-System Conformance for Dynamic Composition
+%% ACM acmart format (sigplan). Compile: tectonic main.tex  or  pdflatex+bibtex-free.
+\documentclass[sigplan,screen,review,nonacm]{acmart}
+
+\usepackage{booktabs}
+
+%% ---- macros ------------------------------------------------------------
+\newcommand{\Spec}{\ensuremath{\mathbb S}}
+\newcommand{\Impl}{\ensuremath{\mathbb I}}
+\newcommand{\conf}{\mathrel{\mathbf{conf}}}
+\newcommand{\CF}{\ensuremath{\mathfrak I_{\mathrm{CF}}}}
+\newcommand{\Tstar}{\ensuremath{T^{\star}}}
+\newcommand{\occ}[1]{\ensuremath{\Sigma_{#1}}}
+\newcommand{\kap}[1]{\ensuremath{\kappa_{#1}}}
+\newcommand{\Mfin}{\ensuremath{\mathcal M_{\mathrm{fin}}}}
+\newcommand{\target}{\mathrm{target}}
+\newcommand{\relied}{\mathrm{relied}}
+\newcommand{\Reach}{\mathrm{Reach}}
+\newcommand{\Out}{\mathrm{Out}}
+\newcommand{\Inactive}{\mathsf{Inactive}}
+\newcommand{\Reloading}{\mathsf{Reloading}}
+\newcommand{\Active}{\mathsf{Active}}
+\newcommand{\Unloading}{\mathsf{Unloading}}
+\newcommand{\SZC}{[SZC26]}
+
+\begin{document}
+
+\title{A Finite Characterization of Plugin-System Conformance for Dynamic Composition}
+
+\author{The Cordis Conformance Project}
+\affiliation{%
+  \institution{Companion artifact to \emph{A Programming Paradigm for Spatiotemporal Composability}}
+  \country{}}
+
+\renewcommand{\shortauthors}{Cordis Conformance}
+
+\begin{abstract}
+The calculus of dynamic composition of Shi, Zhang, and Cui \SZC{} carries a proved
+metatheory---revertible effects, reactive coeffects, a guarded component lifecycle,
+and theorems from recovery exactness to confluence---and an implementation, Cordis,
+related to the calculus by a correspondence table and reference algorithms, but by
+no proof. We supply the missing verification as a theorem about testing. We
+formalize the plugin-system interface induced by the paper's own correspondence
+table as an instrumented labeled transition system with a fixed observation
+vocabulary, and prove first that \emph{no} finite black-box suite characterizes
+conformance over unrestricted implementations. We then define the auditable class
+of \emph{clause-factored} implementations, whose rule decisions factor through a
+finite alphabet of \emph{atomic signatures}---the occurrence-level decomposition of
+each rule's window, with unbounded registries entering only through per-key and
+per-witness occurrences---and construct, for every reachable signature, a canonical
+experiment. The resulting finite suite \Tstar{} characterizes conformance on this
+class:
+$\Impl \in \CF \Rightarrow (\Impl \conf \Spec \iff \Impl \models \Tstar)$.
+The proof is by hand, in the style of the source paper: a factorization lemma
+showing the calculus is itself clause-factored; transport and observation-reflection
+lemmas (the latter provably \emph{false} without transition certificates: we exhibit
+a rule aspect that is unobservable in the event-and-report vocabulary on every
+script); a shortest-counterexample safety argument; and a termination argument by
+ranking that, en route, \emph{strengthens the source paper's progress theorem by
+deleting its acyclicity hypothesis}. The signature tables are enumerated in full
+(92 occurrences, 86 reachable, 6 proved unrealizable at the interface). An
+exhaustive-schedule test harness grounds the theory: applying the concrete
+32-obligation suite to the current Cordis TypeScript implementation verifies one
+build on every obligation under complete enumeration of each scenario's schedule
+tree, convicts the published build on exactly four (one defect previously unknown),
+and finds zero divergence attributable to a two-node distributed deployment. The
+construction also returns three corrections to the source paper itself.
+\end{abstract}
+
+\maketitle
+
+%% =======================================================================
+\section{Introduction}\label{sec:intro}
+
+Dynamic composition frameworks promise that components can be loaded, unloaded,
+and reconfigured at runtime while the system behaves as if the final configuration
+had been assembled statically. \SZC{} gives this promise formal content: a
+small-step calculus of components, fibers, and a guarded lifecycle, with a
+metatheory proving preservation, recovery exactness, ordering, coherence,
+progress, and confluence. Its \S 5 asserts that the Cordis runtime implements the
+calculus, through a correspondence table (Table~2) and ten reference algorithms.
+The assertion is not a theorem. Nothing in \SZC{} excludes an implementation that
+matches Table~2 on names and violates Table~1 on behavior---and
+\S\ref{sec:evaluation} exhibits a shipping build that does exactly that.
+
+\subparagraph{The question.} What would it mean, mathematically, to \emph{verify}
+that an implementation follows the calculus---and can a \emph{finite} set of
+executable test cases carry that verification as a sufficient \emph{and} necessary
+condition, rather than as anecdote?
+
+\subparagraph{The obstruction.} For unrestricted implementations the answer is
+no, by a classical diagonalization we make precise in
+Theorem~\ref{thm:impossibility}: a black-box implementation may agree with the
+specification on every name, key, and configuration size occurring in a finite
+suite and deviate on a fresh one. Any honest finite characterization must
+therefore name the structural hypothesis that closes this gap. The testing
+literature has known this since Gaudel~\cite{gaudel95}: finite completeness is
+always relative to \emph{uniformity} and \emph{regularity} hypotheses. Our
+contribution is to give those hypotheses exact, auditable content for the
+dynamic-composition calculus, and then to prove the biconditional they enable.
+
+\subparagraph{The idea.} Each rule of the calculus reads its state through a
+bounded set of \emph{logical atoms}: lifecycle-state tests, retirement, equality
+of committed and target views, per-key satisfaction, existential witnesses for
+conflict, reliance, and childlessness. Operations on unbounded structures
+decompose pointwise (per key) or through witnesses (per edge). After names, keys,
+values, and tags are normalized, each rule's window collapses to a finite
+multiset of \emph{occurrences} drawn from a finite alphabet $\occ r$. A
+\emph{clause-factored} implementation is one whose rule decisions are a lift of a
+per-occurrence decision table $f_r^{\Impl} : \occ r \to \mathrm{Decision}_r$,
+equivariantly and without hidden dependence on registry size, spelling, or
+allocation order. For such implementations, one canonical experiment per
+reachable signature suffices---and is necessary---to pin the entire behavior.
+
+\subparagraph{Contributions.}
+\begin{enumerate}
+\item A formalization of the plugin-system interface of \SZC{}~\S5 as an
+  instrumented LTS with events, refusals, transition certificates, quiescent
+  reports, and divergence; conformance as termination-sensitive observation
+  equivalence with rule-level bisimulation (\S\ref{sec:interface}).
+\item An impossibility theorem for unrestricted finite testing, and the
+  clause-factored implementation class \CF{} whose obligations CF1--CF7 are
+  stated as checkable semantic properties, not slogans
+  (\S\ref{sec:cf}).
+\item The atomic-signature decomposition $\kap r : W_r \to \Mfin(\occ r)$ with
+  fully enumerated alphabets---92 occurrences across the ten rules and the
+  coeffect layer, 86 reachable with canonical experiments, 6 proved
+  interface-unrealizable---and the finite characteristic suite \Tstar{}
+  (\S\ref{sec:signatures}).
+\item The characterization theorem
+  $\Impl \in \CF \Rightarrow (\Impl \conf \Spec \iff \Impl \models \Tstar)$,
+  proved by hand: factorization ($\Spec \in \CF$), transport, observation
+  reflection, shortest-counterexample safety, and ranking-based termination
+  (\S\ref{sec:theorem}). Two byproducts are of independent interest: a
+  \emph{masking} proposition showing reflection is false in the
+  certificate-free vocabulary (\S\ref{sec:reflection}), and a progress theorem
+  that removes the acyclicity hypothesis of \SZC{} Thm.~66
+  (\S\ref{sec:termination}).
+\item An executable grounding: a reference semantics with an enumerable
+  scheduling oracle (every test scenario's complete schedule tree explored; the
+  largest has 924 schedules), a 27-member semantic deviant family with its kill
+  matrix, and a bounded state-space explorer and Lean~4 mechanization in
+  progress, reported with exact status (\S\ref{sec:mech}).
+\item An evaluation of the current Cordis TypeScript implementation: one build
+  passes all 32 obligations; the published \texttt{@deepseek-ai/cordis} 4.0.1
+  fails exactly four, one previously unknown; a two-node distributed deployment
+  fails exactly the same four (\S\ref{sec:evaluation}). Three corrections to
+  \SZC{} itself (\S\ref{sec:discussion}).
+\end{enumerate}
+
+\subparagraph{Non-claims.} The proofs are rigorous mathematics in the style of
+the source paper, not machine-checked derivations; the mechanization track and
+its exact status are reported in \S\ref{sec:mech}. Membership of a concrete
+codebase in \CF{} is an audit obligation, not a testable property; the
+evaluation separates what the suite establishes from what the audit does.
+
+%% =======================================================================
+\section{Background and Motivation}\label{sec:background}
+
+\subsection{The calculus of dynamic composition}
+
+We recall from \SZC{} only what the development manipulates, in its notation.
+A \emph{component} is a triple $(d, p, e)$: a coeffect specification
+$d \subseteq K$ (keys read), a provision declaration $p \subseteq K$ (keys
+written), and a witnessed effect function $e$ carrying its own inverse
+(\SZC{} Defs.~8, 43). A \emph{fiber}
+$\langle d, p, e, \pi, \sigma, \tau, \theta\rangle$ instantiates a component
+under parent $\pi$ with its own table $\sigma$, retirement flag $\tau$, and
+lifecycle state
+\[
+\theta \in \{\Inactive(\zeta),\ \Reloading(i,g,\omega),\ \Active(g,\omega),\
+\Unloading(g,\omega,\zeta)\},
+\]
+where $g$ is the inverse accumulator, $\omega : d \to \mathfrak N$ the committed
+resolution, $i$ the remaining effect iterator, and
+$\zeta \in \{\bot\} \cup \Xi$ an outcome (\SZC{} Defs.~44, 49, 51). A state
+$\gamma$ carries a registry $F_\gamma$ of named fibers; the derived coeffect
+context is the union of \emph{Active} tables only,
+$\sigma_\gamma = \bigcup \{\sigma_m \mid \theta_m = \Active(-,-)\}$, and the
+target view $\target_n(\gamma)$ maps each declared key to its provider, or is
+$\bot$ if $n$ is retired or a key lacks an Active provider (\SZC{} Def.~46).
+Ten rules generate the semantics (\SZC{} Table~1): O\mbox{-}Insert (freshness;
+live parent; declared disjointness $\forall m.\ p \cap p_m = \varnothing$),
+O\mbox{-}Retire, O\mbox{-}Remove (retired, Inactive, childless), and seven
+lifecycle rules: L\mbox{-}Begin commits $\omega$ where the target is defined;
+L\mbox{-}Iter runs one iteration against the committed view, composing its
+inverse LIFO; L\mbox{-}Finish reaches Active; L\mbox{-}Divert aborts a
+transition whose target turned; L\mbox{-}Raise routes a failing iteration
+through recovery to $\Inactive(\xi)$; L\mbox{-}Leave stops providing;
+L\mbox{-}Unload---guarded by $\neg\relied_n(\gamma)$: no installed fiber still
+resolves a key to $n$---applies the accumulator and discards $\omega$. An
+iteration may \emph{register} a child, whose retirement is that iteration's
+inverse (\SZC{} Def.~47). The metatheory we build on: rule invariance under the
+observational equivalences (\SZC{} Lemma~55), equivariance (Lemma~56), framing
+(Lemmas~54, 57), ordering and value fixity (Thm.~63), progress with the
+measure $S(n) \le (K{+}4)(V(n){+}1)$ (Thm.~66), and confluence (Thm.~73).
+
+\subsection{The verification gap}\label{sec:gap}
+
+\SZC{}~\S5 maps the calculus onto Cordis: \texttt{ctx.plugin} for insertion,
+\texttt{fiber.dispose} for retirement, \texttt{ctx.provide}/\texttt{get}/%
+\texttt{set} for the coeffect operations, \texttt{ctx.effect} for tracked
+effects, a committed per-fiber store with a proxy access walk (Algorithm~6) for
+the read discipline, and a dependent-await (Algorithm~5) for the unload guard.
+A prior targeted audit cataloged nine places where the shipped runtime and the
+calculus disagree, five of which were fixed in a vendored build. What was
+missing is the other direction: a principled argument that any finite battery of
+checks \emph{could} certify conformance---and a battery provably sufficient and
+necessary. That is what this paper constructs. Motivation is not hypothetical:
+our evaluation (\S\ref{sec:evaluation}) shows the published build violating the
+unload guard's ordering in precisely the way a deviant semantics predicts, and
+leaking a recorded failure outcome across the fiber boundary on a
+reconfiguration path no targeted audit had visited.
+
+%% =======================================================================
+\section{The Plugin-System Interface}\label{sec:interface}
+
+\begin{definition}[events and observations]\label{def:events}
+Fix countable disjoint sorts: names $\mathfrak N$, keys $K$, values
+$\mathbb V$, effect tags $\mathbb T$. The event alphabet is
+\[
+\mathcal E ::= \mathsf{app}(n,t) \mid \mathsf{inv}(n,t) \mid \mathsf{rd}(n,k,v)
+\mid \mathsf{rderr}(n,k,\epsilon) \mid \mathsf{act}(n) \mid \mathsf{deact}(n)
+\mid \mathsf{val}(n,k)
+\]
+with $\epsilon \in \{\mathsf{IA}, \mathsf{UD}\}$ (inactive resp.\ undeclared
+access). In addition, transitions emit \emph{certificates}
+$\mathsf{cert}(r, \widehat s, \widehat a)$: the rule tag, the normalized
+signature of the window it fired at, and the normalized update abstract. An
+\emph{outcome} of a run is $\mathsf{Done}(w,q)$, $\mathsf{Refused}(w,\lambda,q)$,
+or $\mathsf{Diverge}(u,v)$, where $w$ is the word of events and certificates,
+$q$ the quiescent report (statuses, outcomes, the store
+$\mathrm{st}(k) = \sigma_\gamma(k)$, refusal log), and $\lambda$ the refused
+input. $\Out_{\mathbb X}(\rho)$ is the outcome set of system $\mathbb X$ on
+orchestration script $\rho$ over all fair schedulers; $\equiv$ compares outcome
+sets up to sort-preserving renaming and the calculus's value equivalence.
+\end{definition}
+
+\begin{definition}[plugin system; conformance]\label{def:conf}
+A \emph{plugin system} is an LTS over orchestration labels
+$\{\mathsf{insert}, \mathsf{retire}, \mathsf{update}, \mathsf{setval},
+\mathsf{isolate}, \mathsf{intercept}\}$ and internal lifecycle steps, with the
+instrumentation of Definition~\ref{def:events}. The specification \Spec{} is
+the calculus so instrumented, with components given as \emph{scripts}: finite
+step lists over
+$\{\mathsf{provide}, \mathsf{track}, \mathsf{read}, \mathsf{setval},
+\mathsf{register}, \mathsf{raise}, \mathsf{raiseUnless}\}$, one step per
+iteration of \SZC{} Def.~51 (a tracked inverse may itself read---the
+read-on-revert form---which \S\ref{sec:signatures} shows the suite requires).
+$\Impl \conf \Spec$ iff for every script $\rho$:
+(i) $\Out_\Impl(\rho) \equiv \Out_\Spec(\rho)$ restricted to
+$\mathsf{Done}/\mathsf{Refused}$ outcomes, and
+(ii) $\Impl$ has a $\mathsf{Diverge}$ outcome on $\rho$ only where \Spec{}
+does. A test is $t = (\rho_t, V_t)$ with $V_t$ decidable on outcomes;
+$\Impl \models t$ iff \emph{no run of $\Impl$ on $\rho_t$ diverges at a settle
+point} and every outcome satisfies $V_t$.
+\end{definition}
+
+The divergence clause in $\models$ closes a vacuity: without it an
+implementation that never quiesces passes every suite. Conformance is a
+preorder; its bisimulation presentation (each tagged implementation transition
+matched by a specification step with the same certificate and emission, and
+conversely each specification-enabled step offered) is what the sufficiency
+proof establishes and what necessity consumes.
+
+%% =======================================================================
+\section{Impossibility, and the Clause-Factored Class}\label{sec:cf}
+
+\begin{theorem}[no finite suite characterizes unrestricted conformance]
+\label{thm:impossibility}
+For every finite suite $T$ there is an implementation $\Impl_T$ with
+$\Impl_T \models T$ and $\Impl_T \not\conf \Spec$.
+\end{theorem}
+
+\begin{proof}[Proof (sketch; full proof in the artifact)]
+Let $N$ bound the number of dependency keys any component declared in $T$'s
+scripts. Let $\Impl_T$ behave exactly as \Spec{} except that L\mbox{-}Begin
+never fires for fibers with $|d_n| > N$. Every observable of every run of every
+$\rho_t$ is unchanged, so $\Impl_T \models T$; a script inserting a component
+with $N{+}1$ satisfiable keys distinguishes it from \Spec. The same
+construction works for fresh key spellings or registry sizes, so no finite
+suite escapes it.
+\end{proof}
+
+The theorem locates exactly what a finite characterization must assume: that
+the implementation cannot \emph{count}, \emph{spell}, or otherwise read its
+state except through the rule's own atoms. We make this a definition.
+
+\begin{definition}[clause-factored implementations]\label{def:cf}
+$\Impl \in \CF$ iff:
+\begin{description}
+\item[CF1 (abstraction \& tagging)] there is a total abstraction
+  $A : \Reach(\Impl) \to \Gamma_\Spec$ with $A(\gamma^0_\Impl) = \gamma^0$, and
+  every implementation transition is tagged with the rule it implements;
+  certificates are emitted per Definition~\ref{def:events}.
+\item[CF2 (equivariance)] behavior commutes with sort-preserving bijections of
+  names, keys, values, and tags fixing the reserved constants.
+\item[CF3 (signature factorization)] for each rule $r$ there is a table
+  $f_r^{\Impl} : \occ r \to \mathrm{Decision}_r$ such that tagged applicability,
+  updates, and emissions at any window are the \emph{lift} of $f_r^{\Impl}$
+  over the window's occurrence multiset $\kap r(W)$, combined by the row's
+  declared folds (pointwise products over keys; existential folds over
+  witnesses; one fixed binary composition for the accumulator), with order data
+  drawn from the window's frame.
+\item[CF4 (instrumentation faithfulness)] certificates report the actual
+  $(\!r, \widehat s, \widehat a)$ of each tagged transition, and the
+  certificate abstract $\widehat a$ covers the update aspects that events and
+  reports do not determine (\emph{certificate adequacy};
+  \S\ref{sec:reflection} shows this clause is not optional).
+\item[CF5 (canonical reachability)] renaming-invariant behavior on the
+  canonical experiments of \S\ref{sec:signatures}.
+\item[CF6 (fair, exact settling)] the scheduler is fair and settle terminates
+  exactly on quiescent configurations.
+\item[CF7 (refusal discipline)] orchestration inputs are refused exactly where
+  the rule's premises fail, with the refusal observable.
+\end{description}
+\end{definition}
+
+Each obligation is auditable against code: CF3 rules out branching on
+$|d_n|$, on registry cardinality, or on spellings (the Theorem~%
+\ref{thm:impossibility} implementation violates it); CF2 rules out reserved
+names; CF6 pins the scheduler. The class is far from vacuous: it contains
+\Spec{} itself (Theorem~\ref{thm:fact}) and all twenty-seven deviant calculi of
+\S\ref{sec:evaluation}, which is what makes necessity meaningful.
+
+%% =======================================================================
+\section{Atomic Signatures and the Characteristic Suite}\label{sec:signatures}
+
+\subsection{Occurrence decomposition}
+
+For each rule $r$, the \emph{window} $W_r(\gamma, n)$ is the tuple of fields
+the Table-1 row reads and writes, together with its \emph{combination frame}:
+the index sets of its finite-map operations and the order data of its
+order-sensitive operators (iterator position; accumulator order). The
+normalization
+\[
+\kap r : W_r \to \Mfin(\occ r)
+\]
+maps a window to a finite multiset of \emph{occurrences}: one scalar occurrence
+(the row's scalar guard-atom valuation, step constructor, and equality
+pattern); one per-key occurrence per key of each pointwise index set; one
+witness occurrence per satisfied existential (conflict key, reliance edge,
+child edge); one per-item occurrence per accumulator entry. Crucially,
+$\kap r$ keeps equality \emph{patterns} and forgets identities and counts:
+a registry of a thousand independent fibers contributes nothing to a rule that
+does not read them (framing), and a dependency set of any size contributes only
+the set of satisfaction \emph{classes} present.
+
+\subsection{The enumerated alphabets}
+
+The complete tables---every occurrence with its atoms, a finiteness proof per
+alphabet, reachability analysis, and a canonical experiment per reachable
+signature---occupy the artifact's \texttt{signatures.md} (1{,}342 lines);
+Table~\ref{tab:sig} summarizes.
+
+\begin{table}[t]
+\caption{Occurrence alphabets: sizes, reachable subsets, canonical scripts.}
+\label{tab:sig}
+\centering
+\small
+\begin{tabular}{lccc}
+\toprule
+rule / operation & $|\occ r|$ & reachable & scripts \\
+\midrule
+O-Insert & 7 & 6 & 4 \\
+O-Retire & 4 & 4 & 4 \\
+O-Remove & 7 & 7 & 5 \\
+L-Begin & 7 & 7 & 6 \\
+L-Iter & 11 & 11 & 8 \\
+L-Finish & 3 & 3 & 3 \\
+L-Divert & 6 & 4 & 2 \\
+L-Raise & 9 & 9 & 7 \\
+L-Leave & 5 & 4 & 3 \\
+L-Unload & 12 & 12 & 9 \\
+coeffect ops (Defs.~23/24, 28/29, 31; Alg.~6) & 21 & 19 & 9 \\
+\midrule
+total & 92 & 86 & 60 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Six occurrences are proved \emph{interface-unrealizable}, each with an argument
+rather than an assertion: O\mbox{-}Insert freshness violation (names are
+system-drawn); the L\mbox{-}Divert landing alternative (requires the
+asynchrony layer of \SZC{}~\S4.3.3, absent from the synchronous reference
+semantics); the changed-provider divergence class at both L\mbox{-}Divert and
+L\mbox{-}Leave---ruled out by a lemma: a live committed edge pins its provider,
+by the reliance guard together with declared disjointness, so a target can
+change only \emph{to or from} $\bot$; and two Algorithm-6 access classes
+(self-inactive; withdrawn-binding) blocked by view totality and the guard,
+respectively---the latter being exactly the content of \SZC{} Thm.~63
+reappearing as an unreachability fact.
+
+\subsection{Canonical experiments and \Tstar}
+
+For each rule $r$ and reachable signature $s$, the canonical experiment
+$(\rho_{r,s}, V_{r,s})$ drives the system, by an explicit orchestration script
+over explicit component data, to a pointed configuration realizing $s$, lets
+the attempt at $r$ occur (directly for orchestration rules; by settling for
+lifecycle rules), and asserts $\equiv$-equality of the implementation's outcome
+set with the specification's at that point---certificates included. Then
+\[
+\Tstar = \{(\rho_{r,s}, V_{r,s}) \mid r \in \mathrm{Rules} \cup \mathrm{Ops},\
+s \in \occ r^{\mathrm{reach}}\}, \qquad |\Tstar| = 60 \text{ scripts}.
+\]
+Some scripts are load-bearing in nontrivial ways: realizing the
+\emph{installed-only-provided} satisfaction class requires observing a begin
+attempt inside another fiber's guarded teardown window; realizing the
+inactive-access error under Algorithm~6 requires five components and five
+settles. The 32-test obligation suite that predates this construction
+(\S\ref{sec:evaluation}) is \emph{material} for \Tstar: the explorer track
+(\S\ref{sec:mech}) audits which signatures it covers, and the audit---not
+intuition---decides whether it must grow.
+
+%% =======================================================================
+\section{The Characterization Theorem}\label{sec:theorem}
+
+\begin{theorem}[finite characterization]\label{thm:main}
+For every $\Impl \in \CF$:
+\(
+\Impl \conf \Spec \iff \Impl \models \Tstar,
+\)
+where observation equivalence is taken in the certificate vocabulary of
+Definition~\ref{def:events}.
+\end{theorem}
+
+The proof decomposes into five results, each proved in full in the artifact's
+\texttt{proofs.md} (546 lines); we state them and give the proof shapes,
+displaying the two arguments of independent interest.
+
+\subsection{Factorization: the calculus is clause-factored}
+
+\begin{theorem}[$\Spec \in \CF$]\label{thm:fact}
+Each rule's applicability is a function of its window's occurrence multiset;
+each write is the lift of per-occurrence updates under the row's declared
+folds; emissions are per-occurrence; equivariance and framing hold.
+\end{theorem}
+
+\begin{proof}[Proof shape]
+Rule by rule against Table~1: the guard atoms are read through the occurrence
+scalar; target construction is a pointwise product of singleton-key provider
+decisions; conflict, reliance, and childlessness are existential folds over
+witness occurrences; the accumulator is a fold of one binary operator whose
+order lives in the frame. Equivariance extends \SZC{} Lemma~56 from names to
+all four sorts by a per-premise inventory; framing packages Lemmas~54(1)
+and~57. A symbol inventory per row verifies that \emph{no rule reads a
+cardinality}: Table~1 contains no arithmetic. This last observation is the
+exact property Theorem~\ref{thm:impossibility}'s counterexample lacks.
+\end{proof}
+
+\subsection{Transport}
+
+\begin{lemma}[transport]\label{lem:transport}
+For $\Impl \in \CF$: windows with equal occurrence multisets (up to
+sort-preserving renaming) receive equal per-occurrence decisions; whole-rule
+results additionally correspond when the windows' \emph{frames} correspond.
+\end{lemma}
+
+The second clause is not pedantry: accumulator \emph{order} lives in the frame,
+and a whole-decision transport across order-differing, multiset-equal windows
+is false. (This corrected an earlier draft of the theory in which order data
+was homeless.)
+
+\subsection{Reflection, and the necessity of certificates}\label{sec:reflection}
+
+\begin{lemma}[observation reflection]\label{lem:reflection}
+If $f_r^{\Impl}(s) \neq f_r^{\Spec}(s)$ at a reachable signature $s$, then
+$\Impl$ fails $(\rho_{r,s}, V_{r,s})$.
+\end{lemma}
+
+\begin{proof}[Proof shape]
+By cases on the decision variants (spurious fire; missed fire; wrong update;
+wrong emission; wrong refusal). The key device: at the realized signature, the
+specification's certificate is forced to $f_r^{\Spec}(s)$ because the table is
+a function---so a deviant certificate matches nothing in the specification's
+outcome set, and $V_{r,s}$'s $\equiv$-equality fails. CF4 is used exactly where
+the deviation would otherwise be invisible.
+\end{proof}
+
+\begin{proposition}[masking]\label{prop:masking}
+In the certificate-free vocabulary (events and reports only), reflection is
+false: there is a rule aspect---skipping provision inverses at a
+\emph{retirement} unload---whose deviation is unobservable on \emph{every}
+script, because removal deletes the entry any residue would inhabit; moreover
+the deviant \emph{conforms} in that vocabulary.
+\end{proposition}
+
+The proposition rescues the theorem honestly rather than weakening it silently:
+the biconditional holds in the certificate vocabulary, and holds in the
+certificate-free vocabulary only for the quotient of \Spec{} by the masked
+aspects. It also explains an empirical fact we had met earlier: mutation
+analysis of the concrete suite found exactly this aspect unkillable.
+
+\subsection{Safety}\label{sec:safety}
+
+\begin{theorem}[safety direction]\label{thm:safety}
+If $\Impl \in \CF$ and $\Impl \models \Tstar$, every finite behavior of
+$\Impl$ is a behavior of \Spec.
+\end{theorem}
+
+\begin{proof}[Proof shape]
+Minimal counterexample over the first deviating index of a run (both
+deviation polarities: a step \Spec{} cannot match; a specification-enabled step
+$\Impl$ cannot offer). The matched prefix gives the reachability bridge: the
+deviating window's signature is reachable \emph{in \Spec} because the prefix
+agrees; Lemma~\ref{lem:transport} transports the deviation to the canonical
+realization $\rho_{r,s}$; Lemma~\ref{lem:reflection} makes it fail there,
+contradicting $\Impl \models \Tstar$.
+\end{proof}
+
+\subsection{Termination, and progress without acyclicity}\label{sec:termination}
+
+\begin{theorem}[generalized progress; strengthens \SZC{} Thm.~66]
+\label{thm:progress}
+Every maximal lifecycle sequence of \Spec{} is finite---\emph{without} the
+acyclicity hypothesis on the provider precedence relation $\prec$.
+\end{theorem}
+
+\begin{proof}[Proof shape]
+An $\omega$-provenance invariant shows every committed edge points at a fiber
+installed at commitment time; a \emph{frozen-cycle} lemma then shows no member
+of a co-present $\prec$-cycle is ever installed (first-co-presence freshness
+plus instantaneous propagation of well-formedness, \SZC{} Def.~58(2,4)); a
+frozen cone extends this to everything a cycle supports. Outside the frozen
+cone, the per-fiber and attribution counting bounds internal to \SZC{}
+Thm.~66's proof are re-proved standalone, and infinite descent closes the
+argument. The calculus thus quiesces on cyclic configurations not by the
+theorem's bound but by unsatisfiability---the cycle freezes.
+\end{proof}
+
+\begin{theorem}[termination direction]\label{thm:term}
+For $\Impl \in \CF$ with $\Impl \models \Tstar$: $\Impl$ diverges only where
+\Spec{} does. Untagged stuttering is excluded by CF1's tagging totality with
+CF6; the ranking of Theorem~\ref{thm:progress} transfers along the step
+matching of Theorem~\ref{thm:safety}.
+\end{theorem}
+
+Termination-sensitivity is not decorative: necessity survives its deletion,
+sufficiency does not (two counterexamples in the artifact).
+
+\subsection{Assembly}
+
+Necessity: if $\Impl \conf \Spec$, each canonical experiment's outcome set
+equals \Spec's by the bisimulation, so every $V_{r,s}$ passes and no settle
+diverges. Sufficiency: Theorems~\ref{thm:safety} and~\ref{thm:term} assemble
+the observation bisimulation clause by clause. \hfill$\qed$
+
+%% =======================================================================
+\section{Mechanization and Exhaustive Exploration}\label{sec:mech}
+
+Three executable artifacts ground the theory; we report exact status.
+
+\subparagraph{Exhaustive schedules (complete).} The reference semantics
+implements the calculus's nondeterminism as a \emph{choice oracle}: wherever
+more than one rule is applicable, the oracle picks. A mixed-radix enumerating
+driver explores every oracle sequence of every concrete test scenario. Of the
+32 obligation scenarios, 25 are schedule-deterministic; the largest choice tree
+has 924 schedules; all trees are enumerated to completion. Soundness of the
+suite on \Spec{} and the entire deviant matrix of \S\ref{sec:evaluation} are
+certified under this enumeration---the schedule quantifier in ``$\models$'' is
+discharged exactly, not sampled.
+
+\subparagraph{Bounded state-space explorer (in progress).} A normalized
+all-successor BFS over the reference semantics at bound (4 fibers, 2 keys,
+5 steps) with canonicalization of names, keys, and values, generating: the
+reachable signature sets per rule (an independent check of
+Table~\ref{tab:sig}'s reachability column, including its six negative claims),
+a generated bounded suite $T_B$ with shortest access sequences, the coverage
+matrix of the existing 32 tests against reachable signatures, and the deviant
+kill matrix of the generated suite. At the time of writing the pipeline
+(normalization with self-test, audit, generation, kill-matrix) is validated
+and the full-catalog exploration runs are executing; results will accompany
+the artifact.
+
+\subparagraph{Lean~4 mechanization (in progress).} The bounded theory in core
+Lean (no external libraries): the calculus at a finite bound as a decidable
+successor function; equivariance; finiteness of the configuration type;
+explorer soundness and completeness; the bounded characterization by
+reflection; the transport lemma as the \emph{single named axiom} whose paper
+proof is Lemma~\ref{lem:transport}; and the conditional final theorem. Status
+at submission is recorded in the artifact's \texttt{PROOF\_STATUS.md}; nothing
+in \S\ref{sec:theorem} depends on it---the dependency runs the other way.
+
+%% =======================================================================
+\section{Evaluation of the Cordis TypeScript Implementation}
+\label{sec:evaluation}
+
+\subsection{Targets and instruments}
+
+We evaluate with the concrete 32-obligation suite (the predecessor and
+material of \Tstar), each obligation pinned to a clause of the calculus, under
+the exhaustive-schedule harness, against:
+(i) the reference semantics (soundness control);
+(ii) \emph{Cordis-aligned}: the vendored build carrying the prior audit's
+calculus-alignment fixes;
+(iii) \emph{Cordis-upstream}: \texttt{@deepseek-ai/cordis}~4.0.1 as published;
+(iv) the upstream build deployed as \emph{two nodes} joined by the
+\texttt{cordis-node} projection layer (in-process transports, mutual mounts,
+component placement alternating across nodes, observation through projection).
+Necessity is instrumented by a family of 27 \emph{semantic deviants} of the
+reference semantics, each negating one clause (guard dropped; accumulator
+FIFO; $\sigma_\gamma$ over installed fibers; re-entry from $\Inactive(\xi)$;
+live-view reads; \dots)---all clause-factored, hence inside the class the
+theorem quantifies over.
+
+\subsection{Results}
+
+\begin{table}[t]
+\caption{Suite results (32 obligations; schedule trees fully enumerated).}
+\label{tab:results}
+\centering
+\small
+\begin{tabular}{lc}
+\toprule
+target & result \\
+\midrule
+reference semantics & 32/32 \\
+Cordis-aligned build & \textbf{32/32} \\
+Cordis-upstream 4.0.1 & 28/32 \\
+two-node distributed (upstream) & 28/32 --- the same four \\
+\midrule
+deviant family (27) & all killed; 14 obligations essential \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subparagraph{The four upstream divergences.}
+\emph{(1, 2) Unload-guard ordering} (two obligations): provider inverses run
+concurrently with, and before, dependents' guarded teardown---the guard is
+implemented one level too low (inside the provision effect's own disposer,
+while the fiber's unload starts all disposers at once). The observed event
+words realize the guard-deviant derivation of the necessity analysis nearly
+letter for letter. \emph{(3) Declared disjointness} unenforced at insertion.
+\emph{(4) Escaped failure outcome} (previously unknown): after a failed first
+activation, a later \texttt{update()} of the by-then recovered, Active fiber
+releases the \emph{first} episode's error as a process-level unhandled
+rejection; the calculus requires $\xi$ recorded on the fiber and nothing to
+escape. States and effect traces are otherwise correct, which is why no
+state-based audit had found it. All four are fixed in the aligned build, whose
+32/32 stands under complete schedule enumeration.
+
+\subparagraph{What 32/32 does and does not claim.} By
+Theorem~\ref{thm:main}, passing certifies conformance \emph{given}
+$\Impl \in \CF$; the CF obligations are audit items on the TypeScript source
+(no cardinality branching, per-key folds, one accumulator operator, fair
+scheduler), constructed for the abstraction clause and asserted---not
+proved---for the rest. The evaluation therefore reads: \emph{the aligned build
+is conformant relative to a stated, checkable audit obligation; the published
+build is non-conformant outright} (a single failed obligation refutes
+membership of the conformant class with no further hypothesis).
+
+\subparagraph{Distribution.} Under the equivalence contract of the
+\texttt{cordis-node} projection layer (established in its own companion
+verification), conformance transfers to distributed deployments by
+composition. Empirically, the two-node deployment fails exactly the upstream
+build's four obligations: the difference attributable to distribution on this
+suite is empty---with genuine cross-node execution (provider on one node,
+dependent on the other, satisfied through projection).
+
+%% =======================================================================
+\section{Discussion}\label{sec:discussion}
+
+\subparagraph{Findings about the source paper.} The construction returned
+three corrections to \SZC{}: \emph{(PB-1)} Table~2 maps Def.~23's
+$\mathrm{set}(k,v)$ to \texttt{ctx.set}; the primitive carrying that
+operation's precondition and inverse is \texttt{ctx.provide}, while
+\texttt{ctx.set} is a value operation on an existing binding.
+\emph{(PB-2)} for in-place overwrite by an Active provider, \S5.1.3 prescribes
+``not observed'' while Thm.~63(3) forces observed replacement if the operation
+is admitted at all; the calculus is silent, the two prose commitments
+contradict, and our suite pins the dichotomy any extension must satisfy (never
+a torn episode). \emph{(PB-3)} Algorithm~10 replaces a component by
+\texttt{dispose()} immediately followed by \texttt{use()}, racing
+O\mbox{-}Insert's own disjointness premise; the reference semantics loses that
+race under adversarial scheduling, latching a spurious failure---the staged
+retire--drain--insert is the form whose premises hold at every step.
+
+\subparagraph{What the theory added beyond testing folklore.} Three things.
+The impossibility theorem plus \CF{} converts ``we tested it'' into a
+two-part claim with an explicit audit residue. The masking proposition shows
+that observation vocabularies are part of the theorem statement: without
+certificates, some deviations are not just unkilled but \emph{unkillable}, and
+the correct response is a vocabulary extension, not a bigger suite. And the
+frozen-cycle progress theorem shows the calculus is better-behaved than its
+own metatheory claimed: cyclic dependency configurations quiesce by freezing,
+so the acyclicity hypothesis of \SZC{} Thm.~66 can be deleted.
+
+\subparagraph{Limitations.} Membership in \CF{} is assumed of implementations
+and audited, not tested---Theorem~\ref{thm:impossibility} shows this is not a
+weakness of our suite but of finite testing. The hand proofs are unmechanized;
+the Lean track isolates precisely one axiom (transport) and is in progress.
+The six unrealizability proofs and the reachability column await independent
+confirmation by the explorer. The evaluation's schedule exhaustion applies to
+the reference semantics; for the TypeScript builds, schedules are exercised
+through the real event loop and quantified by CF6. The distributed result is
+conditional on the projection layer's own contract.
+
+%% =======================================================================
+\section{Related Work}\label{sec:related}
+
+\subparagraph{Testing from formal specifications.} Gaudel's
+theory~\cite{gaudel95} established finite completeness relative to uniformity
+and regularity hypotheses; \CF{} is those hypotheses made concrete for a
+lifecycle calculus, and Theorem~\ref{thm:impossibility} is the classical
+diagonalization in our setting. Tretmans' \textsf{ioco}
+theory~\cite{tretmans96, tretmans08} gives sound and exhaustive suites for
+LTSs with quiescence; our settle observation plays $\delta$'s role, and our
+proofs take a simulation form because the calculus's own invariance lemma is
+natively an up-to technique. Complete test suites for FSM equivalence (the
+W-method~\cite{chow78}) inspire the characterization shape; our setting
+differs by unbounded state (hence signatures rather than state counting),
+nondeterminism (hence outcome sets over fair schedulers), and refusals.
+
+\subparagraph{Mutation analysis.} Adequacy against deviants follows
+DeMillo--Lipton--Sayward~\cite{demillo78}; mutating an executable
+\emph{specification} follows specification-mutation work~\cite{black00};
+subsumption among tests is documented in the surveys~\cite{jia11,
+papadakis17}---our masking proposition gives one mechanism of unkillability a
+proof.
+
+\subparagraph{Executable semantics.} Validating a semantics by executing it
+against suites is the semantics-engineering methodology~\cite{felleisen09}
+and the K framework's practice~\cite{rosu10}; our reference interpreter with
+an enumerable scheduling oracle is that methodology plus exhaustive schedule
+coverage.
+
+\subparagraph{Conformance of module and plugin systems.} De-facto conformance
+suites (e.g.\ ECMAScript's test262) carry no completeness theorem; mechanized
+module-system metatheory verifies calculi, not implementations' fidelity to
+them. We are not aware of a prior finite characterization theorem for a
+dynamic-composition runtime.
+
+%% =======================================================================
+\section{Conclusion}\label{sec:conclusion}
+
+The question ``does this implementation follow the calculus?'' has an exact
+answer. Unrestricted, no finite suite answers it. Restricted to
+clause-factored implementations---a class whose obligations are auditable
+against source code and whose definition is forced by the impossibility
+theorem---a suite of one canonical experiment per reachable atomic signature
+is both sufficient and necessary:
+$\Impl \conf \Spec \iff \Impl \models \Tstar$. The signature alphabets are
+finite and enumerated (92 occurrences; 86 reachable; 6 proved unrealizable);
+the proof is by hand in the source paper's own style, and en route strengthens
+that paper's progress theorem and corrects three of its claims. Applied to
+Cordis, the theory locates four defects in the published build---one invisible
+to state-based auditing---certifies the aligned build relative to a stated
+audit residue, and shows the distribution layer preserving the verdict
+wholesale. The remaining distance to a machine-checked artifact is a single
+named axiom and a bounded model, both under construction; the mathematics no
+longer waits on them.
+
+%% =======================================================================
+\appendix
+
+\section{Artifact and Reproduction}\label{app:artifact}
+
+The artifact accompanies the paper in the same repository:
+\texttt{formal/signatures.md} (the 92-occurrence tables, finiteness and
+reachability proofs, 60 canonical scripts);
+\texttt{formal/proofs.md} (the complete proofs of
+Theorems~\ref{thm:fact}--\ref{thm:term} and the assembly);
+\texttt{formal/explorer/} (the bounded explorer) and
+\texttt{formal/lean/} (the mechanization), each with status files;
+\texttt{proof/} (the executable reference semantics, the 32-obligation suite,
+the 27 deviants, and the harnesses). Reproduction:
+
+\begin{verbatim}
+cd paper/proof
+MODEL_EXHAUST=1 node --test tests/*.test.mjs   # all schedules
+PROOF_TARGET=cordis node --test tests/*.test.mjs
+PROOF_TARGET=cordis CORDIS_LIB=<build>/lib/index.js \
+  node --test tests/*.test.mjs
+node run-necessity.mjs                          # deviant matrix
+PROOF_TARGET=cordis-node node --test tests/*.test.mjs
+\end{verbatim}
+
+Node $\ge 22$; no dependencies; the deviant matrix's exit code certifies
+adequacy and baseline soundness.
+
+\section{Signature Table Excerpt}\label{app:sig}
+
+By way of sample, the L\mbox{-}Unload alphabet (12 occurrences): the scalar
+occurrence records $(\theta_n = \Unloading$, $\relied$-witness present?,
+outcome class $\in \{\bot, \xi\}$, $\tau$, post-target class
+$\in \{\bot, \text{satisfiable}\})$ with the well-formed $\tau \times$
+post-target blocks reduced to three; witness occurrences record each reliance
+edge (installed dependent, committed key, equality pattern); per-item
+occurrences record each accumulator entry's inverse class
+$\in \{\mathsf{provide}^{-1}, \mathsf{track}^{-1}, \mathsf{register}^{-1},
+\mathsf{read\mbox{-}on\mbox{-}revert}\}$. The guard-blocked signature's
+canonical experiment retires a provider under an installed consumer whose
+tracked inverse reads the provided key; its verdict asserts the consumer's
+read event, its precedence over every provider inverse, and the final
+disposal---the experiment that convicts the published build.
+
+\begin{thebibliography}{9}
+
+\bibitem{gaudel95}
+M.-C. Gaudel.
+\newblock Testing can be formal, too.
+\newblock In \emph{TAPSOFT '95}, LNCS 915, 1995.
+
+\bibitem{tretmans96}
+J. Tretmans.
+\newblock Test generation with inputs, outputs and repetitive quiescence.
+\newblock \emph{Software---Concepts and Tools} 17(3), 1996.
+
+\bibitem{tretmans08}
+J. Tretmans.
+\newblock Model based testing with labelled transition systems.
+\newblock In \emph{Formal Methods and Testing}, LNCS 4949, 2008.
+
+\bibitem{chow78}
+T. S. Chow.
+\newblock Testing software design modeled by finite-state machines.
+\newblock \emph{IEEE TSE} 4(3), 1978.
+
+\bibitem{demillo78}
+R. A. DeMillo, R. J. Lipton, F. G. Sayward.
+\newblock Hints on test data selection: Help for the practicing programmer.
+\newblock \emph{IEEE Computer} 11(4), 1978.
+
+\bibitem{black00}
+P. E. Black, V. Okun, Y. Yesha.
+\newblock Mutation operators for specifications.
+\newblock In \emph{ASE 2000}.
+
+\bibitem{jia11}
+Y. Jia, M. Harman.
+\newblock An analysis and survey of the development of mutation testing.
+\newblock \emph{IEEE TSE} 37(5), 2011.
+
+\bibitem{papadakis17}
+M. Papadakis, Y. Jia, M. Harman, et al.
+\newblock Mutation testing advances: An analysis and survey.
+\newblock \emph{Advances in Computers}, 2017.
+
+\bibitem{felleisen09}
+M. Felleisen, R. B. Findler, M. Flatt.
+\newblock \emph{Semantics Engineering with PLT Redex}.
+\newblock MIT Press, 2009.
+
+\bibitem{rosu10}
+G. Ro\c{s}u, T. F. \c{S}erb\u{a}nu\c{t}\u{a}.
+\newblock An overview of the K semantic framework.
+\newblock \emph{J. Logic and Algebraic Programming} 79(6), 2010.
+
+\end{thebibliography}
+
+\end{document}
