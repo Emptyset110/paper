@@ -100,13 +100,19 @@ class FiberM {
 }
 
 export class Model {
-  constructor({ mutant = null, order = 'fifo', seed = 1 } = {}) {
+  constructor({ mutant = null, order = 'fifo', seed = 1, oracle = null } = {}) {
     if (mutant !== null && !MUTANTS.includes(mutant)) {
       throw new Error(`unknown mutant: ${mutant}`)
     }
     this.mutant = mutant
     this.orderStrategy = order
     this.seed = seed
+    // Choice oracle: an array of indices consumed at nondeterministic points;
+    // `branching` records the branch factor met at each point, so a driver can
+    // enumerate all oracle sequences (exhaustive schedule exploration).
+    this.oracle = oracle
+    this.oracleAt = 0
+    this.branching = []
     this.trace = createTrace()
     this.fibers = new Map() // uid -> FiberM
     this.nextUid = 1
@@ -342,6 +348,28 @@ export class Model {
   sweep() {
     for (let guardCount = 0; guardCount < 10_000; guardCount++) {
       if (this.mutant === 'remove-before-inactive') this.removePass()
+      if (this.oracle) {
+        // Oracle mode: collect every applicable (fiber, rule) pair and let the
+        // oracle choose — the calculus's nondeterminism made enumerable.
+        const enabled = []
+        for (const fiber of this.order()) {
+          const rule = this.ruleFor(fiber)
+          if (rule) enabled.push(rule)
+        }
+        if (enabled.length === 0) {
+          if (!this.removePass()) return
+          continue
+        }
+        let pick = 0
+        if (enabled.length > 1) {
+          this.branching.push(enabled.length)
+          pick = this.oracle[this.oracleAt] ?? 0
+          this.oracleAt += 1
+          if (pick >= enabled.length) pick = enabled.length - 1
+        }
+        enabled[pick]()
+        continue
+      }
       let fired = false
       for (const fiber of this.order()) {
         const rule = this.ruleFor(fiber)

@@ -97,40 +97,42 @@ premise that guards one, the coeffect operations, the access discipline, and
 the five metatheorems appear in the right column; **one-to-one** because no
 two obligations pin the same clause (audit the middle column: all distinct).
 
-| Obligation (test id) | Formal clause | Source |
-| --- | --- | --- |
-| R1.1 insert-activates-fresh | O-Insert conclusion: fresh Inactive(⊥) entry; lifecycle carries an unconstrained fiber to Active; provisions enter σ_γ | Table 1; Def 45 |
-| R1.2 insert-under-removed-parent-rejected | O-Insert premise π ∈ dom(F_γ) ∪ {root} | Table 1 |
-| R1.3 dynamic-provision-conflict-fails-offender | single-provider discipline when the Def 43 containment premise is broken: conflicting write fails the offender, never overwrites | Def 43/45; GAP-6 residue |
-| R1.4 declared-provision-disjointness-at-insert | O-Insert premise ∀m. p ∩ p_m = ∅ (declared p; freed by removal, not retirement) | Table 1 |
-| R2.1 retire-runs-recovery | O-Retire is a request; the rules run the accumulator — retirement never discards effects | §4.2; Table 1 |
-| R2.2 retire-pending-clean | retiring a never-activated fiber applies an empty accumulator | Def 44 (σ empty until activation) |
-| R3.1 removal-follows-inactivity | O-Remove premise θ = Inactive(−): the entry survives (serving committed reads) until dependents finished | Table 1; Lemma 57 |
-| R3.2 registration-cascade-recovers-children | Def 47: the registration's inverse retires the child; the cascade leaves nothing (order vs. parent's own inverses deliberately open — §4.3.1) | Def 47 |
-| R4.1 begin-requires-satisfaction | L-Begin premise ω = target ≠ ⊥ | Table 1; Def 46 |
-| R4.2 provider-arrival-wakes-pending | reactivity: rules fire unprompted when premises become true | §4.2 "reactive only" |
-| R4.3 satisfaction-counts-active-only | σ_γ unions **Active** tables alone; a Reloading provider's keys satisfy nobody | Def 45/49 |
-| R4.4 failure-latch-unchanged-env | L-Begin reads Inactive(⊥): no retry of Inactive(ξ) against an unchanged environment | §4.3.4 |
-| R5.1 iteration-order-and-lifo-recovery | L-Iter order; accumulator g∘h composition ⇒ LIFO recovery | Table 1; Def 52; Thm 16 |
-| R6.1 divert-honors-target-change | Thm 64 dichotomy: abort at a boundary with recovery, or land-then-deactivate; never quiesce Active on a stale ω; applied ⇒ recovered | Thm 64; §4.3.3 |
-| R7.1 raise-recovers-then-latches | L-Raise: route through Unloading (accumulator runs), record ξ, provide nothing after | Table 1; §4.3.4 |
-| RU.1 update-restarts-with-new-config | entry update: re-run against new config; new entry state clears the latch | §5.2.1 |
-| R8.1 leaving-provider-reads-own-deps | Thm 63(3): committed reads served for the whole episode, own teardown included | Thm 63 |
-| R9.1 withdrawal-guard-orders-teardown | L-Unload guard ¬relied: dependents' teardown (reads included) completes before ANY provider inverse | Table 1; Def 50; Alg 5 line 25 |
-| R9.2 recovery-exactness-on-deactivation | Cor 62 on the non-retired path: no residual binding; clean re-provision | Cor 62 |
-| C1.1 provision-value-operations | get/set of Def 23 + an A_k value operation on the owned binding | Def 23/24 |
-| C2.1 overwrite-observability-dichotomy | the calculus leaves post-activation overwrite undefined (GAP-7 hole); either §5.1.3's not-observed or GAP-3's observed-replacement — never a torn episode | §5.1.3 vs Thm 63(3); see §7 PB-2 |
-| C3.1 isolation-independence | Def 28/29: same key, independent realms, independent bindings | Def 28/29 |
-| C3.2 isolation-label-join | shared label joins scopes; joined realm has one binding | Def 29 |
-| C4.1 intercept-nearest-wins | Def 31 merge as §5 realizes it: nearer entries override, base below all | Def 31; service resolveConfig |
-| C5.1 undeclared-access-rejected | Alg 6 line 6: reject at root | Alg 6 |
-| C5.2 ancestry-authorized-access | Alg 6 walk: first ancestor's committed view authorizes | Alg 6 |
-| C5.3 declared-inactive-access | Alg 6 line 5: declared-but-uncommitted fails as inactive, not undeclared | Alg 6 |
-| M1 interleaved-recovery-independence | Thm 61 / Cor 21: an inverse withdraws its own contribution only, in any order | Thm 61 |
-| M2 dependency-ordering-chain | Thm 63 globally: activations follow ≺, guarded deactivations reverse it | Thm 63/66 |
-| M3 provider-identity-coherence | ω records the provider, not the value: equal-valued replacement still reloads | §5.1.3 p60; Thm 64 |
-| M4 quiescence-on-unsatisfiable | Thm 66: quiescence; a ≺-cycle quiesces Inactive(⊥), no spin, no failure | Thm 66 |
-| M5 confluence-across-histories | Thm 73: the quiescent state is a function of the final configuration | Thm 73 |
+**Table C.** One row per test: script (compact; `ins` = insert at root, `ret` = retire, `set` = setval, `upd` = update, `;;` = settle, `S=[...]` the component script, `{d=..}`/`{p=..}` declared inject/provide), verdict (over the event word $w$, report $q$, store $\mathrm{st}$; $<_w$ = precedence, $\sqsubseteq$ = subword, `#` = count), the clause witnessed, the premise vector realized (per PAPER.md Lemma 3's conjunct order), and the soundness source entailing the verdict on $\mathbb S$. Flags: (E) extension clause, (F) fail-safe clause.
+
+| Test | Script | Verdict | Clause | Vector | Soundness |
+| --- | --- | --- | --- | --- | --- |
+| R1.1 | ins P S=[prov(k1,v1);trk p1] ;; | $q(P){=}\mathsf{act} \wedge \mathrm{st}(k1){=}v1 \wedge \mathsf{app}(P,p1){\in}w$ | O-Ins fire + L-chain writes | O-Ins 111; L-Begin 1111 | Table 1; Def 45 |
+| R1.2 | ins P ;; ret P ;; ins C@ctx(P) | second insert refused | O-Ins refuse: dead parent | O-Ins 101 | Table 1 |
+| R1.3 (F) | ins A S=[prov(k,a)] ;; ins B S=[prov(k,b);trk b1] ;; | $q(A){=}\mathsf{act} \wedge q(B){=}\mathsf{fail} \wedge \mathrm{st}(k){=}a \wedge \#\mathsf{app}(B,b1){=}0$ | dynamic single-provider fail-safe | — | Def 43/45; GAP-6 residue |
+| R1.4 | ins DA{p=dk} S=[prov(dk,1)] ;; ins DB{p=dk} | second insert refused $\wedge\ \mathrm{st}(dk){=}1$ | O-Ins refuse: ¬disjoint | O-Ins 110 | Table 1 |
+| R2.1 | ins P S=[prov(k,1);trk p1;trk p2] ;; ret P ;; | $q(P){=}\mathsf{disp} \wedge \mathrm{st}(k){=}\bot \wedge \mathsf{inv}(P,p1),\mathsf{inv}(P,p2){\in}w$ | O-Ret runs recovery | installed | §4.2; Table 1 |
+| R2.2 | ins C{d=miss} S=[trk c1] ;; ret C ;; | $q(C){=}\mathsf{disp} \wedge \#\mathsf{app}(C,c1){=}0$ | O-Ret on pending: empty accumulator | L-Begin 1100 first | Def 44 |
+| R3.1 | ins P S=[prov(k,h);trk p1]; ins C{d=k} S=[trkRdRev(c1,k)] ;; ret P ;; | $\mathsf{rd}^{rev}(C,k,h){\in}w \wedge q(P){=}\mathsf{disp}$ | O-Rem gate: entry survives guard | O-Rem 110→111 | Table 1; Lemma 57 |
+| R3.2 | ins Par S=[trk e;reg(Child S=[trk c1])] ;; ret Par ;; | $\mathsf{inv}(Child,c1){\in}w \wedge \mathsf{inv}(Par,e){\in}w \wedge q{=}\mathsf{disp}$ | Def 47 cascade | O-Rem childless=0 | Def 47; §4.3.1 |
+| R4.1 | ins C{d=k} S=[trk c1] ;; | $q(C){=}\mathsf{pend} \wedge \#\mathsf{app}{=}0$ | L-Begin refuse: ¬sat | 1100 | Table 1; Def 46 |
+| R4.2 | (R4.1) ; ins P S=[prov(k,1)] ;; | $q(C){=}\mathsf{act} \wedge \#\mathsf{app}(C,c1){=}1$ | reactivity: sat flip fires | 1100→1111 | §4.2 |
+| R4.3 | ins P S=[prov(k,1);trk s1;trk s2]; ins C{d=k} S=[trk c1] ;; | $\mathsf{act}(P) <_w \mathsf{app}(C,c1)$ | σ over Active only | 1110 | Def 45/49 |
+| R4.4 | ins F S=[trk f1;raise] ;; | $q(F){=}\mathsf{fail} \wedge \#\mathsf{app}(F,f1){=}1$ | ξ-latch: no retry | Inactive(ξ) | §4.3.4 |
+| R5.1 | ins P S=[trk a;trk b;trk c] ;; ret P ;; | $abc \sqsubseteq w \wedge \bar c\bar b\bar a \sqsubseteq w$ | L-Iter order; LIFO accumulator | 11 | Def 52; Thm 16 |
+| R6.1 | ins P S=[prov(k,1)] ;; ins C{d=k} S=[trk c1;c2;c3], when(app c1: ret P) ;; | $q(C){=}\mathsf{pend} \wedge \forall i.\#\mathsf{app}(c_i){=}\#\mathsf{inv}(c_i)$ | Thm-64 dichotomy at L-Divert | 10 | Thm 64; §4.3.3 |
+| R7.1 | ins F S=[prov(k,p);trk f1;raise;trk nv] ;; | $q{=}\mathsf{fail} \wedge \mathsf{inv}(F,f1){\in}w \wedge \#\mathsf{app}(nv){=}0 \wedge \mathrm{st}(k){=}\bot$ | L-Raise recovers, records, latches | raise | Table 1; §4.3.4 |
+| RU.1 | ins F S=[trk f1;raiseUnless ok] ;; upd(F,ok) ;; upd(F,ok) ;; | fail→act; $\#\mathsf{app}{=}2$ then $3$; $\#\mathsf{inv}{=}2$ | entry update re-runs, clears latch | — | §5.2.1 |
+| R8.1 | ins Up S=[prov(j,b)]; ins Mid{d=j} S=[prov(k,d);trkRdRev(m1,j)] ;; ret Mid ;; | $\mathsf{rd}^{rev}(Mid,j,b){\in}w$ | Thm 63(3): teardown reads own deps | L-Leave via τ | Thm 63 |
+| R9.1 | (PAPER §5.1, displayed) | displayed | L-Unload guard ordering | 10 | Def 50; Alg 5; Thm 63(2,3) |
+| R9.2 | ins Up S=[prov(j,b)]; ins Mid{d=j} S=[prov(k,d);trk m1] ;; ret Up ;; ins Up2 S=[prov(j,b2)] ;; | pend interlude: $\mathrm{st}(k){=}\bot$, lenient $\bot$; then act, $\mathrm{st}(k){=}d$ | Cor 62 exactness, non-retired path | 11 (dep-loss) | Cor 62 |
+| C1.1 | ins P S=[prov(k,v1)] ;; set(P,k,v2) ;; | $\mathrm{st}(k){=}v1$ then $v2$ | Def 23 set; Def 24 $\mathcal A_k$ op | — | Def 23/24 |
+| C2.1 (E) | + C{d=k} S=[trk c1] ;; set(P,k,v2) ;; | $q(C){=}\mathsf{act} \wedge (\#\mathsf{app},\#\mathsf{inv}) \in \{(1,0),(2,1)\}$ | overwrite dichotomy: never torn | — | §5.1.3 vs Thm 63(3); PB-2 |
+| C3.1 | iso(k,ra): PA S=[prov(k,va)]; root: PR S=[prov(k,vr)]; readers each ;; | all act; $\mathsf{rd}{=}va$ resp. $vr$ | Def 28/29 realm independence | — | Def 28/29 |
+| C3.2 | iso(k,L) twice; P1, P2 both prov k ;; | $q(P2){=}\mathsf{fail}$ | Def 29 label join | — | Def 29 |
+| C4.1 | intercept outer {a:1,b:1}, inner {b:2,c:2}; merged(base) | $\{base, a{:}1, b{:}2, c{:}2\}$ | Def 31 nearest-wins merge | — | Def 31 |
+| C5.1 | ins P S=[prov(k,v)]; ins C S=[read k] ;; | $\mathsf{rderr}(C,k,\mathsf{UD}){\in}w$ | Alg 6 line 6 | — | Alg 6 |
+| C5.2 | ins P S=[prov(k,v)]; ins Par{d=k} S=[reg(Child S=[read k])] ;; | $\mathsf{rd}(Child,k,v){\in}w$ | Alg 6 ancestry walk | — | Alg 6 |
+| C5.3 | ins P S=[prov(k,v)]; ins C{d=k,miss}; readVia(C,k) | error $\mathsf{IA}$, not $\mathsf{UD}$ | Alg 6 line 5 | — | Alg 6 |
+| M1 | ins A S=[prov(ka,1);trk a1]; ins B S=[prov(kb,2);trk b1] ;; ret A ;; ret B ;; | B undisturbed between; both exact | Thm 61 / Cor 21 schema | independent pair | Thm 61; Cor 21 |
+| M2 | ins C,B,A (reverse dep order) ;; ret A ;; | $\mathsf{act}(A){<}\mathsf{act}(B){<}\mathsf{act}(C)$; $\mathsf{deact}(C){<}\mathsf{deact}(B){<}\mathsf{inv}(A,a1)$ | Thm 63 global schema | chain | Thm 63/66 |
+| M3 | P1(k,same); C{d=k} S=[trk c1;read k] ;; ret P1 ;; ins P2(k,same) ;; | $\#\mathsf{app}(C,c1){=}2 \wedge \#\mathsf{inv}{=}1$ | provider-identity coherence | replacement | Thm 64; §5.1.3 p60 |
+| M4 | ins A{d=kb} S=[prov(ka,1);trk a1]; ins B{d=ka} S=[prov(kb,2);trk b1] ;; | both $\mathsf{pend}$; no $\mathsf{app}$ | quiescence on ≺-cycle | cycle | direct derivation (PAPER §5.3) |
+| M5 | three histories (order; reverse; retire–replace) | quiescent reports $\sim$-equal | history-independence | permuted histories | Lemmas 68/70/71(2)/72; Thm 73(2) |
 
 Clauses deliberately **not** in the catalog are listed in §8 (boundary), each
 with its reason.
@@ -265,15 +267,16 @@ systematic suite and mapped to the prior targeted catalog
 
 ## 6. Necessity results — the kill matrix
 
-`run-necessity.mjs` runs the suite once per mutant per schedule (fifo +
-lifo; a deviation counts as caught if any schedule exhibits it — the
-calculus quantifies over schedules, and one mutant is *only* catchable
-under lifo, which is itself a finding about schedule-shielded bugs).
+`run-necessity.mjs` runs the suite once per mutant under **exhaustive
+schedule enumeration**: the model consults a choice oracle wherever more
+than one rule is applicable, and the harness enumerates every oracle
+sequence of every scenario (25 of 32 scenarios admit exactly one schedule;
+the largest choice tree has 924; none is truncated). A deviation counts as
+caught if any schedule exhibits it — the calculus quantifies over
+schedules, and at least one deviation is exhibited only on non-default
+schedules, a finding about schedule-shielded bugs.
 
-- **K1 — all 27 mutants killed.** Every cataloged single-decision deviation
-  of the model fails at least one test, under fifo or lifo scheduling (the
-  matrix runs both, and kill sets genuinely differ across schedules — a
-  finding in itself about schedule-shielded bugs).
+- **K1 — all 27 mutants killed**, under exhaustive schedule enumeration.
 - **K2 — 14 obligations have an exclusive killer**: a mutant that fails that
   test and no other (C2.1, C3.1, C4.1, C5.1, C5.2, C5.3, R5.1, R6.1, R7.1,
   RU.1, R9.2, R1.2, R1.4, R3.2 — the runner prints the pairing).

@@ -11,6 +11,7 @@ export async function createModelSystem(opts = {}) {
   const model = new Model(opts)
   return {
     kind: 'model',
+    model,
     trace: model.trace,
     root: model.rootCtx,
 

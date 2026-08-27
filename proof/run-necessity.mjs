@@ -24,48 +24,54 @@ function runSuite(env) {
     timeout: 120_000,
   })
   const output = `${result.stdout}\n${result.stderr}`
-  const failing = []
-  const passing = []
+  // TAP shape varies with node versions and isolation modes: per-test lines
+  // may be indented as subtests, and file-level summary lines duplicate them.
+  // Parse indentation-tolerantly, keep only obligation-named lines (they all
+  // match /^[A-Z]+\d*\.?\d* /), and dedupe, letting a failure override.
+  const failing = new Set()
+  const passing = new Set()
   for (const line of output.split('\n')) {
-    const fail = line.match(/^not ok \d+ - (.+)$/)
-    if (fail) failing.push(fail[1].trim())
-    const pass = line.match(/^ok \d+ - (.+)$/)
-    if (pass && !line.includes('# SKIP')) passing.push(pass[1].trim())
+    const m = line.match(/^\s*(not )?ok \d+ - (.+?)(?: # .*)?$/)
+    if (!m) continue
+    const name = m[2].trim()
+    if (!/^(R\d|RU|C\d|M\d)/.test(name)) continue
+    if (m[1]) {
+      failing.add(name)
+      passing.delete(name)
+    } else if (!failing.has(name)) {
+      passing.add(name)
+    }
   }
-  return { failing, passing }
+  return { failing: [...failing], passing: [...passing] }
 }
 
 // The calculus's claims quantify over schedules, so the baseline must be
 // green under every strategy and a mutant counts as killed if ANY schedule
 // exhibits the deviation.
-const STRATEGIES = [
-  { MODEL_ORDER: 'fifo' },
-  { MODEL_ORDER: 'lifo' },
-  { MODEL_ORDER: 'random', MODEL_SEED: '7' },
-  { MODEL_ORDER: 'random', MODEL_SEED: '23' },
-]
+// Exhaustive schedule exploration: the model consults a choice oracle at
+// every state with more than one applicable rule, and the test driver
+// enumerates ALL oracle sequences (tests/helpers.mjs). Every scenario's
+// choice tree is finite and fully explored within the budget — the baseline
+// run asserts completeness of the exploration for every test.
+const EXHAUST = { MODEL_EXHAUST: '5000', MODEL_EXHAUST_REPORT: '1' }
 
-let allTests
-for (const strategy of STRATEGIES) {
-  const baseline = runSuite({ PROOF_TARGET: 'model', MODEL_MUTANT: '', ...strategy })
-  if (baseline.failing.length > 0) {
-    console.error(`baseline not green under ${JSON.stringify(strategy)}:`, baseline.failing)
-    process.exit(1)
-  }
-  allTests ??= baseline.passing
+const baseline = runSuite({ PROOF_TARGET: 'model', MODEL_MUTANT: '', ...EXHAUST })
+if (baseline.failing.length > 0) {
+  console.error('baseline not green under exhaustive schedules:', baseline.failing)
+  process.exit(1)
 }
-console.log(`baseline: ${allTests.length} tests green on the reference model under ${STRATEGIES.length} schedules\n`)
+const allTests = baseline.passing
+if (allTests.length === 0) {
+  console.error('harness error: no obligation results parsed from the baseline run')
+  process.exit(1)
+}
+console.log(`baseline: ${allTests.length} tests green under exhaustive schedule enumeration\n`)
 
-const kills = new Map() // mutant -> failing test names (union over schedules)
+const kills = new Map() // mutant -> failing test names, over all schedules
 for (const mutant of MUTANTS) {
-  const failing = new Set()
-  for (const strategy of STRATEGIES.slice(0, 2)) {
-    for (const name of runSuite({ PROOF_TARGET: 'model', MODEL_MUTANT: mutant, ...strategy }).failing) {
-      failing.add(name)
-    }
-  }
-  kills.set(mutant, [...failing])
-  console.log(`${mutant.padEnd(34)} kills ${failing.size ? [...failing].join(', ') : '(nothing)'}`)
+  const { failing } = runSuite({ PROOF_TARGET: 'model', MODEL_MUTANT: mutant, MODEL_EXHAUST: '2000' })
+  kills.set(mutant, failing)
+  console.log(`${mutant.padEnd(34)} kills ${failing.length ? failing.join(', ') : '(nothing)'}`)
 }
 
 let ok = true
@@ -113,4 +119,6 @@ for (const test of allTests) {
   }
 }
 if (minimal) console.log('  every test is the last line of defense for some mutant')
+// The exit code certifies K1 (adequacy) and baseline soundness; K2/K3 are
+// reported data whose interpretation lives in the paper.
 process.exit(ok ? 0 : 1)
