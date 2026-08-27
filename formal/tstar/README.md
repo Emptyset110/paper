@@ -78,6 +78,18 @@ schedule-dependent L-Divert scripts. On the distributed target, where no
 L-Divert script takes its canonical branch, the old rule credited D4 to five
 scripts none of which diverted (84/103); the corrected rule reports 83.
 
+The rows above are the **pre-repair** measurements: they are the numbers the
+suite produced before any build was changed, and they are what findings F1–F11
+below explain. Two later documents supersede them for the two real targets:
+
+- `VENDOR-FIXES.md` — the calculus-aligned build after the repairs F1–F11
+  triaged: **73 / 75**, 98 / 103.
+- `DISTRIBUTED.md` — the two-node target re-pointed at that fixed build (the
+  distributed row above runs it over *upstream*, so its failures were the
+  base's): **70 / 75**, 93 / 103, with the three-script difference from the
+  single-process run classified and diagnosed. Run it with
+  `PROOF_TARGET=cordis-node node --import ./use-cordis-lib.mjs run-tstar.mjs`.
+
 One script is **not presentable** on any certificate-erased target: S-Upd-4
 (W5) has to place its input inside the L-Raise → L-Unload window, and no
 ordinary event occurs there on any fair schedule. See F11.
@@ -580,3 +592,9 @@ of that document names the missing proof.
 | `dsl-ext.mjs` | the DSL extensions described above; re-exports `../../proof/src/dsl.mjs` unchanged |
 | `run-tstar.mjs` | the runner: per-script pass / fail / not-presented with realized letters, coverage against the 103, failures by rule and clause |
 | `tstar.test.mjs` | `node:test` wrapper; also checks the suite's own structural obligations (75 scripts, 103 letters, no unrealizable claim, every schedule waiver justified, every anchor argued for (D-F)) |
+| `VENDOR-FIXES.md` | triage of F1–F11 against the calculus-aligned build, the repairs made to it, and the residue (59/75 → 73/75) |
+| `DISTRIBUTED.md` | the two-node target on the fixed build: the three-way table, the distribution defects and their diagnosis, and the multi-process conformance verdict (70/75) |
+| `use-cordis-lib.mjs` | `--import` registrar that pins **every** `@deepseek-ai/cordis` in the process — including the bare specifier `cordis-node/lib/*` imports — to one build, so `PROOF_TARGET=cordis-node` can be run against a build other than the one in `cordis-node`'s `node_modules` |
+| `cordis-lib-hook.mjs` | the resolution hook it registers; reports every redirect and every leak |
+| `assert-build.mjs` | checks that the pin took: module graph, module identity, and two behaviours only the fixed build has, once per node |
+| `adapter-distributed-placed.mjs` | the placement control — the equivalence contract's degenerate single-block partition, `TSTAR_PLACEMENT=colocated` |
