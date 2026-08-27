@@ -1,0 +1,80 @@
+satisfied-by-installed-provider    kills M2 dependency-ordering-chain, M3 provider-identity-coherence, M5 confluence-across-histories, R4.3 satisfaction-counts-active-only, R6.1 divert-honors-target-change, R9.1 withdrawal-guard-orders-teardown, R9.2 recovery-exactness-on-deactivation, R3.1 removal-follows-inactivity
+begin-from-failed                  kills C3.2 isolation-label-join, R4.4 failure-latch-unchanged-env, R7.1 raise-recovers-then-latches, RU.1 update-restarts-with-new-config, R1.3 dynamic-provision-conflict-fails-offender
+accumulator-fifo                   kills R5.1 iteration-order-and-lifo-recovery
+no-commit-view                     kills C5.3 declared-inactive-access, R9.1 withdrawal-guard-orders-teardown, R3.1 removal-follows-inactivity
+divert-skips-recovery              kills R6.1 divert-honors-target-change
+raise-skips-recovery               kills R7.1 raise-recovers-then-latches, RU.1 update-restarts-with-new-config
+failed-still-provides              kills R7.1 raise-recovers-then-latches
+leave-keeps-providing              kills M2 dependency-ordering-chain, M3 provider-identity-coherence, M5 confluence-across-histories, R6.1 divert-honors-target-change, R9.1 withdrawal-guard-orders-teardown, R9.2 recovery-exactness-on-deactivation, R3.1 removal-follows-inactivity
+unload-without-guard               kills M2 dependency-ordering-chain, R9.1 withdrawal-guard-orders-teardown, R3.1 removal-follows-inactivity
+unload-clears-view-early           kills R8.1 leaving-provider-reads-own-deps, R9.1 withdrawal-guard-orders-teardown, R3.1 removal-follows-inactivity
+unload-skips-child-retire          kills R3.2 registration-cascade-recovers-children
+overwrite-tears-episode            kills C2.1 overwrite-observability-dichotomy
+proxy-no-ancestry                  kills C5.2 ancestry-authorized-access
+isolate-shared                     kills C3.1 isolation-independence
+intercept-outer-wins               kills C4.1 intercept-nearest-wins
+proxy-skips-inactive-check         kills C5.3 declared-inactive-access
+proxy-allows-undeclared            kills C5.1 undeclared-access-rejected
+guard-only-direct                  kills M2 dependency-ordering-chain, R9.1 withdrawal-guard-orders-teardown, R3.1 removal-follows-inactivity
+recovery-leaves-residue            kills R9.2 recovery-exactness-on-deactivation
+refresh-misses-pending             kills C2.1 overwrite-observability-dichotomy, C3.1 isolation-independence, C5.2 ancestry-authorized-access, M2 dependency-ordering-chain, M3 provider-identity-coherence, M5 confluence-across-histories, R4.2 provider-arrival-wakes-pending, R4.3 satisfaction-counts-active-only, R8.1 leaving-provider-reads-own-deps, R9.1 withdrawal-guard-orders-teardown, R9.2 recovery-exactness-on-deactivation, R3.1 removal-follows-inactivity
+update-keeps-stale-binding         kills RU.1 update-restarts-with-new-config
+
+(K1) every mutant killed:
+  all mutants killed
+
+(K2) exclusive killers per test:
+  C1.1 provision-value-operations  <=  (no exclusive killer)
+  C2.1 overwrite-observability-dichotomy  <=  overwrite-tears-episode
+  C3.1 isolation-independence  <=  isolate-shared
+  C3.2 isolation-label-join  <=  (no exclusive killer)
+  C4.1 intercept-nearest-wins  <=  intercept-outer-wins
+  C5.1 undeclared-access-rejected  <=  proxy-allows-undeclared
+  C5.2 ancestry-authorized-access  <=  proxy-no-ancestry
+  C5.3 declared-inactive-access  <=  proxy-skips-inactive-check
+  M1 interleaved-recovery-independence  <=  (no exclusive killer)
+  M2 dependency-ordering-chain  <=  (no exclusive killer)
+  M3 provider-identity-coherence  <=  (no exclusive killer)
+  M4 quiescence-on-unsatisfiable  <=  (no exclusive killer)
+  M5 confluence-across-histories  <=  (no exclusive killer)
+  R4.1 begin-requires-satisfaction  <=  (no exclusive killer)
+  R4.2 provider-arrival-wakes-pending  <=  (no exclusive killer)
+  R4.3 satisfaction-counts-active-only  <=  (no exclusive killer)
+  R4.4 failure-latch-unchanged-env  <=  (no exclusive killer)
+  R5.1 iteration-order-and-lifo-recovery  <=  accumulator-fifo
+  R6.1 divert-honors-target-change  <=  divert-skips-recovery
+  R7.1 raise-recovers-then-latches  <=  failed-still-provides
+  RU.1 update-restarts-with-new-config  <=  update-keeps-stale-binding
+  R8.1 leaving-provider-reads-own-deps  <=  (no exclusive killer)
+  R9.1 withdrawal-guard-orders-teardown  <=  (no exclusive killer)
+  R9.2 recovery-exactness-on-deactivation  <=  recovery-leaves-residue
+  R1.1 insert-activates-fresh  <=  (no exclusive killer)
+  R1.2 insert-under-removed-parent-rejected  <=  insert-allows-disposed-parent
+  R1.3 dynamic-provision-conflict-fails-offender  <=  (no exclusive killer)
+  R1.4 declared-provision-disjointness-at-insert  <=  insert-allows-duplicate-provider
+  R2.1 retire-runs-recovery  <=  (no exclusive killer)
+  R2.2 retire-pending-clean  <=  (no exclusive killer)
+  R3.1 removal-follows-inactivity  <=  (no exclusive killer)
+  R3.2 registration-cascade-recovers-children  <=  unload-skips-child-retire
+
+14/32 tests have an exclusive killer
+
+(K3) minimality:
+  REDUNDANT (all mutants still killed without it): C1.1 provision-value-operations
+  REDUNDANT (all mutants still killed without it): C3.2 isolation-label-join
+  REDUNDANT (all mutants still killed without it): M1 interleaved-recovery-independence
+  REDUNDANT (all mutants still killed without it): M2 dependency-ordering-chain
+  REDUNDANT (all mutants still killed without it): M3 provider-identity-coherence
+  REDUNDANT (all mutants still killed without it): M4 quiescence-on-unsatisfiable
+  REDUNDANT (all mutants still killed without it): M5 confluence-across-histories
+  REDUNDANT (all mutants still killed without it): R4.1 begin-requires-satisfaction
+  REDUNDANT (all mutants still killed without it): R4.2 provider-arrival-wakes-pending
+  REDUNDANT (all mutants still killed without it): R4.3 satisfaction-counts-active-only
+  REDUNDANT (all mutants still killed without it): R4.4 failure-latch-unchanged-env
+  REDUNDANT (all mutants still killed without it): R8.1 leaving-provider-reads-own-deps
+  REDUNDANT (all mutants still killed without it): R9.1 withdrawal-guard-orders-teardown
+  REDUNDANT (all mutants still killed without it): R1.1 insert-activates-fresh
+  REDUNDANT (all mutants still killed without it): R1.3 dynamic-provision-conflict-fails-offender
+  REDUNDANT (all mutants still killed without it): R2.1 retire-runs-recovery
+  REDUNDANT (all mutants still killed without it): R2.2 retire-pending-clean
+  REDUNDANT (all mutants still killed without it): R3.1 removal-follows-inactivity

@@ -1,0 +1,32 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["96edb3c38f20493b.olean"],
+  "m": false,
+  "i": "ccb7e7fe66d89821.ilean",
+  "c": "d2eb10e71f02dc78.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean /home/rebuilding/.elan/toolchains/leanprover--lean4---v4.33.1/bin/lean /home/rebuilding/Studio/cordis-dev/paper/formal/lean/Bounded/Enum.lean -o /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Enum.olean -i /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Enum.ilean -c /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Enum.c --setup /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Enum.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["deps",
+   [["bounded/Bounded:extraDep", [["@bounded:extraDep", "00000000000006bb"]]],
+    ["imports",
+     [["Bounded.SigDec transitive imports (legacy)", "10c8a277f0dffebc"],
+      ["Bounded.SigDec:importAllArts", "b292b3ff832d94ab"]]]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.33.1, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6",
+   "0051240b7c23c453"],
+  ["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/Bounded/Enum.lean",
+   "e0443ce8939642bf"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Bounded.Enum", "cc450e942c0ea028"],
+  ["Package.id?: (some bounded)", "bcca062df1950e17"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "9b4b1af8406ba698"}

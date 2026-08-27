@@ -1,0 +1,30 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs":
+ {"o": ["c594a422474d835d.olean"],
+  "m": false,
+  "i": "7ea4b41e156c6fcc.ilean",
+  "c": "279256414ad992ea.c"},
+ "log":
+ [{"message":
+   ".> LEAN_PATH=/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean /home/rebuilding/.elan/toolchains/leanprover--lean4---v4.33.1/bin/lean /home/rebuilding/Studio/cordis-dev/paper/formal/lean/Bounded/Basic.lean -o /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Basic.olean -i /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Basic.ilean -c /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Basic.c --setup /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Basic.setup.json --json",
+   "level": "trace"}],
+ "inputs":
+ [["deps",
+   [["bounded/Bounded:extraDep", [["@bounded:extraDep", "00000000000006bb"]]],
+    ["imports", "00000000000006bb"]]],
+  ["libs",
+   [["import dynlibs", "00000000000006bb"],
+    ["package external libraries", "00000000000006bb"],
+    ["module dynlibs", "00000000000006bb"],
+    ["module plugins", "00000000000006bb"]]],
+  ["Lean 4.33.1, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6",
+   "0051240b7c23c453"],
+  ["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/Bounded/Basic.lean",
+   "b634d273d354926e"],
+  ["options", "00000000000006bb"],
+  ["isModule: false", "feefd2a0d3a1847e"],
+  ["Module.name: Bounded.Basic", "71553cc5b04fe489"],
+  ["Package.id?: (some bounded)", "bcca062df1950e17"],
+  ["Module.leanArgs: #[]", "00000000000006bb"]],
+ "depHash": "1f35dcf536a944e6"}

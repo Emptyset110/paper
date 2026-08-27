@@ -1,0 +1,490 @@
+{
+ "R1.1 insert-activates-fresh": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 1
+  }
+ },
+ "R1.2 insert-under-removed-parent-rejected": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Finish fired {acc:[\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 1,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1,
+   "O-Insert refused {declaredConflict:false,parent:\"removed\",realm:\"root\"}": 1
+  }
+ },
+ "R1.3 dynamic-provision-conflict-fails-offender": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 5,
+   "L-Raise fired {acc:[],stepClass:\"provide-conflict\"}": 1,
+   "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}": 1,
+   "L-Begin disabled {outcome:\"xi\",retired:false}": 1
+  }
+ },
+ "R1.4 declared-provision-disjointness-at-insert": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 1,
+   "O-Insert refused {declaredConflict:true,parent:\"root\",realm:\"root\"}": 1
+  }
+ },
+ "R2.1 retire-runs-recovery": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 2,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 1,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "R2.2 retire-pending-clean": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 1,
+   "O-Retire fired {again:false,stateClass:\"pending\"}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "R3.1 removal-follows-inactivity": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 5,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track-rrev\"}": 1,
+   "L-Finish fired {acc:[\"rrev\"]}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 2,
+   "L-Unload disabled {acc:[\"provide\",\"track\"],outcome:\"bot\",relied:true,retired:true}": 2,
+   "A-Read fired {cls:\"committed-self\"}": 1,
+   "L-Unload fired {acc:[\"rrev\"],obs:[\"rrev\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 2,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "R3.2 registration-cascade-recovers-children": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"track\"}": 2,
+   "O-Insert fired {declaredConflict:false,parent:\"live\",realm:\"root\"}": 1,
+   "L-Iter fired {stepClass:\"register\"}": 1,
+   "L-Finish fired {acc:[\"retire\",\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 5,
+   "L-Finish fired {acc:[\"track\"]}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 2,
+   "L-Leave fired {trigger:\"target-bot\"}": 2,
+   "L-Unload fired {acc:[\"retire\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 5,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "O-Remove disabled {hasChild:true,stateClass:\"inactive\"}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 2
+  }
+ },
+ "R4.1 begin-requires-satisfaction": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 1
+  }
+ },
+ "R4.2 provider-arrival-wakes-pending": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 4,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Finish fired {acc:[\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 2
+  }
+ },
+ "R4.3 satisfaction-counts-active-only": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 3,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 5,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "L-Finish fired {acc:[\"track\"]}": 1
+  }
+ },
+ "R4.4 failure-latch-unchanged-env": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}": 1,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}": 1,
+   "L-Begin disabled {outcome:\"xi\",retired:false}": 1
+  }
+ },
+ "R5.1 iteration-order-and-lifo-recovery": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 3,
+   "L-Finish fired {acc:[\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 1,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "R6.1 divert-honors-target-change": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 3,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 1,
+   "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:true}": 2,
+   "L-Divert fired {acc:[\"track\"],trigger:\"target-bot\"}": 1,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 2,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "R7.1 raise-recovers-then-latches": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Raise fired {acc:[\"provide\",\"track\"],stepClass:\"raise\"}": 1,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}": 1,
+   "L-Begin disabled {outcome:\"xi\",retired:false}": 1
+  }
+ },
+ "RU.1 update-restarts-with-new-config": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 3,
+   "L-Iter fired {stepClass:\"track\"}": 3,
+   "L-Raise fired {acc:[\"track\"],stepClass:\"flag-fail\"}": 1,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}": 1,
+   "L-Begin disabled {outcome:\"xi\",retired:false}": 1,
+   "O-Update fired {installed:false,outcome:\"xi\",stateClass:\"failed\"}": 1,
+   "L-Iter fired {stepClass:\"flag-pass\"}": 2,
+   "L-Finish fired {acc:[\"track\"]}": 2,
+   "L-Leave disabled {trigger:\"view-stable\"}": 2,
+   "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"stale\"}": 1,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}": 1
+  }
+ },
+ "R8.1 leaving-provider-reads-own-deps": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 2,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 10,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track-rrev\"}": 1,
+   "L-Finish fired {acc:[\"provide\",\"rrev\"]}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 1,
+   "A-Read fired {cls:\"committed-self\"}": 1,
+   "L-Unload fired {acc:[\"provide\",\"rrev\"],obs:[\"rrev\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "R9.1 withdrawal-guard-orders-teardown": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 5,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track-rrev\"}": 1,
+   "L-Finish fired {acc:[\"rrev\"]}": 1,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 2,
+   "L-Unload disabled {acc:[\"provide\",\"track\"],outcome:\"bot\",relied:true,retired:true}": 2,
+   "A-Read fired {cls:\"committed-self\"}": 1,
+   "L-Unload fired {acc:[\"rrev\"],obs:[\"rrev\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 2,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "R9.2 recovery-exactness-on-deactivation": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 3,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 4,
+   "L-Finish fired {acc:[\"provide\"]}": 2,
+   "L-Leave disabled {trigger:\"view-stable\"}": 8,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"track\"}": 2,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 2,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 2,
+   "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:true}": 2,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 5,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "C1.1 provision-value-operations": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 2,
+   "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:false}": 1
+  }
+ },
+ "C2.1 overwrite-observability-dichotomy": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 7,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Finish fired {acc:[\"track\"]}": 1,
+   "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"active\",valueEq:false}": 1
+  }
+ },
+ "C3.1 isolation-independence": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"isolated\"}": 2,
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 2,
+   "L-Finish fired {acc:[\"provide\"]}": 2,
+   "L-Leave disabled {trigger:\"view-stable\"}": 22,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 2,
+   "A-Read fired {cls:\"committed-self\"}": 2,
+   "L-Iter fired {stepClass:\"read-committed-self\"}": 2,
+   "L-Finish fired {acc:[]}": 2
+  }
+ },
+ "C3.2 isolation-label-join": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"isolated\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 5,
+   "L-Raise fired {acc:[],stepClass:\"provide-conflict\"}": 1,
+   "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}": 1,
+   "L-Begin disabled {outcome:\"xi\",retired:false}": 1
+  }
+ },
+ "C4.1 intercept-nearest-wins": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 1,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"track\"}": 1,
+   "L-Finish fired {acc:[\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 1,
+   "A-Intercept fired {entries:2}": 1
+  }
+ },
+ "C5.1 undeclared-access-rejected": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 5,
+   "A-Read fired {cls:\"undeclared-p\"}": 1,
+   "L-Iter fired {stepClass:\"read-undeclared-p\"}": 1,
+   "L-Finish fired {acc:[]}": 1
+  }
+ },
+ "C5.2 ancestry-authorized-access": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 12,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 1,
+   "O-Insert fired {declaredConflict:false,parent:\"live\",realm:\"root\"}": 1,
+   "L-Iter fired {stepClass:\"register\"}": 1,
+   "L-Finish fired {acc:[\"retire\"]}": 1,
+   "A-Read fired {cls:\"committed-ancestor\"}": 1,
+   "L-Iter fired {stepClass:\"read-committed-ancestor\"}": 1,
+   "L-Finish fired {acc:[]}": 1
+  }
+ },
+ "C5.3 declared-inactive-access": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 1,
+   "L-Finish fired {acc:[\"provide\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 1,
+   "L-Begin disabled {inject:[\"provided\",\"unprovided\"],outcome:\"bot\",retired:false}": 1,
+   "A-Read fired {cls:\"inactive-declared-p\"}": 1
+  }
+ },
+ "M1 interleaved-recovery-independence": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 2,
+   "L-Iter fired {stepClass:\"track\"}": 2,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 2,
+   "L-Leave disabled {trigger:\"view-stable\"}": 8,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 2,
+   "L-Leave fired {trigger:\"target-bot\"}": 2,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 2,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 2,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 2
+  }
+ },
+ "M2 dependency-ordering-chain": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 3,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 19,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 1,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 2,
+   "L-Iter fired {stepClass:\"track\"}": 3,
+   "L-Finish fired {acc:[\"provide\",\"track\"]}": 2,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 2,
+   "L-Finish fired {acc:[\"track\"]}": 1,
+   "L-Leave disabled {trigger:\"view-stable\"}": 6,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 3,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "M3 provider-identity-coherence": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 3,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 2,
+   "L-Finish fired {acc:[\"provide\"]}": 2,
+   "L-Leave disabled {trigger:\"view-stable\"}": 8,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 2,
+   "L-Iter fired {stepClass:\"track\"}": 2,
+   "A-Read fired {cls:\"committed-self\"}": 2,
+   "L-Iter fired {stepClass:\"read-committed-self\"}": 2,
+   "L-Finish fired {acc:[\"track\"]}": 2,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 2,
+   "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:true}": 2,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 5,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ },
+ "M4 quiescence-on-unsatisfiable": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 2,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 2
+  }
+ },
+ "M5 confluence-across-histories": {
+  "passed": true,
+  "sigs": {
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}": 10,
+   "L-Begin fired {inject:[],outcome:\"bot\"}": 3,
+   "L-Iter fired {stepClass:\"provide-fresh\"}": 7,
+   "L-Finish fired {acc:[\"provide\"]}": 7,
+   "L-Leave disabled {trigger:\"view-stable\"}": 42,
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}": 8,
+   "L-Iter fired {stepClass:\"track\"}": 4,
+   "L-Finish fired {acc:[\"track\"]}": 4,
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}": 14,
+   "O-Retire fired {again:false,stateClass:\"active\"}": 1,
+   "L-Leave fired {trigger:\"target-bot\"}": 2,
+   "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:true}": 2,
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}": 1,
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}": 1,
+   "L-Begin disabled {outcome:\"bot\",retired:true}": 1,
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}": 1
+  }
+ }
+}

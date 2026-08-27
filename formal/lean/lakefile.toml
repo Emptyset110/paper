@@ -1,0 +1,11 @@
+name = "bounded"
+version = "0.1.0"
+defaultTargets = ["Bounded"]
+
+[[lean_lib]]
+name = "Bounded"
+
+[[lean_exe]]
+name = "probe"
+srcDir = "probe"
+root = "Main"

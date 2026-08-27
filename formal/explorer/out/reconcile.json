@@ -1,0 +1,543 @@
+{
+ "files": [
+  "out/signatures-A2c.json",
+  "out/signatures-dep3.json",
+  "out/signatures-fail3.json",
+  "out/signatures-regA.json",
+  "out/signatures-regB.json",
+  "out/signatures-A1.json",
+  "out/signatures-A2w.json",
+  "out/signatures-A3c.json"
+ ],
+ "reachableTuples": 146,
+ "projectedClasses": 74,
+ "uncoveredTuples": 93,
+ "uncoveredProjected": 29,
+ "projectedUncoveredList": [
+  "A-Set refused {P4}",
+  "L-Begin disabled {B2,B4}",
+  "L-Divert fired {D1,D5,V5@divert*}",
+  "L-Iter fired {T1,T2,T9}",
+  "L-Raise fired {X1,X2,X7}",
+  "L-Raise fired {X1,X3,X6}",
+  "L-Raise fired {X1,X5,X6}",
+  "L-Unload fired {U1,U10,U3,U7}",
+  "L-Unload fired {U1,U10,U3,U8}",
+  "L-Unload fired {U1,U10,U3,U9}",
+  "L-Unload fired {U1,U10,U4,U5}",
+  "L-Unload fired {U1,U10,U4,U6}",
+  "L-Unload fired {U1,U10,U4,U9}",
+  "L-Unload fired {U1,U11,U3,U5}",
+  "L-Unload fired {U1,U11,U3,U7}",
+  "L-Unload fired {U1,U11,U3,U9}",
+  "L-Unload fired {U1,U11,U4,U9}",
+  "L-Unload fired {U1,U12,U3,U5,U6}",
+  "L-Unload fired {U1,U12,U3,U5}",
+  "L-Unload fired {U1,U12,U3,U7}",
+  "L-Unload fired {U1,U12,U3,U8}",
+  "L-Unload fired {U1,U12,U3,U9}",
+  "L-Unload fired {U1,U12,U4,U5}",
+  "O-Insert fired {I2,I4,I6,S2|S3}",
+  "O-Remove disabled {M5,M6}",
+  "O-Remove disabled {M5,M7}",
+  "O-Remove fired {M1,M4,M6}",
+  "O-Retire fired {R3}",
+  "O-Retire fired {R4}"
+ ],
+ "witnessedSeparately": [
+  "A1",
+  "A2",
+  "B1",
+  "B2",
+  "B3",
+  "B4",
+  "B5",
+  "B7",
+  "D1",
+  "D5",
+  "F1",
+  "F2",
+  "F3",
+  "I1",
+  "I2",
+  "I4",
+  "I6",
+  "I7",
+  "M1",
+  "M3",
+  "M4",
+  "M5",
+  "M6",
+  "M7",
+  "P1",
+  "P2",
+  "P3",
+  "P4",
+  "P5",
+  "P6",
+  "R1",
+  "R2",
+  "R3",
+  "R4",
+  "S1",
+  "T1",
+  "T10",
+  "T11",
+  "T2",
+  "T3",
+  "T4",
+  "T5",
+  "T6",
+  "T8",
+  "T9",
+  "U1",
+  "U10",
+  "U11",
+  "U12",
+  "U2",
+  "U3",
+  "U4",
+  "U5",
+  "U6",
+  "U7",
+  "U8",
+  "U9",
+  "V1",
+  "V5",
+  "X1",
+  "X2",
+  "X3",
+  "X4",
+  "X5",
+  "X6",
+  "X7",
+  "X8"
+ ],
+ "witnessedConflatedOnly": [
+  "D3",
+  "D4",
+  "V3",
+  "V4",
+  "S2",
+  "S3",
+  "A5",
+  "A6"
+ ],
+ "missingLetters": [
+  "I3",
+  "I5",
+  "M2",
+  "B6",
+  "T7",
+  "D2",
+  "D6",
+  "X9",
+  "V2",
+  "S4",
+  "N1",
+  "N2",
+  "N3",
+  "N4",
+  "A3",
+  "A4",
+  "A7"
+ ],
+ "unrealizableWitnessed": [],
+ "unrealizableConflated": [],
+ "ledger": {
+  "d1LettersTotal": 92,
+  "d1Unrealizable": 6,
+  "d1Reachable": 86,
+  "witnessedInGraph": 75,
+  "unwitnessedInGraph": 11,
+  "codaCovered": [
+   "I3",
+   "N4"
+  ],
+  "expectedAbsent": [
+   "B6",
+   "T7"
+  ],
+  "genuineGaps": [
+   "M2",
+   "X9",
+   "S4",
+   "N1",
+   "N2",
+   "N3",
+   "A3"
+  ]
+ },
+ "fibreSizes": {
+  "O-Insert fired {I2,I4,I6,S2|S3}": 2,
+  "O-Insert fired {I2,I4,I6,S1}": 2,
+  "O-Insert fired {I1,I4,I6,S2|S3}": 1,
+  "O-Insert fired {I1,I4,I6,S1}": 1,
+  "O-Insert refused {I1,I4,I7,S1}": 1,
+  "O-Retire fired {R2}": 6,
+  "O-Retire fired {R3}": 1,
+  "O-Retire fired {R1}": 2,
+  "O-Retire fired {R4}": 1,
+  "O-Remove disabled {M5,M6}": 3,
+  "O-Remove disabled {M5,M7}": 3,
+  "O-Remove disabled {M3,M7}": 1,
+  "O-Remove fired {M1,M3,M6}": 1,
+  "O-Remove fired {M1,M4,M6}": 1,
+  "L-Begin disabled {B1,B3,B5,B7}": 1,
+  "L-Begin disabled {B1,B3,B7}": 1,
+  "L-Begin disabled {B1,B4}": 1,
+  "L-Begin disabled {B2,B3}": 1,
+  "L-Begin disabled {B2,B4}": 1,
+  "L-Begin fired {B1,B3,B5}": 1,
+  "L-Begin fired {B1,B3}": 1,
+  "L-Iter fired {P1,T1,T2,T3}": 1,
+  "L-Iter fired {P5,T1,T2,T6}": 1,
+  "L-Iter fired {P5,T1,T2,T5}": 1,
+  "L-Iter fired {P6,T1,T2,T8}": 2,
+  "L-Iter fired {T1,T10,T2}": 1,
+  "L-Iter fired {T1,T2,T9}": 2,
+  "L-Iter fired {T1,T2,T4}": 2,
+  "L-Raise fired {X1,X2,X7}": 1,
+  "L-Raise fired {X1,X2,X8}": 1,
+  "L-Raise fired {X1,X3,X6}": 1,
+  "L-Raise fired {P2,X1,X4,X6}": 1,
+  "L-Raise fired {X1,X5,X6}": 1,
+  "L-Finish fired {F1,F3}": 5,
+  "L-Finish fired {F2,F3}": 1,
+  "L-Divert fired {D1,D3|D4,D5}": 6,
+  "L-Leave disabled {V1-disabled*}": 1,
+  "L-Leave fired {V1,V3|V4}": 1,
+  "L-Unload disabled {U2,U3,U5,U6}": 2,
+  "L-Unload disabled {U2,U3,U5}": 2,
+  "L-Unload fired {U1,U11,U3,U5,U6}": 1,
+  "L-Unload fired {U1,U10,U3,U5,U6}": 1,
+  "L-Unload fired {U1,U11,U3,U5}": 1,
+  "L-Unload fired {U1,U10,U3,U5}": 1,
+  "L-Unload fired {U1,U10,U4,U5}": 1,
+  "L-Unload fired {U1,U12,U4,U5}": 1,
+  "L-Unload fired {U1,U11,U3,U7}": 1,
+  "L-Unload fired {U1,U10,U3,U7}": 1,
+  "L-Unload fired {U1,U11,U3,U8}": 1,
+  "L-Unload fired {U1,U10,U3,U8}": 1,
+  "L-Unload fired {U1,U10,U3,U6}": 2,
+  "L-Unload fired {U1,U11,U3,U6}": 1,
+  "L-Unload fired {U1,U10,U4,U6}": 1,
+  "L-Unload fired {U1,U12,U4,U6}": 1,
+  "L-Unload fired {U1,U11,U3,U9}": 1,
+  "L-Unload fired {U1,U10,U3,U9}": 1,
+  "L-Unload fired {U1,U10,U4,U9}": 1,
+  "L-Unload fired {U1,U12,U4,U9}": 1,
+  "A-Read fired {A2,P5}": 1,
+  "A-Read fired {A1,P5}": 1,
+  "A-Read fired {A5|A6,P6}": 2,
+  "O-Update fired {V5}": 6,
+  "L-Divert fired {D1,D5,V5@divert*}": 6,
+  "L-Leave fired {V1,V5}": 1,
+  "L-Unload fired {U1,U12,U3,U5,U6}": 1,
+  "L-Unload fired {U1,U12,U3,U5}": 1,
+  "L-Unload fired {U1,U12,U3,U8}": 1,
+  "L-Unload fired {U1,U12,U3,U6}": 2,
+  "L-Unload fired {U1,U12,U3,U9}": 1,
+  "L-Unload fired {U1,U11,U4,U9}": 1,
+  "A-Set fired {P3}": 30,
+  "A-Set refused {P4}": 5,
+  "L-Unload fired {U1,U12,U3,U7}": 1,
+  "L-Iter fired {T1,T11,T2}": 1
+ },
+ "fibres": {
+  "O-Insert fired {I2,I4,I6,S2|S3}": [
+   "O-Insert fired {declaredConflict:false,parent:\"live\",realm:\"isolated\"}",
+   "O-Insert fired {declaredConflict:false,parent:\"retired\",realm:\"isolated\"}"
+  ],
+  "O-Insert fired {I2,I4,I6,S1}": [
+   "O-Insert fired {declaredConflict:false,parent:\"live\",realm:\"root\"}",
+   "O-Insert fired {declaredConflict:false,parent:\"retired\",realm:\"root\"}"
+  ],
+  "O-Insert fired {I1,I4,I6,S2|S3}": [
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"isolated\"}"
+  ],
+  "O-Insert fired {I1,I4,I6,S1}": [
+   "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+  ],
+  "O-Insert refused {I1,I4,I7,S1}": [
+   "O-Insert refused {declaredConflict:true,parent:\"root\",realm:\"root\"}"
+  ],
+  "O-Retire fired {R2}": [
+   "O-Retire fired {again:false,stateClass:\"active\"}",
+   "O-Retire fired {again:false,stateClass:\"loading\"}",
+   "O-Retire fired {again:false,stateClass:\"unloading\"}",
+   "O-Retire fired {again:true,stateClass:\"active\"}",
+   "O-Retire fired {again:true,stateClass:\"loading\"}",
+   "O-Retire fired {again:true,stateClass:\"unloading\"}"
+  ],
+  "O-Retire fired {R3}": [
+   "O-Retire fired {again:false,stateClass:\"failed\"}"
+  ],
+  "O-Retire fired {R1}": [
+   "O-Retire fired {again:false,stateClass:\"pending\"}",
+   "O-Retire fired {again:true,stateClass:\"pending\"}"
+  ],
+  "O-Retire fired {R4}": [
+   "O-Retire fired {again:true,stateClass:\"disposed\"}"
+  ],
+  "O-Remove disabled {M5,M6}": [
+   "O-Remove disabled {hasChild:false,stateClass:\"active\"}",
+   "O-Remove disabled {hasChild:false,stateClass:\"reloading\"}",
+   "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}"
+  ],
+  "O-Remove disabled {M5,M7}": [
+   "O-Remove disabled {hasChild:true,stateClass:\"active\"}",
+   "O-Remove disabled {hasChild:true,stateClass:\"reloading\"}",
+   "O-Remove disabled {hasChild:true,stateClass:\"unloading\"}"
+  ],
+  "O-Remove disabled {M3,M7}": [
+   "O-Remove disabled {hasChild:true,stateClass:\"inactive\"}"
+  ],
+  "O-Remove fired {M1,M3,M6}": [
+   "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+  ],
+  "O-Remove fired {M1,M4,M6}": [
+   "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+  ],
+  "L-Begin disabled {B1,B3,B5,B7}": [
+   "L-Begin disabled {inject:[\"provided\",\"unprovided\"],outcome:\"bot\",retired:false}"
+  ],
+  "L-Begin disabled {B1,B3,B7}": [
+   "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}"
+  ],
+  "L-Begin disabled {B1,B4}": [
+   "L-Begin disabled {outcome:\"bot\",retired:true}"
+  ],
+  "L-Begin disabled {B2,B3}": [
+   "L-Begin disabled {outcome:\"xi\",retired:false}"
+  ],
+  "L-Begin disabled {B2,B4}": [
+   "L-Begin disabled {outcome:\"xi\",retired:true}"
+  ],
+  "L-Begin fired {B1,B3,B5}": [
+   "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}"
+  ],
+  "L-Begin fired {B1,B3}": [
+   "L-Begin fired {inject:[],outcome:\"bot\"}"
+  ],
+  "L-Iter fired {P1,T1,T2,T3}": [
+   "L-Iter fired {stepClass:\"provide-fresh\"}"
+  ],
+  "L-Iter fired {P5,T1,T2,T6}": [
+   "L-Iter fired {stepClass:\"read-committed-ancestor\"}"
+  ],
+  "L-Iter fired {P5,T1,T2,T5}": [
+   "L-Iter fired {stepClass:\"read-committed-self\"}"
+  ],
+  "L-Iter fired {P6,T1,T2,T8}": [
+   "L-Iter fired {stepClass:\"read-undeclared-np\"}",
+   "L-Iter fired {stepClass:\"read-undeclared-p\"}"
+  ],
+  "L-Iter fired {T1,T10,T2}": [
+   "L-Iter fired {stepClass:\"register\"}"
+  ],
+  "L-Iter fired {T1,T2,T9}": [
+   "L-Iter fired {stepClass:\"setval-own-eq\"}",
+   "L-Iter fired {stepClass:\"setval-own-neq\"}"
+  ],
+  "L-Iter fired {T1,T2,T4}": [
+   "L-Iter fired {stepClass:\"track\"}",
+   "L-Iter fired {stepClass:\"track-rrev\"}"
+  ],
+  "L-Raise fired {X1,X2,X7}": [
+   "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}"
+  ],
+  "L-Raise fired {X1,X2,X8}": [
+   "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}"
+  ],
+  "L-Raise fired {X1,X3,X6}": [
+   "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+  ],
+  "L-Raise fired {P2,X1,X4,X6}": [
+   "L-Raise fired {acc:[],stepClass:\"provide-conflict\"}"
+  ],
+  "L-Raise fired {X1,X5,X6}": [
+   "L-Raise fired {acc:[],stepClass:\"setval-foreign\"}"
+  ],
+  "L-Finish fired {F1,F3}": [
+   "L-Finish fired {acc:[\"provide\",\"track\"]}",
+   "L-Finish fired {acc:[\"provide\"]}",
+   "L-Finish fired {acc:[\"retire\"]}",
+   "L-Finish fired {acc:[\"rrev\"]}",
+   "L-Finish fired {acc:[\"track\"]}"
+  ],
+  "L-Finish fired {F2,F3}": [
+   "L-Finish fired {acc:[]}"
+  ],
+  "L-Divert fired {D1,D3|D4,D5}": [
+   "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"target-bot\"}",
+   "L-Divert fired {acc:[\"provide\"],trigger:\"target-bot\"}",
+   "L-Divert fired {acc:[\"retire\"],trigger:\"target-bot\"}",
+   "L-Divert fired {acc:[\"rrev\"],trigger:\"target-bot\"}",
+   "L-Divert fired {acc:[\"track\"],trigger:\"target-bot\"}",
+   "L-Divert fired {acc:[],trigger:\"target-bot\"}"
+  ],
+  "L-Leave disabled {V1-disabled*}": [
+   "L-Leave disabled {trigger:\"view-stable\"}"
+  ],
+  "L-Leave fired {V1,V3|V4}": [
+   "L-Leave fired {trigger:\"target-bot\"}"
+  ],
+  "L-Unload disabled {U2,U3,U5,U6}": [
+   "L-Unload disabled {acc:[\"provide\",\"track\"],outcome:\"bot\",relied:true,retired:true}",
+   "L-Unload disabled {acc:[\"provide\",\"track\"],outcome:\"bot\",relied:true,retired:false}"
+  ],
+  "L-Unload disabled {U2,U3,U5}": [
+   "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:true}",
+   "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:false}"
+  ],
+  "L-Unload fired {U1,U11,U3,U5,U6}": [
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U10,U3,U5,U6}": [
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U11,U3,U5}": [
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U10,U3,U5}": [
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U10,U4,U5}": [
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U12,U4,U5}": [
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U11,U3,U7}": [
+   "L-Unload fired {acc:[\"retire\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U10,U3,U7}": [
+   "L-Unload fired {acc:[\"retire\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U11,U3,U8}": [
+   "L-Unload fired {acc:[\"rrev\"],obs:[\"rrev\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U10,U3,U8}": [
+   "L-Unload fired {acc:[\"rrev\"],obs:[\"rrev\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U10,U3,U6}": [
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U11,U3,U6}": [
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U10,U4,U6}": [
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U12,U4,U6}": [
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U11,U3,U9}": [
+   "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U10,U3,U9}": [
+   "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U10,U4,U9}": [
+   "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}"
+  ],
+  "L-Unload fired {U1,U12,U4,U9}": [
+   "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "A-Read fired {A2,P5}": [
+   "A-Read fired {cls:\"committed-ancestor\"}"
+  ],
+  "A-Read fired {A1,P5}": [
+   "A-Read fired {cls:\"committed-self\"}"
+  ],
+  "A-Read fired {A5|A6,P6}": [
+   "A-Read fired {cls:\"undeclared-np\"}",
+   "A-Read fired {cls:\"undeclared-p\"}"
+  ],
+  "O-Update fired {V5}": [
+   "O-Update fired {installed:false,outcome:\"bot\",stateClass:\"pending\"}",
+   "O-Update fired {installed:false,outcome:\"xi\",stateClass:\"failed\"}",
+   "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"active\"}",
+   "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}",
+   "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"unloading\"}",
+   "O-Update fired {installed:true,outcome:\"xi\",stateClass:\"unloading\"}"
+  ],
+  "L-Divert fired {D1,D5,V5@divert*}": [
+   "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"stale\"}",
+   "L-Divert fired {acc:[\"provide\"],trigger:\"stale\"}",
+   "L-Divert fired {acc:[\"rrev\"],trigger:\"stale\"}",
+   "L-Divert fired {acc:[\"track\"],trigger:\"stale\"}",
+   "L-Divert fired {acc:[],trigger:\"stale\"}",
+   "L-Divert fired {acc:[\"retire\"],trigger:\"stale\"}"
+  ],
+  "L-Leave fired {V1,V5}": [
+   "L-Leave fired {trigger:\"stale\"}"
+  ],
+  "L-Unload fired {U1,U12,U3,U5,U6}": [
+   "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U12,U3,U5}": [
+   "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U12,U3,U8}": [
+   "L-Unload fired {acc:[\"rrev\"],obs:[\"rrev\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U12,U3,U6}": [
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+   "L-Unload fired {acc:[\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U12,U3,U9}": [
+   "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Unload fired {U1,U11,U4,U9}": [
+   "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:false}"
+  ],
+  "A-Set fired {P3}": [
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"active\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"active\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"unloading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"unloading\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"active\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"active\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"unloading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"unloading\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"active\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"active\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"unloading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"unloading\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"active\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"active\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"unloading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"unloading\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"active\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"active\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"unloading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"unloading\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"active\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"active\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"unloading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"unloading\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:true}",
+   "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:false}",
+   "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:true}"
+  ],
+  "A-Set refused {P4}": [
+   "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"active\"}",
+   "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"failed\"}",
+   "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"loading\"}",
+   "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"pending\"}",
+   "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"unloading\"}"
+  ],
+  "L-Unload fired {U1,U12,U3,U7}": [
+   "L-Unload fired {acc:[\"retire\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+  ],
+  "L-Iter fired {T1,T11,T2}": [
+   "L-Iter fired {stepClass:\"flag-pass\"}"
+  ]
+ }
+}

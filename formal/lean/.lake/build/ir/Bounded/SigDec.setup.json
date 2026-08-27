@@ -1,0 +1,13 @@
+{"plugins": [],
+ "package": "bounded",
+ "options": {},
+ "name": "Bounded.SigDec",
+ "isModule": false,
+ "importArts":
+ {"Bounded.Perm":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Perm.olean"]],
+  "Bounded.Calc":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Calc.olean"]],
+  "Bounded.Basic":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Basic.olean"]]},
+ "dynlibs": []}

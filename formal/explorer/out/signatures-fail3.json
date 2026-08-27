@@ -1,0 +1,1150 @@
+{
+ "tag": "fail3",
+ "options": {
+  "maxFibers": 3,
+  "shapes": "P,FP,C",
+  "isolate": true,
+  "childInserts": true,
+  "updates": true,
+  "setowns": true,
+  "maxStates": 900000,
+  "timeBudgetMs": 1500000
+ },
+ "stats": {
+  "normalizedStates": 688484,
+  "expandedStates": 688484,
+  "edges": 6943826,
+  "refusalEdges": 1255740,
+  "quiescentStates": 729,
+  "internalCycle": false,
+  "truncated": false,
+  "wallClockMs": 280314
+ },
+ "rules": {
+  "O-Insert": [
+   {
+    "sig": "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"isolated\"}",
+    "decision": "fired",
+    "fields": {
+     "parent": "root",
+     "declaredConflict": false,
+     "realm": "isolated"
+    },
+    "depth": 0,
+    "count": 14251
+   },
+   {
+    "sig": "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}",
+    "decision": "fired",
+    "fields": {
+     "parent": "root",
+     "declaredConflict": false,
+     "realm": "root"
+    },
+    "depth": 0,
+    "count": 42753
+   }
+  ],
+  "O-Retire": [
+   {
+    "sig": "O-Retire fired {again:false,stateClass:\"active\"}",
+    "decision": "fired",
+    "fields": {
+     "stateClass": "active",
+     "again": false
+    },
+    "depth": 4,
+    "count": 124422
+   },
+   {
+    "sig": "O-Retire fired {again:false,stateClass:\"failed\"}",
+    "decision": "fired",
+    "fields": {
+     "stateClass": "failed",
+     "again": false
+    },
+    "depth": 5,
+    "count": 85488
+   },
+   {
+    "sig": "O-Retire fired {again:false,stateClass:\"loading\"}",
+    "decision": "fired",
+    "fields": {
+     "stateClass": "loading",
+     "again": false
+    },
+    "depth": 2,
+    "count": 279162
+   },
+   {
+    "sig": "O-Retire fired {again:false,stateClass:\"pending\"}",
+    "decision": "fired",
+    "fields": {
+     "stateClass": "pending",
+     "again": false
+    },
+    "depth": 1,
+    "count": 172908
+   },
+   {
+    "sig": "O-Retire fired {again:false,stateClass:\"unloading\"}",
+    "decision": "fired",
+    "fields": {
+     "stateClass": "unloading",
+     "again": false
+    },
+    "depth": 4,
+    "count": 314528
+   }
+  ],
+  "O-Remove": [
+   {
+    "sig": "O-Remove disabled {hasChild:false,stateClass:\"active\"}",
+    "decision": "disabled",
+    "fields": {
+     "stateClass": "active",
+     "hasChild": false
+    },
+    "depth": 5,
+    "count": 124422
+   },
+   {
+    "sig": "O-Remove disabled {hasChild:false,stateClass:\"reloading\"}",
+    "decision": "disabled",
+    "fields": {
+     "stateClass": "reloading",
+     "hasChild": false
+    },
+    "depth": 3,
+    "count": 279162
+   },
+   {
+    "sig": "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+    "decision": "disabled",
+    "fields": {
+     "stateClass": "unloading",
+     "hasChild": false
+    },
+    "depth": 4,
+    "count": 412532
+   },
+   {
+    "sig": "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}",
+    "decision": "fired",
+    "fields": {
+     "stateClass": "inactive",
+     "outcome": "bot"
+    },
+    "depth": 2,
+    "count": 172908
+   },
+   {
+    "sig": "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}",
+    "decision": "fired",
+    "fields": {
+     "stateClass": "inactive",
+     "outcome": "xi"
+    },
+    "depth": 6,
+    "count": 85488
+   }
+  ],
+  "O-Update": [
+   {
+    "sig": "O-Update fired {installed:false,outcome:\"bot\",stateClass:\"pending\"}",
+    "decision": "fired",
+    "fields": {
+     "installed": false,
+     "outcome": "bot",
+     "stateClass": "pending"
+    },
+    "depth": 1,
+    "count": 345816
+   },
+   {
+    "sig": "O-Update fired {installed:false,outcome:\"xi\",stateClass:\"failed\"}",
+    "decision": "fired",
+    "fields": {
+     "installed": false,
+     "outcome": "xi",
+     "stateClass": "failed"
+    },
+    "depth": 5,
+    "count": 170976
+   },
+   {
+    "sig": "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"active\"}",
+    "decision": "fired",
+    "fields": {
+     "installed": true,
+     "outcome": "bot",
+     "stateClass": "active"
+    },
+    "depth": 4,
+    "count": 248844
+   },
+   {
+    "sig": "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}",
+    "decision": "fired",
+    "fields": {
+     "installed": true,
+     "outcome": "bot",
+     "stateClass": "loading"
+    },
+    "depth": 2,
+    "count": 558324
+   },
+   {
+    "sig": "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"unloading\"}",
+    "decision": "fired",
+    "fields": {
+     "installed": true,
+     "outcome": "bot",
+     "stateClass": "unloading"
+    },
+    "depth": 4,
+    "count": 507660
+   },
+   {
+    "sig": "O-Update fired {installed:true,outcome:\"xi\",stateClass:\"unloading\"}",
+    "decision": "fired",
+    "fields": {
+     "installed": true,
+     "outcome": "xi",
+     "stateClass": "unloading"
+    },
+    "depth": 4,
+    "count": 219400
+   }
+  ],
+  "L-Begin": [
+   {
+    "sig": "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}",
+    "decision": "disabled",
+    "fields": {
+     "outcome": "bot",
+     "retired": false,
+     "inject": [
+      "unprovided"
+     ]
+    },
+    "depth": 1,
+    "count": 37800
+   },
+   {
+    "sig": "L-Begin disabled {outcome:\"bot\",retired:true}",
+    "decision": "disabled",
+    "fields": {
+     "outcome": "bot",
+     "retired": true
+    },
+    "depth": 2,
+    "count": 172908
+   },
+   {
+    "sig": "L-Begin disabled {outcome:\"xi\",retired:false}",
+    "decision": "disabled",
+    "fields": {
+     "outcome": "xi",
+     "retired": false
+    },
+    "depth": 5,
+    "count": 85488
+   },
+   {
+    "sig": "L-Begin disabled {outcome:\"xi\",retired:true}",
+    "decision": "disabled",
+    "fields": {
+     "outcome": "xi",
+     "retired": true
+    },
+    "depth": 6,
+    "count": 85488
+   },
+   {
+    "sig": "L-Begin fired {inject:[\"provided\"],outcome:\"bot\"}",
+    "decision": "fired",
+    "fields": {
+     "outcome": "bot",
+     "inject": [
+      "provided"
+     ]
+    },
+    "depth": 5,
+    "count": 5220
+   },
+   {
+    "sig": "L-Begin fired {inject:[],outcome:\"bot\"}",
+    "decision": "fired",
+    "fields": {
+     "outcome": "bot",
+     "inject": []
+    },
+    "depth": 1,
+    "count": 129888
+   }
+  ],
+  "L-Iter": [
+   {
+    "sig": "L-Iter fired {stepClass:\"provide-fresh\"}",
+    "decision": "fired",
+    "fields": {
+     "stepClass": "provide-fresh"
+    },
+    "depth": 2,
+    "count": 44100
+   },
+   {
+    "sig": "L-Iter fired {stepClass:\"track\"}",
+    "decision": "fired",
+    "fields": {
+     "stepClass": "track"
+    },
+    "depth": 6,
+    "count": 3480
+   }
+  ],
+  "L-Raise": [
+   {
+    "sig": "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}",
+    "decision": "fired",
+    "fields": {
+     "stepClass": "raise",
+     "acc": [
+      "provide"
+     ]
+    },
+    "depth": 3,
+    "count": 24764
+   },
+   {
+    "sig": "L-Raise fired {acc:[],stepClass:\"provide-conflict\"}",
+    "decision": "fired",
+    "fields": {
+     "stepClass": "provide-conflict",
+     "acc": []
+    },
+    "depth": 5,
+    "count": 42492
+   }
+  ],
+  "L-Finish": [
+   {
+    "sig": "L-Finish fired {acc:[\"provide\"]}",
+    "decision": "fired",
+    "fields": {
+     "acc": [
+      "provide"
+     ]
+    },
+    "depth": 3,
+    "count": 61912
+   },
+   {
+    "sig": "L-Finish fired {acc:[\"track\"]}",
+    "decision": "fired",
+    "fields": {
+     "acc": [
+      "track"
+     ]
+    },
+    "depth": 7,
+    "count": 3480
+   }
+  ],
+  "L-Divert": [
+   {
+    "sig": "L-Divert fired {acc:[\"provide\"],trigger:\"stale\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "stale",
+     "acc": [
+      "provide"
+     ]
+    },
+    "depth": 4,
+    "count": 86676
+   },
+   {
+    "sig": "L-Divert fired {acc:[\"provide\"],trigger:\"target-bot\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "target-bot",
+     "acc": [
+      "provide"
+     ]
+    },
+    "depth": 4,
+    "count": 86676
+   },
+   {
+    "sig": "L-Divert fired {acc:[\"track\"],trigger:\"stale\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "stale",
+     "acc": [
+      "track"
+     ]
+    },
+    "depth": 8,
+    "count": 6420
+   },
+   {
+    "sig": "L-Divert fired {acc:[\"track\"],trigger:\"target-bot\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "target-bot",
+     "acc": [
+      "track"
+     ]
+    },
+    "depth": 8,
+    "count": 9360
+   },
+   {
+    "sig": "L-Divert fired {acc:[],trigger:\"stale\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "stale",
+     "acc": []
+    },
+    "depth": 3,
+    "count": 93012
+   },
+   {
+    "sig": "L-Divert fired {acc:[],trigger:\"target-bot\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "target-bot",
+     "acc": []
+    },
+    "depth": 3,
+    "count": 95952
+   }
+  ],
+  "L-Leave": [
+   {
+    "sig": "L-Leave disabled {trigger:\"view-stable\"}",
+    "decision": "disabled",
+    "fields": {
+     "trigger": "view-stable"
+    },
+    "depth": 4,
+    "count": 80008
+   },
+   {
+    "sig": "L-Leave fired {trigger:\"stale\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "stale"
+    },
+    "depth": 5,
+    "count": 82948
+   },
+   {
+    "sig": "L-Leave fired {trigger:\"target-bot\"}",
+    "decision": "fired",
+    "fields": {
+     "trigger": "target-bot"
+    },
+    "depth": 5,
+    "count": 85888
+   }
+  ],
+  "L-Unload": [
+   {
+    "sig": "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:false}",
+    "decision": "disabled",
+    "fields": {
+     "relied": true,
+     "outcome": "bot",
+     "retired": false,
+     "acc": [
+      "provide"
+     ]
+    },
+    "depth": 8,
+    "count": 15780
+   },
+   {
+    "sig": "L-Unload disabled {acc:[\"provide\"],outcome:\"bot\",relied:true,retired:true}",
+    "decision": "disabled",
+    "fields": {
+     "relied": true,
+     "outcome": "bot",
+     "retired": true,
+     "acc": [
+      "provide"
+     ]
+    },
+    "depth": 8,
+    "count": 23670
+   },
+   {
+    "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": true,
+     "acc": [
+      "provide"
+     ],
+     "obs": [],
+     "postTarget": "bot"
+    },
+    "depth": 5,
+    "count": 130014
+   },
+   {
+    "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": false,
+     "acc": [
+      "provide"
+     ],
+     "obs": [],
+     "postTarget": "sat"
+    },
+    "depth": 5,
+    "count": 86676
+   },
+   {
+    "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "xi",
+     "retired": true,
+     "acc": [
+      "provide"
+     ],
+     "obs": [],
+     "postTarget": "bot"
+    },
+    "depth": 5,
+    "count": 24764
+   },
+   {
+    "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "xi",
+     "retired": false,
+     "acc": [
+      "provide"
+     ],
+     "obs": [],
+     "postTarget": "sat"
+    },
+    "depth": 4,
+    "count": 24764
+   },
+   {
+    "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": false,
+     "acc": [
+      "track"
+     ],
+     "obs": [
+      "track"
+     ],
+     "postTarget": "bot"
+    },
+    "depth": 10,
+    "count": 4410
+   },
+   {
+    "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": true,
+     "acc": [
+      "track"
+     ],
+     "obs": [
+      "track"
+     ],
+     "postTarget": "bot"
+    },
+    "depth": 9,
+    "count": 9630
+   },
+   {
+    "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": false,
+     "acc": [
+      "track"
+     ],
+     "obs": [
+      "track"
+     ],
+     "postTarget": "sat"
+    },
+    "depth": 9,
+    "count": 3480
+   },
+   {
+    "sig": "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:false}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": false,
+     "acc": [],
+     "obs": [],
+     "postTarget": "bot"
+    },
+    "depth": 9,
+    "count": 4410
+   },
+   {
+    "sig": "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": true,
+     "acc": [],
+     "obs": [],
+     "postTarget": "bot"
+    },
+    "depth": 4,
+    "count": 139518
+   },
+   {
+    "sig": "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "bot",
+     "retired": false,
+     "acc": [],
+     "obs": [],
+     "postTarget": "sat"
+    },
+    "depth": 4,
+    "count": 90072
+   },
+   {
+    "sig": "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "xi",
+     "retired": true,
+     "acc": [],
+     "obs": [],
+     "postTarget": "bot"
+    },
+    "depth": 7,
+    "count": 84936
+   },
+   {
+    "sig": "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}",
+    "decision": "fired",
+    "fields": {
+     "relied": false,
+     "outcome": "xi",
+     "retired": false,
+     "acc": [],
+     "obs": [],
+     "postTarget": "sat"
+    },
+    "depth": 6,
+    "count": 84936
+   }
+  ],
+  "A-Set": [
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"active\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "active",
+     "dependents": [
+      "active",
+      "loading"
+     ]
+    },
+    "depth": 10,
+    "count": 432
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"active\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "active",
+     "dependents": [
+      "active",
+      "loading"
+     ]
+    },
+    "depth": 11,
+    "count": 432
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"unloading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "unloading",
+     "dependents": [
+      "active",
+      "loading"
+     ]
+    },
+    "depth": 12,
+    "count": 360
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"loading\"],stateClass:\"unloading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "unloading",
+     "dependents": [
+      "active",
+      "loading"
+     ]
+    },
+    "depth": 13,
+    "count": 360
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"active\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "active",
+     "dependents": [
+      "active",
+      "unloading"
+     ]
+    },
+    "depth": 12,
+    "count": 360
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"active\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "active",
+     "dependents": [
+      "active",
+      "unloading"
+     ]
+    },
+    "depth": 13,
+    "count": 360
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"unloading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "unloading",
+     "dependents": [
+      "active",
+      "unloading"
+     ]
+    },
+    "depth": 13,
+    "count": 360
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\",\"unloading\"],stateClass:\"unloading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "unloading",
+     "dependents": [
+      "active",
+      "unloading"
+     ]
+    },
+    "depth": 14,
+    "count": 360
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"active\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "active",
+     "dependents": [
+      "active"
+     ]
+    },
+    "depth": 8,
+    "count": 4302
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"active\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "active",
+     "dependents": [
+      "active"
+     ]
+    },
+    "depth": 9,
+    "count": 4302
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"unloading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "unloading",
+     "dependents": [
+      "active"
+     ]
+    },
+    "depth": 10,
+    "count": 3585
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"active\"],stateClass:\"unloading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "unloading",
+     "dependents": [
+      "active"
+     ]
+    },
+    "depth": 11,
+    "count": 3585
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"active\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "active",
+     "dependents": [
+      "loading",
+      "unloading"
+     ]
+    },
+    "depth": 10,
+    "count": 720
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"active\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "active",
+     "dependents": [
+      "loading",
+      "unloading"
+     ]
+    },
+    "depth": 11,
+    "count": 720
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"unloading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "unloading",
+     "dependents": [
+      "loading",
+      "unloading"
+     ]
+    },
+    "depth": 11,
+    "count": 720
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\",\"unloading\"],stateClass:\"unloading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "unloading",
+     "dependents": [
+      "loading",
+      "unloading"
+     ]
+    },
+    "depth": 12,
+    "count": 720
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"active\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "active",
+     "dependents": [
+      "loading"
+     ]
+    },
+    "depth": 6,
+    "count": 8820
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"active\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "active",
+     "dependents": [
+      "loading"
+     ]
+    },
+    "depth": 7,
+    "count": 8820
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"unloading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "unloading",
+     "dependents": [
+      "loading"
+     ]
+    },
+    "depth": 8,
+    "count": 7350
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"loading\"],stateClass:\"unloading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "unloading",
+     "dependents": [
+      "loading"
+     ]
+    },
+    "depth": 9,
+    "count": 7350
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"active\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "active",
+     "dependents": [
+      "unloading"
+     ]
+    },
+    "depth": 8,
+    "count": 7290
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"active\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "active",
+     "dependents": [
+      "unloading"
+     ]
+    },
+    "depth": 9,
+    "count": 7290
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"unloading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "unloading",
+     "dependents": [
+      "unloading"
+     ]
+    },
+    "depth": 9,
+    "count": 7350
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[\"unloading\"],stateClass:\"unloading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "unloading",
+     "dependents": [
+      "unloading"
+     ]
+    },
+    "depth": 10,
+    "count": 7350
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "active",
+     "dependents": []
+    },
+    "depth": 4,
+    "count": 92868
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "active",
+     "dependents": []
+    },
+    "depth": 5,
+    "count": 92868
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "loading",
+     "dependents": []
+    },
+    "depth": 3,
+    "count": 130014
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "loading",
+     "dependents": []
+    },
+    "depth": 4,
+    "count": 130014
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:false}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": false,
+     "stateClass": "unloading",
+     "dependents": []
+    },
+    "depth": 4,
+    "count": 133109
+   },
+   {
+    "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:true}",
+    "decision": "fired",
+    "fields": {
+     "binding": "own",
+     "valueEq": true,
+     "stateClass": "unloading",
+     "dependents": []
+    },
+    "depth": 5,
+    "count": 133109
+   },
+   {
+    "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"active\"}",
+    "decision": "refused",
+    "fields": {
+     "binding": "foreign",
+     "stateClass": "active",
+     "dependents": []
+    },
+    "depth": 8,
+    "count": 19260
+   },
+   {
+    "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"failed\"}",
+    "decision": "refused",
+    "fields": {
+     "binding": "foreign",
+     "stateClass": "failed",
+     "dependents": []
+    },
+    "depth": 5,
+    "count": 170976
+   },
+   {
+    "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"loading\"}",
+    "decision": "refused",
+    "fields": {
+     "binding": "foreign",
+     "stateClass": "loading",
+     "dependents": []
+    },
+    "depth": 2,
+    "count": 298296
+   },
+   {
+    "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"pending\"}",
+    "decision": "refused",
+    "fields": {
+     "binding": "foreign",
+     "stateClass": "pending",
+     "dependents": []
+    },
+    "depth": 1,
+    "count": 345816
+   },
+   {
+    "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"unloading\"}",
+    "decision": "refused",
+    "fields": {
+     "binding": "foreign",
+     "stateClass": "unloading",
+     "dependents": []
+    },
+    "depth": 4,
+    "count": 421392
+   }
+  ]
+ }
+}

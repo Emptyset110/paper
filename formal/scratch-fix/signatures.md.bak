@@ -288,15 +288,6 @@ O-Remove fires; report: C disposed.
 removal window carries M2; report shows P still present — the observation
 distinguishing M2's blocking decision.
 
-> **Correction C3 (applied).** The full window of that never-enabled
-> removal attempt is the multiset **{M2, M5, M6}**, not {M2} alone: the
-> retirement guard fails (M2), the state guard fails as well (M5 — P is
-> Active), and the childlessness witness is clear (M6). M2 is the
-> *credited* letter, being the deciding first-failing premise, per §0's
-> sharing convention; the claim "S-Rem-2 realizes M2" stands unchanged.
-> Stated so the window is checkable. Derivation: `derivations.md`
-> §E.OM.M2(4); discussion §E.98-C3.
-
 **S-Rem-3** (M4): `P := (∅, ∅, [raise(x)])`;
 ρ = `insert(root, P); settle; retire(P); settle`.
 *Derivation:* L-Begin, L-Raise, L-Unload → Inactive(ξ); retire; removal
@@ -406,10 +397,10 @@ no app(P,a).
 
 **S-Beg-5** (B6): `P := (∅, {k1}, [provide(k1,v1), track(a)])`,
 `C1 := ({k1}, ∅, [read(k1)])`, `C2 := ({k1}, ∅, [read(k1)])`;
+ρ = `insert(root, P); insert(root, C1); settle; insert(root, C2);
+retire(C2)?` — no: keep C2 pending by inserting it *after* retiring P:
 ρ = `insert(root, P); insert(root, C1); settle; retire(P);
-insert(root, C2); settle` — C2 must be inserted *after* P is retired, so
-that its begin attempt is evaluated inside P's guarded teardown window
-(editorial fix E1; `derivations.md` §E.98-E1).
+insert(root, C2); settle`.
 *Derivation:* after the first settle P and C1 are Active. retire(P):
 during the second settle P L-Leaves (Unloading, table still held), the
 reliance guard (C1's committed edge) holds P there while C1 tears down.
@@ -564,20 +555,9 @@ $\Psi = \mathrm{pr}_1 \circ i$.
 
 | # | id | atoms | kind |
 | --- | --- | --- | --- |
-| 1 | F1 | StateClass = Reloading, view holds, iterator Nothing, after ≥ 1 landed iteration | scalar |
-| 2 | F2 | as F1 but the degenerate 𝔈_Γ case: the *first* application of the iterator already yields Nothing (p. 36's "plain effect function" paragraph) | scalar |
+| 1 | F1 | StateClass = Reloading, view holds, iterator Nothing, after ≥ 1 landed iteration (accumulator ≠ id) | scalar |
+| 2 | F2 | as F1 but the degenerate 𝔈_Γ case: first iteration already yields Nothing, accumulator = id (p. 36's "plain effect function" paragraph) | scalar |
 | 3 | F3 | per-key: ViewRel = key-equal at the finishing window | per-key |
-
-> **Correction C4 (applied).** The split above follows the **iterator
-> history** — F2 iff the first application yields Nothing, F1 otherwise —
-> with the accumulator's id/non-id constructor recorded as an equality
-> pattern *inside* the letter. The first release split by the accumulator
-> instead ("accumulator ≠ id" for F1, "accumulator = id" for F2), which
-> leaves a real class of windows matching neither description: a
-> read-only script lands ≥ 1 iteration and still finishes with g = id
-> (`derivations.md` §E.LI.T6(11), §E.LI.T8(4), §E.LB.B5(8)/§E.LF.F3(8),
-> §E.CA.A6(12)). No script and no reachability claim changes. Discussion:
-> §E.98-C4.
 
 ### 6.2 Finiteness
 
@@ -695,38 +675,18 @@ A10; the same argument applies verbatim to L-Leave's V2 (§9.3).
 `Q2 := (∅, {k2}, [provide(k2,v2)])`,
 `G := (∅, ∅, [register(C), track(a)])`,
 `C := ({k2}, ∅, [track(b), track(c)])`;
-ρ = `insert(root, Q); insert(root, G); settle; retire(Q); settle;
-insert(root, Q2); retire(G); settle`.
-
-> **Correction C1 (applied).** This ρ replaces the script printed in the
-> first release of this deliverable, which was
-> `insert(root, Q); insert(root, G); settle; retire(Q); retire(G);
-> insert(root, Q2); settle` — **wrong**: with no settle between
-> `retire(Q)` and `insert(root, Q2)`, Q is retired but still *registered*,
-> so O-Insert's premise (iv) ∀m ∈ dom F. p ∩ p_m = ∅ refuses Q2 against
-> p_Q = {k2} (the window {I1, I4, I7(k2)} — exactly the refusal §1.4's
-> S-Ins-4 canonizes, and exactly the fact §1.3 establishes: only O-Remove
-> frees declared keys). With Q2 refused, C never re-begins and is never
-> Reloading when τ_C flips, so the run realizes no L-Divert window at all
-> and D3 is not reached. The corrected ρ settles between `retire(Q)` and
-> `insert(root, Q2)`, so Q is *removed* before Q2 is inserted, and moves
-> `retire(G)` after Q2's insert. Component data, the script count (2) and
-> the D3 reachability row are unchanged. Full derivation: `derivations.md`
-> §E.LD.D3; discussion §E.98-C1.
-
+ρ = `insert(root, Q); insert(root, G); settle; retire(Q); retire(G);
+insert(root, Q2); settle`.
 *Derivation:* first settle: Q, G, C all Active (G registered C; C
-committed ω(k2)=Q). `retire(Q); settle`: Q leaves (retired); C's target
-turns ⊥ → C leaves, unloads (inv order c, b), pending; Q unloads and is
-**removed**, freeing the name and the declared key k2. Then
-`insert(root, Q2)` is accepted (premise (iv) now holds) and `retire(G)`
-is applied. Third settle, on the exhibited branch: Q2 begins, finishes →
-C re-begins (ω(k2)=Q2), iterates track(b) — Reloading; now schedule G:
-G leaves (retired), G's guard is clear (C's committed view names Q2, not
-G), G unloads — its register inverse performs O-Retire(C), flipping τ_C
-while C is Reloading. C's next window: {D1, D3, D5} — target ⊥ by
-retirement; L-Divert; C unloads (inv(C,b)), disposed with G. Every
-occurrence here is branch-dependent; the exhaustive explorer collects all
-interleavings.
+committed ω(k2)=Q). Second settle, on the branch: Q leaves (retired);
+C's target turns ⊥ → C leaves, unloads (inv order c, b), pending; Q2
+begins, finishes → C re-begins (ω(k2)=Q2), iterates track(b) —
+Reloading; now schedule G: G leaves (retired), G's guard is clear (C's
+committed view names Q2, not G), G unloads — its register inverse
+performs O-Retire(C), flipping τ_C while C is Reloading. C's next window:
+{D1, D3, D5} — target ⊥ by retirement; L-Divert; C unloads (inv(C,b)),
+disposed with G. Every occurrence here is branch-dependent; the
+exhaustive explorer collects all interleavings.
 
 Scripts: **2** (S-Div-1, S-Div-3; S-Div-2 withdrawn by the A10 analysis).
 
@@ -922,20 +882,9 @@ canonical verdict observes the successor (removal / rest / bounce).
 | 7 | U7 | per-item: InvClass = register⁻¹ (performs O-Retire of the child) | per-item |
 | 8 | U8 | per-item: InvClass = read-on-revert (an inverse whose run reads a committed coeffect, Def. 48 clause 2) | per-item |
 | 9 | U9 | accumulator = id (no items) | scalar |
-| 10 | U10 | bookkeeping (**ζ=⊥ only**): RetClass τ=⊤ (successor: removable) | scalar |
-| 11 | U11 | bookkeeping (**ζ=⊥ only**): τ=⊥ ∧ post-target = ⊥ (successor: rests pending) | scalar |
-| 12 | U12 | bookkeeping (**ζ=⊥ only**): τ=⊥ ∧ post-target satisfiable (successor: immediate re-begin — the deactivation-chains-into-activation composite of §4.3.3) | scalar |
-
-> **Correction C2 (applied).** U10–U12 are conditioned on the outcome:
-> they are letters of a **ζ=⊥** unload only. A ζ=ξ unload carries an
-> OutClass letter (U4) and *no* bookkeeping letter, its successor being
-> fixed by L-Begin's outcome premise (B2 blocks re-entry from
-> Inactive(ξ)) whatever τ and the post-target do. This is why §10.4's
-> S-Unl-3 window is {U1, U4, U6} although τ=⊥ and the post-target is
-> satisfiable there literally, and why U12's gloss ("immediate re-begin")
-> would be false if the block were read unconditionally. The reading is
-> uniform across every window listing of this deliverable and of
-> `derivations.md` §E.10; discussion §E.98-C2.
+| 10 | U10 | bookkeeping: RetClass τ=⊤ (successor: removable) | scalar |
+| 11 | U11 | bookkeeping: τ=⊥ ∧ post-target = ⊥ (successor: rests pending) | scalar |
+| 12 | U12 | bookkeeping: τ=⊥ ∧ post-target satisfiable (successor: immediate re-begin — the deactivation-chains-into-activation composite of §4.3.3) | scalar |
 
 ### 10.2 Finiteness
 
@@ -1018,20 +967,19 @@ events.
 {U1, U3, U6, U11}; C rests pending — no re-begin certificate follows.
 
 **S-Unl-9** (U12): `P := (∅, {k1}, [provide(k1,v1)])`,
-`C := ({k1}, ∅, [track(a)])`;
-ρ = `insert(root, P); settle; insert(root, C); settle; update(C, cfg2);
-settle`.
-*Derivation:* C leaves (V5), unloads with τ=⊥ and its target still
-satisfiable (P is Active and holds k1) — occurrence U12 — and
-immediately re-begins: deact(C) directly followed by app/act(C).
-
-> **Editorial fix E1 (applied).** The first release reached this script
-> by self-correcting mid-paragraph from a provider-replacement attempt
-> (`… retire(P); settle; insert(root, P2); settle`, which cannot realize
-> U12: P2's insert follows the settle, so C is already Inactive when P2
-> activates and the unload window is a U11 window). Only the surviving
-> script is stated above. Derivation: `derivations.md` §E.LU.U12;
-> discussion §E.98-E1.
+`P2 := (∅, {k1}, [provide(k1,v1)])`, `C := ({k1}, ∅, [track(a)])`;
+ρ = `insert(root, P); settle; insert(root, C); settle; retire(P);
+settle; insert(root, P2); settle`.
+*Derivation:* third settle: C unloads (U11 window), P removed. Fourth
+settle: P2 activates; C's L-Begin refires. To realize U12 proper (unload
+whose *successor window* is already satisfiable) the explorer takes the
+branch in the third-and-fourth combined trace where... P2's insert
+follows the settle, so within the fourth settle C is already Inactive.
+U12 needs unload and satisfiability in one window: use update instead —
+ρ′ = `insert(root, P); settle; insert(root, C); settle; update(C, cfg2);
+settle`: C leaves (V5), unloads with τ=⊥ and target still k1 → P
+satisfiable — occurrence U12 — and immediately re-begins: deact(C)
+directly followed by app/act(C). Canonical script is ρ′.
 
 Scripts: **9**.
 
@@ -1388,32 +1336,6 @@ demands it.
   divergence at L-Divert/L-Leave is a ⊥-divergence or an orch-update.
   This sharpens Table 1's reading and should be stated as a lemma in D2
   (it is a consequence, not an assumption).
-
----
-
-## 18. Correction log (applied after D2's line-by-line expansion)
-
-The manual state-space computations of `derivations.md` (Appendix E of
-the manuscript) expanded all 60 canonical scripts of this deliverable
-line by line and found one **wrong** script, one alphabet imprecision,
-two readings that had to be stated rather than left implicit, and two
-editorial residues. All six are **applied above**, each at its site with
-a quoted correction note; this section is the index. `derivations.md`
-§E.98 carries the full discussion, and the manuscript applies the same
-four corrections in Appendix D (D.7, D.10, D.3, D.6).
-
-| id | kind | site | what changed |
-| --- | --- | --- | --- |
-| **C1** | error | §7.4, S-Div-3 | The printed ρ never reaches D3: with no settle between `retire(Q)` and `insert(root, Q2)`, Q is retired but still registered, so O-Insert premise (iv) refuses Q2 (window {I1, I4, I7(k2)}) and C is never Reloading when τ_C flips. Corrected ρ splits the settle — `insert(root, Q); insert(root, G); settle; retire(Q); settle; insert(root, Q2); retire(G); settle`. Component data, script count (2) and the D3 reachability row unchanged. Derivation: §E.LD.D3. |
-| **C2** | reading | §10.1, U10–U12 | The bookkeeping block is conditioned on the outcome: **ζ=⊥ only**. A ζ=ξ unload carries U4 and no bookkeeping letter (its successor is fixed by B2), which is why §10.4's S-Unl-3 window is {U1, U4, U6} although τ=⊥ and the post-target is satisfiable there literally. Alphabet size unchanged (12). |
-| **C3** | clarification | §3.4, S-Rem-2 | The never-enabled removal window of an unretired Active fiber is the multiset {M2, M5, M6}; M2 is the credited (deciding first-failing) letter. The reachability claim is unchanged; the multiset is now stated so the window is checkable. Derivation: §E.OM.M2(4). |
-| **C4** | alphabet imprecision | §6.1, F1/F2 | The F1/F2 split follows the **iterator history** (F2 iff the first application yields Nothing), not the accumulator constructor, which is an equality pattern inside the letter. The old split left read-only finishing windows (≥ 1 landed iteration, g = id) describable by neither letter. No script and no reachability claim changes. |
-| **E1a** | editorial | §4.4, S-Beg-5 | An abandoned draft fragment ("`retire(C2)?` — no: …") preceded the surviving ρ; only the surviving script is now stated, with its reason. |
-| **E1b** | editorial | §10.4, S-Unl-9 | The entry self-corrected mid-paragraph from a provider-replacement attempt to the `update`-based ρ′; only ρ′ is now stated, with the failed attempt's reason recorded. Derivation: §E.LU.U12. |
-
-Not changed by any of the above: the alphabets' sizes, the summary
-counts of §15 (92 occurrences, 86 reachable, 6 interface-unrealizable,
-60 canonical scripts), and every reachability verdict.
 
 ---
 

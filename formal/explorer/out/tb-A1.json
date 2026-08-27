@@ -1,0 +1,7111 @@
+{
+ "tag": "A1",
+ "tests": [
+  {
+   "realized": true,
+   "id": "TB.1",
+   "sig": "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}",
+   "rule": "O-Insert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.2",
+   "sig": "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"isolated\"}",
+   "rule": "O-Insert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "iso"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"isolated\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":\"\\\"v1\\\"\",\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.3",
+   "sig": "L-Begin fired {inject:[],outcome:\"bot\"}",
+   "rule": "L-Begin",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.4",
+   "sig": "O-Retire fired {again:false,stateClass:\"pending\"}",
+   "rule": "O-Retire",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"pending\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.5",
+   "sig": "O-Update fired {installed:false,outcome:\"bot\",stateClass:\"pending\"}",
+   "rule": "O-Update",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "update",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:false,outcome:\"bot\",stateClass:\"pending\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.6",
+   "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"pending\"}",
+   "rule": "A-Set",
+   "decision": "refused",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": true,
+      "note": "cannot set \"k1\" without provide",
+      "emissions": [],
+      "certs": [
+       "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"pending\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.7",
+   "sig": "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}",
+   "rule": "L-Begin",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "C",
+     "ctx": "root"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"pending\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.8",
+   "sig": "L-Iter fired {stepClass:\"provide-fresh\"}",
+   "rule": "L-Iter",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.9",
+   "sig": "O-Retire fired {again:false,stateClass:\"loading\"}",
+   "rule": "O-Retire",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1",
+      "divert:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Divert fired {acc:[],trigger:\"target-bot\"}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"reloading\"}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.10",
+   "sig": "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}",
+   "rule": "O-Update",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "update",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "deactivated:P_1",
+      "divert:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Divert fired {acc:[],trigger:\"stale\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.11",
+   "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"loading\"}",
+   "rule": "A-Set",
+   "decision": "refused",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": true,
+      "note": "cannot set \"k1\" without provide",
+      "emissions": [],
+      "certs": [
+       "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"loading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.12",
+   "sig": "L-Begin disabled {outcome:\"bot\",retired:true}",
+   "rule": "L-Begin",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"pending\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.13",
+   "sig": "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}",
+   "rule": "O-Remove",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "remove",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"pending\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": []
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.14",
+   "sig": "A-Read fired {cls:\"undeclared-np\"}",
+   "rule": "A-Read",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "U",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:U_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "readfail:U_1:k1:UNDECLARED_ACCESS"
+      ],
+      "certs": [
+       "A-Read fired {cls:\"undeclared-np\"}",
+       "L-Iter fired {stepClass:\"read-undeclared-np\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:U_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.15",
+   "sig": "L-Iter fired {stepClass:\"read-undeclared-np\"}",
+   "rule": "L-Iter",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "U",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:U_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "readfail:U_1:k1:UNDECLARED_ACCESS"
+      ],
+      "certs": [
+       "A-Read fired {cls:\"undeclared-np\"}",
+       "L-Iter fired {stepClass:\"read-undeclared-np\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:U_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.16",
+   "sig": "L-Iter fired {stepClass:\"track\"}",
+   "rule": "L-Iter",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:F_1",
+      "raise:F_1",
+      "revert:F_1:a"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}",
+      "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.17",
+   "sig": "L-Raise fired {acc:[],stepClass:\"flag-fail\"}",
+   "rule": "L-Raise",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:G_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.18",
+   "sig": "L-Raise fired {acc:[],stepClass:\"setval-foreign\"}",
+   "rule": "L-Raise",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "SF",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:SF_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:SF_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"setval-foreign\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:SF_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.19",
+   "sig": "L-Finish fired {acc:[\"provide\"]}",
+   "rule": "L-Finish",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.20",
+   "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:false}",
+   "rule": "A-Set",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v2\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v2\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.21",
+   "sig": "O-Remove disabled {hasChild:false,stateClass:\"reloading\"}",
+   "rule": "O-Remove",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1",
+      "divert:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Divert fired {acc:[],trigger:\"target-bot\"}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"reloading\"}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.22",
+   "sig": "L-Divert fired {acc:[],trigger:\"target-bot\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[],trigger:\"target-bot\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.23",
+   "sig": "L-Divert fired {acc:[],trigger:\"stale\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[],trigger:\"stale\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "deactivated:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.24",
+   "sig": "L-Finish fired {acc:[]}",
+   "rule": "L-Finish",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "U",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:U_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "readfail:U_1:k1:UNDECLARED_ACCESS"
+      ],
+      "certs": [
+       "A-Read fired {cls:\"undeclared-np\"}",
+       "L-Iter fired {stepClass:\"read-undeclared-np\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:U_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[]}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.25",
+   "sig": "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}",
+   "rule": "L-Raise",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:F_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:F_1",
+      "revert:F_1:a"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.26",
+   "sig": "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}",
+   "rule": "L-Raise",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "FP",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:FP_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:FP_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:FP_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:FP_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.27",
+   "sig": "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.28",
+   "sig": "O-Retire fired {again:false,stateClass:\"unloading\"}",
+   "rule": "O-Retire",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"unloading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:G_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:true}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.29",
+   "sig": "O-Update fired {installed:true,outcome:\"xi\",stateClass:\"unloading\"}",
+   "rule": "O-Update",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"xi\",stateClass:\"unloading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:G_1",
+      "begin:G_1",
+      "deactivated:G_1",
+      "divert:G_1",
+      "flagged:G_1:ok"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Divert fired {acc:[],trigger:\"stale\"}",
+      "L-Finish fired {acc:[]}",
+      "L-Iter fired {stepClass:\"flag-pass\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.30",
+   "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"unloading\"}",
+   "rule": "A-Set",
+   "decision": "refused",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": true,
+      "note": "cannot set \"k1\" without provide",
+      "emissions": [],
+      "certs": [
+       "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"unloading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:G_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.31",
+   "sig": "L-Iter fired {stepClass:\"flag-pass\"}",
+   "rule": "L-Iter",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:false,outcome:\"bot\",stateClass:\"pending\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "flagged:G_1:ok"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"flag-pass\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:G_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.32",
+   "sig": "L-Iter fired {stepClass:\"setval-own-neq\"}",
+   "rule": "L-Iter",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "S",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:S_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:S_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "setvalue:S_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"setval-own-neq\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v2\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v2\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:S_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.33",
+   "sig": "L-Iter fired {stepClass:\"setval-own-eq\"}",
+   "rule": "L-Iter",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "SE",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:SE_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:SE_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "setvalue:SE_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"setval-own-eq\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:SE_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.34",
+   "sig": "L-Finish fired {acc:[\"track\"]}",
+   "rule": "L-Finish",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "T",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:T_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:T_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:T_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"track\"]}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.35",
+   "sig": "L-Leave disabled {trigger:\"view-stable\"}",
+   "rule": "L-Leave",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.36",
+   "sig": "O-Retire fired {again:false,stateClass:\"active\"}",
+   "rule": "O-Retire",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"active\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1",
+      "leave:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Leave fired {trigger:\"target-bot\"}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"active\"}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.37",
+   "sig": "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"active\"}",
+   "rule": "O-Update",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "update",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"active\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "deactivated:P_1",
+      "leave:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}",
+      "L-Leave fired {trigger:\"stale\"}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.38",
+   "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:false}",
+   "rule": "A-Set",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v2\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v2\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.39",
+   "sig": "L-Divert fired {acc:[\"provide\"],trigger:\"target-bot\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\"],trigger:\"target-bot\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.40",
+   "sig": "L-Divert fired {acc:[\"provide\"],trigger:\"stale\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\"],trigger:\"stale\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "deactivated:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.41",
+   "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:true}",
+   "rule": "A-Set",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:false}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"loading\",valueEq:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v2\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v2\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1"
+     ],
+     "settleCerts": [
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.42",
+   "sig": "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+   "rule": "O-Remove",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[],trigger:\"target-bot\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.43",
+   "sig": "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[],trigger:\"target-bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:P_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.44",
+   "sig": "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"unloading\"}",
+   "rule": "O-Update",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "update",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[],trigger:\"target-bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"unloading\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.45",
+   "sig": "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[],trigger:\"stale\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:P_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.46",
+   "sig": "L-Finish fired {acc:[\"provide\",\"track\"]}",
+   "rule": "L-Finish",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "PT",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:PT_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:PT_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:PT_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:PT_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\",\"track\"]}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.47",
+   "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"active\"}",
+   "rule": "A-Set",
+   "decision": "refused",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "U",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:U_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "readfail:U_1:k1:UNDECLARED_ACCESS"
+      ],
+      "certs": [
+       "A-Read fired {cls:\"undeclared-np\"}",
+       "L-Iter fired {stepClass:\"read-undeclared-np\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:U_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[]}"
+      ]
+     },
+     {
+      "refused": true,
+      "note": "cannot set \"k1\" without provide",
+      "emissions": [],
+      "certs": [
+       "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"active\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.48",
+   "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:F_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:F_1:a",
+       "deactivated:F_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.49",
+   "sig": "L-Divert fired {acc:[\"track\"],trigger:\"target-bot\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:F_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"track\"],trigger:\"target-bot\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:F_1",
+      "revert:F_1:a"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.50",
+   "sig": "L-Divert fired {acc:[\"track\"],trigger:\"stale\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:F_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"track\"],trigger:\"stale\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "apply:F_1:a",
+      "begin:F_1",
+      "deactivated:F_1",
+      "raise:F_1",
+      "revert:F_1:a"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Iter fired {stepClass:\"track\"}",
+      "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}",
+      "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+      "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.51",
+   "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "FP",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:FP_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:FP_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:FP_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:FP_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.52",
+   "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:false}",
+   "rule": "A-Set",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "FP",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:FP_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:FP_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:FP_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:FP_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.53",
+   "sig": "L-Begin disabled {outcome:\"xi\",retired:false}",
+   "rule": "L-Begin",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.54",
+   "sig": "O-Retire fired {again:false,stateClass:\"failed\"}",
+   "rule": "O-Retire",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"failed\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:true}",
+      "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.55",
+   "sig": "O-Update fired {installed:false,outcome:\"xi\",stateClass:\"failed\"}",
+   "rule": "O-Update",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    },
+    {
+     "t": "update",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:false,outcome:\"xi\",stateClass:\"failed\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:G_1",
+      "begin:G_1",
+      "flagged:G_1:ok"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[]}",
+      "L-Iter fired {stepClass:\"flag-pass\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.56",
+   "sig": "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"failed\"}",
+   "rule": "A-Set",
+   "decision": "refused",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     },
+     {
+      "refused": true,
+      "note": "cannot set \"k1\" without provide",
+      "emissions": [],
+      "certs": [
+       "A-Set refused {binding:\"foreign\",dependents:[],stateClass:\"failed\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.57",
+   "sig": "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"unloading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:true}",
+      "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.58",
+   "sig": "O-Remove disabled {hasChild:false,stateClass:\"active\"}",
+   "rule": "O-Remove",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"active\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1",
+      "leave:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Leave fired {trigger:\"target-bot\"}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"active\"}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.59",
+   "sig": "L-Leave fired {trigger:\"target-bot\"}",
+   "rule": "L-Leave",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Leave"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"active\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "leave:P_1"
+      ],
+      "certs": [
+       "L-Leave fired {trigger:\"target-bot\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:P_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.60",
+   "sig": "L-Leave fired {trigger:\"stale\"}",
+   "rule": "L-Leave",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Leave"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"active\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "leave:P_1"
+      ],
+      "certs": [
+       "L-Leave fired {trigger:\"stale\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "deactivated:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.61",
+   "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:true}",
+   "rule": "A-Set",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:false}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"active\",valueEq:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v2\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v2\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.62",
+   "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\"],trigger:\"target-bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:P_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.63",
+   "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:P_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\"],trigger:\"stale\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:P_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:P_1",
+      "begin:P_1",
+      "provide:P_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.64",
+   "sig": "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"target-bot\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "PT",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:PT_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:PT_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:PT_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:PT_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"target-bot\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:PT_1",
+      "revert:PT_1:a"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+      "O-Remove disabled {hasChild:false,stateClass:\"unloading\"}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.65",
+   "sig": "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"stale\"}",
+   "rule": "L-Divert",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "PT",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:PT_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:PT_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:PT_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:PT_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"stale\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:PT_1",
+      "apply:PT_1:a",
+      "begin:PT_1",
+      "deactivated:PT_1",
+      "provide:PT_1:k1",
+      "revert:PT_1:a"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\",\"track\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Iter fired {stepClass:\"track\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}",
+      "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.66",
+   "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:F_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"unloading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:F_1:a",
+       "deactivated:F_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:true}",
+      "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.67",
+   "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:F_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"xi\",stateClass:\"unloading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:F_1:a",
+       "deactivated:F_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "apply:F_1:a",
+      "begin:F_1",
+      "deactivated:F_1",
+      "divert:F_1",
+      "raise:F_1",
+      "revert:F_1:a"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Divert fired {acc:[],trigger:\"stale\"}",
+      "L-Iter fired {stepClass:\"track\"}",
+      "L-Raise fired {acc:[\"track\"],stepClass:\"raise\"}",
+      "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}",
+      "L-Unload fired {acc:[],obs:[],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.68",
+   "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "F",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:F_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:F_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:F_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"track\"],trigger:\"target-bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:F_1:a",
+       "deactivated:F_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.69",
+   "sig": "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "FP",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:FP_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:FP_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:FP_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"unloading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:FP_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:true}",
+      "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.70",
+   "sig": "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:true}",
+   "rule": "A-Set",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "FP",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "setown",
+     "f": 0
+    },
+    {
+     "t": "setown",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:FP_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:FP_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:FP_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[\"provide\"],stepClass:\"raise\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:false}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "A-Set fired {binding:\"own\",dependents:[],stateClass:\"unloading\",valueEq:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"failed!\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "deactivated:FP_1"
+     ],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:false}",
+      "L-Unload fired {acc:[\"provide\"],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.71",
+   "sig": "L-Begin disabled {outcome:\"xi\",retired:true}",
+   "rule": "L-Begin",
+   "decision": "disabled",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"failed\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"xi\",retired:true}",
+      "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.72",
+   "sig": "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}",
+   "rule": "O-Remove",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "G",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "remove",
+     "f": 0
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:G_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "raise:G_1"
+      ],
+      "certs": [
+       "L-Raise fired {acc:[],stepClass:\"flag-fail\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "deactivated:G_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[],obs:[],outcome:\"xi\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"failed\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Remove fired {outcome:\"xi\",stateClass:\"inactive\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": []
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.73",
+   "sig": "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "PT",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:PT_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:PT_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:PT_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:PT_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"target-bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:PT_1:a",
+       "deactivated:PT_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.74",
+   "sig": "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "PT",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:PT_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:PT_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:PT_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:PT_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"provide\",\"track\"],trigger:\"stale\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:PT_1:a",
+       "deactivated:PT_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"provide\",\"track\"],obs:[\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:PT_1",
+      "apply:PT_1:a",
+      "begin:PT_1",
+      "provide:PT_1:k1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"provide\",\"track\"]}",
+      "L-Iter fired {stepClass:\"provide-fresh\"}",
+      "L-Iter fired {stepClass:\"track\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.75",
+   "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "T2",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:T2_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:T2_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:T2_1:b"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:T2_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"track\"],trigger:\"target-bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:T2_1:b",
+       "revert:T2_1:a",
+       "deactivated:T2_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"bot\",relied:false,retired:true}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {outcome:\"bot\",retired:true}",
+      "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+     ]
+    }
+   }
+  },
+  {
+   "realized": true,
+   "id": "TB.76",
+   "sig": "L-Unload fired {acc:[\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}",
+   "rule": "L-Unload",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "T2",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "update",
+     "f": 0
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Divert"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Unload"
+    }
+   ],
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:T2_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:T2_1:a"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "apply:T2_1:b"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"track\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Update fired {installed:true,outcome:\"bot\",stateClass:\"loading\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "divert:T2_1"
+      ],
+      "certs": [
+       "L-Divert fired {acc:[\"track\"],trigger:\"stale\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "revert:T2_1:b",
+       "revert:T2_1:a",
+       "deactivated:T2_1"
+      ],
+      "certs": [
+       "L-Unload fired {acc:[\"track\"],obs:[\"track\",\"track\"],outcome:\"bot\",postTarget:\"sat\",relied:false,retired:false}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:T2_1",
+      "apply:T2_1:a",
+      "apply:T2_1:b",
+      "begin:T2_1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"track\"]}",
+      "L-Iter fired {stepClass:\"track\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "id": "TB.77",
+   "sig": "O-Insert refused {declaredConflict:false,parent:\"removed\",realm:\"root\"}",
+   "rule": "O-Insert",
+   "decision": "refused",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "T",
+     "ctx": "root"
+    },
+    {
+     "t": "retire",
+     "f": 0
+    },
+    {
+     "t": "remove",
+     "f": 0
+    },
+    {
+     "t": "insert",
+     "shape": "T",
+     "ctx": "child-uid",
+     "uid": 1
+    }
+   ],
+   "coda": true,
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Retire fired {again:false,stateClass:\"pending\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Remove fired {outcome:\"bot\",stateClass:\"inactive\"}"
+      ]
+     },
+     {
+      "refused": true,
+      "note": "INACTIVE_EFFECT: cannot insert under a removed fiber",
+      "emissions": [],
+      "certs": [
+       "O-Insert refused {declaredConflict:false,parent:\"removed\",realm:\"root\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": []
+    }
+   }
+  },
+  {
+   "id": "TB.78",
+   "sig": "A-Intercept fired {entries:2}",
+   "rule": "A-Intercept",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "iprobe"
+    }
+   ],
+   "coda": true,
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "intercept:{\"a\":1,\"base\":true,\"b\":2,\"c\":2}"
+      ],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}",
+       "A-Intercept fired {entries:2}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [
+      "active:T_1",
+      "apply:T_1:a",
+      "begin:T_1"
+     ],
+     "settleCerts": [
+      "L-Begin fired {inject:[],outcome:\"bot\"}",
+      "L-Finish fired {acc:[\"track\"]}",
+      "L-Iter fired {stepClass:\"track\"}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  },
+  {
+   "id": "TB.79",
+   "sig": "A-Read fired {cls:\"inactive-declared-np\"}",
+   "rule": "A-Read",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "CR",
+     "ctx": "root"
+    },
+    {
+     "t": "rprobe",
+     "f": 0,
+     "key": "k1"
+    }
+   ],
+   "coda": true,
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "xreadfail:CR_1:k1:INACTIVE_ACCESS"
+      ],
+      "certs": [
+       "A-Read fired {cls:\"inactive-declared-np\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"pending\"},\"store\":{\"root:k1\":null,\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":null,\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {inject:[\"unprovided\"],outcome:\"bot\",retired:false}"
+     ]
+    }
+   }
+  },
+  {
+   "id": "TB.80",
+   "sig": "A-Read fired {cls:\"inactive-declared-p\"}",
+   "rule": "A-Read",
+   "decision": "fired",
+   "script": [
+    {
+     "t": "insert",
+     "shape": "P",
+     "ctx": "root"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Begin"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Iter"
+    },
+    {
+     "t": "life",
+     "f": 0,
+     "rule": "L-Finish"
+    },
+    {
+     "t": "insert",
+     "shape": "CC",
+     "ctx": "root"
+    },
+    {
+     "t": "rprobe",
+     "f": 1,
+     "key": "k1"
+    }
+   ],
+   "coda": true,
+   "expected": {
+    "perAction": [
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "begin:P_1"
+      ],
+      "certs": [
+       "L-Begin fired {inject:[],outcome:\"bot\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "provide:P_1:k1"
+      ],
+      "certs": [
+       "L-Iter fired {stepClass:\"provide-fresh\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "active:P_1"
+      ],
+      "certs": [
+       "L-Finish fired {acc:[\"provide\"]}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [],
+      "certs": [
+       "O-Insert fired {declaredConflict:false,parent:\"root\",realm:\"root\"}"
+      ]
+     },
+     {
+      "refused": false,
+      "note": null,
+      "emissions": [
+       "xreadfail:P_1:k1:UNDECLARED_ACCESS"
+      ],
+      "certs": [
+       "A-Read fired {cls:\"undeclared-p\"}"
+      ]
+     }
+    ],
+    "settle": {
+     "reports": [
+      "{\"fibers\":{\"1\":\"active\",\"2\":\"pending\"},\"store\":{\"root:k1\":\"\\\"v1\\\"\",\"root:k2\":null,\"r1:k1\":null,\"lenient:k1\":\"\\\"v1\\\"\",\"lenient:k2\":null}}"
+     ],
+     "diverged": false,
+     "truncated": false,
+     "settleEvents": [],
+     "settleCerts": [
+      "L-Begin disabled {inject:[\"provided\",\"unprovided\"],outcome:\"bot\",retired:false}",
+      "L-Leave disabled {trigger:\"view-stable\"}"
+     ]
+    }
+   }
+  }
+ ]
+}
