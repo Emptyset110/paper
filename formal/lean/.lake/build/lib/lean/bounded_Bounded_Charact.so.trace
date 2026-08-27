@@ -1,0 +1,19 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs": "7230bbc423a4ddd6.so",
+ "log":
+ [{"message":
+   ".> /home/rebuilding/.elan/toolchains/leanprover--lean4---v4.33.1/bin/clang -shared -o /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Charact.so @/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Charact.so.rsp",
+   "level": "trace"}],
+ "inputs":
+ [["linkObjs",
+   [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Charact.c.o.export",
+     "5eb26a425c791911"]]],
+  ["linkLibs",
+   [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Explore.so",
+     "582a9d06c48c1d13"]]],
+  ["traceArgs: #[]", "00000000000006bb"],
+  ["Lean 4.33.1, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6",
+   "0051240b7c23c453"],
+  ["x86_64-unknown-linux-gnu", "53a0e8937c307c28"]],
+ "depHash": "e9b980e2e5793f54"}

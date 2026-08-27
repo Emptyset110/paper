@@ -1,4 +1,6 @@
-{"plugins": [],
+{"plugins":
+ [{"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Basic.so"}],
  "package": "bounded",
  "options": {},
  "name": "Bounded.Perm",

@@ -4,6 +4,7 @@ defaultTargets = ["Bounded"]
 
 [[lean_lib]]
 name = "Bounded"
+precompileModules = true
 
 [[lean_exe]]
 name = "probe"

@@ -286,7 +286,7 @@ def storeOf (γ : Config) (k : Key) : Option Val :=
 def WF (γ : Config) : Prop :=
   ∀ (k : Key) (n m : Slot), provP γ n k = true → provP γ m k = true → n = m
 
-instance : DecidablePred WF := fun γ =>
+instance : DecidablePred WF := fun _ =>
   inferInstanceAs (Decidable (∀ _ _ _, _ → _ → _))
 
 /-- γ ⊨ d_n : every declared key has an Active provider (Def. 46). -/

@@ -550,7 +550,7 @@ def liftStep (a : Act) (γ : Config) (d : Dec) : Option (Ev × Config) :=
       match γ.get n with
       | some f =>
         match f.st with
-        | .unloading acc ω o =>
+        | .unloading acc _ o =>
           let invs :=
             match var with
             | .std => acc.val.reverse

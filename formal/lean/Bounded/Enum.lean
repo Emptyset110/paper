@@ -7,6 +7,15 @@
   finiteness witness ∀ γ, γ ∈ all).  Nothing here is ever evaluated — the
   instance is used abstractly (e.g. by the cardinality-fuel bound in
   Explore.lean).
+
+  COMPILATION NOTE.  These instances must be `noncomputable`.  A top-level
+  Lean constant of non-function type is materialized by the *module
+  initializer* of the compiled module, so leaving them computable makes every
+  program (and every `native_decide`) that transitively imports this file
+  attempt to build the full enumeration of `Config` — roughly 10^44 entries —
+  before running a single instruction.  Marking them `noncomputable` erases
+  only the code, not the definition: the kernel still sees the enumeration and
+  its completeness proof, which is all Theorem B claims.
 -/
 import Bounded.SigDec
 
@@ -14,7 +23,7 @@ namespace Bounded
 
 instance : FinEnum Outcome := ⟨[.ok, .err], by intro x; cases x <;> simp⟩
 
-instance : FinEnum Component :=
+noncomputable instance : FinEnum Component :=
   ⟨(all (α := KSet × KSet × Script)).map fun t => ⟨t.1, t.2.1, t.2.2⟩, by
     intro ⟨d, p, s⟩
     exact List.mem_map.mpr ⟨(d, p, s), complete _, rfl⟩⟩
@@ -33,7 +42,7 @@ instance : FinEnum Inv :=
     | retireChild s =>
       exact List.mem_append_right _ <| List.mem_map_of_mem (complete s)⟩
 
-instance : FinEnum LState :=
+noncomputable instance : FinEnum LState :=
   ⟨(all (α := Outcome)).map .inactive ++
     ((all (α := Script × Acc × View)).map fun t => .reloading t.1 t.2.1 t.2.2) ++
     ((all (α := Acc × View)).map fun t => .active t.1 t.2) ++
@@ -52,7 +61,7 @@ instance : FinEnum LState :=
     | unloading a v o =>
       exact List.mem_append_right _ <| List.mem_map.mpr ⟨(a, v, o), complete _, rfl⟩⟩
 
-instance : FinEnum Fiber :=
+noncomputable instance : FinEnum Fiber :=
   ⟨(all (α := Component × Option Slot × Bool × KMap (Option Val) × LState)).map
       fun t => ⟨t.1, t.2.1, t.2.2.1, t.2.2.2.1, t.2.2.2.2⟩, by
     intro ⟨c, p, r, tb, s⟩
@@ -61,7 +70,7 @@ instance : FinEnum Fiber :=
 /-- **Theorem B (finiteness).**  The bounded configuration type is finite:
     it carries a complete enumeration (and decidable equality, from
     Calc.lean).  `FinEnum.complete` is the witness `∀ γ : Config, γ ∈ all`. -/
-instance finEnumConfig : FinEnum Config :=
+noncomputable instance finEnumConfig : FinEnum Config :=
   inferInstanceAs (FinEnum (SMap (Option Fiber)))
 
 /-- Theorem B, restated explicitly. -/

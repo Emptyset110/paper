@@ -58,14 +58,22 @@ instance [FinEnum α] [FinEnum β] : FinEnum (α ⊕ β) :=
     | inl a => exact List.mem_append_left _ (List.mem_map_of_mem (complete a))
     | inr b => exact List.mem_append_right _ (List.mem_map_of_mem (complete b))⟩
 
-/-- Finite universal quantification is decidable from an enumeration. -/
-instance decidableBallFinEnum [FinEnum α] (p : α → Prop) [DecidablePred p] :
+/-- Finite universal quantification is decidable from an enumeration.
+
+    PRIORITY.  This must be `low`: `∀ x ∈ l, p x` unfolds to `∀ x, x ∈ l → p x`
+    and would otherwise be resolved here — enumerating the whole of `α` —
+    instead of by `List.decidableBAll`, which walks only `l`.  At `α = Config`
+    that difference is the difference between 15,173 states and 10^44. -/
+instance (priority := low) decidableBallFinEnum [FinEnum α] (p : α → Prop)
+    [DecidablePred p] :
     Decidable (∀ x : α, p x) :=
   decidable_of_iff (∀ x ∈ all (α := α), p x)
     ⟨fun h x => h x (complete x), fun h x _ => h x⟩
 
-/-- Finite existential quantification is decidable from an enumeration. -/
-instance decidableBexFinEnum [FinEnum α] (p : α → Prop) [DecidablePred p] :
+/-- Finite existential quantification is decidable from an enumeration.
+    Low priority, for the reason given above. -/
+instance (priority := low) decidableBexFinEnum [FinEnum α] (p : α → Prop)
+    [DecidablePred p] :
     Decidable (∃ x : α, p x) :=
   decidable_of_iff (∃ x ∈ all (α := α), p x)
     ⟨fun ⟨x, _, hp⟩ => ⟨x, hp⟩, fun ⟨x, hp⟩ => ⟨x, complete x, hp⟩⟩

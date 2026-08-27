@@ -14,6 +14,7 @@
   - Theorem C3 (termination from finiteness, via Theorem B): fuel equal to
     the cardinality bound of `Config` empties the frontier.
 -/
+import Std.Data.HashMap
 import Bounded.Enum
 
 namespace Bounded
@@ -345,16 +346,60 @@ theorem expand_closedExcept {f st}
           exact foldl_addNew_seenConfigs_mono (hcl q hq)
       · exact .inl (List.mem_map.mpr ⟨p, hptodo, rfl⟩)
 
+/-- **Theorem C2, generic form.**  Any list of configurations that contains
+    γ₀ and is closed under `succsOf` contains every reachable configuration.
+    This is the only property of the explorer the characterization needs; the
+    `expand` lemmas above show that a worklist run produces such a list, and
+    the shipped run certifies it directly. -/
+theorem complete_of_closed {V : List Config} (h0 : γ0 ∈ V)
+    (hcl : ∀ γ ∈ V, ∀ q ∈ succsOf γ, q.2 ∈ V) : ∀ γ, Reachable γ → γ ∈ V := by
+  intro γ hγ
+  induction hγ with
+  | init => exact h0
+  | step hr ha hs ih => exact hcl _ ih _ (succsOf_mem ha hs)
+
 /- ------------------------------------------------------------------ -/
 /- The shipped exploration.                                            -/
 /- ------------------------------------------------------------------ -/
 
-/- All structural lemmas about `expand` are in place; from here on the BFS
-   must never be reduced symbolically by the elaborator (it is executed only
-   as compiled code inside `native_decide`). -/
+/- All structural lemmas about `expand` are in place.  The *shipped* run,
+   however, is produced by `fastExpand` below rather than by `expand`: the
+   two differ only in how the "already seen?" test is implemented (a linear
+   scan versus a hash table), and at 15,173 states with 77,295 edges the
+   linear scan costs ~6·10^8 structural comparisons per evaluation, which
+   every `native_decide` would repeat.  Nothing is proved about
+   `fastExpand`; the list it returns is certified after the fact by
+   `explore_sound_core`, `gamma0_visited` and `visited_closed`, which are
+   exactly the hypotheses of `complete_of_closed` and `PathsOK`.  The
+   explorer is therefore a *certificate producer*, and the certificate is
+   checked. -/
 attribute [irreducible] expand
 
 def FUEL : Nat := 1000000
+
+instance : Hashable Config := inferInstanceAs (Hashable (SMap (Option Fiber)))
+
+/-- Hash-backed breadth-first worklist.  `front`/`back` are the two halves of
+    a FIFO queue; `out` accumulates discovered pairs in reverse. -/
+def fastExpand : Nat → Std.HashMap Config Unit →
+    List (Config × List Act) → List (Config × List Act) →
+    List (Config × List Act) → List (Config × List Act)
+  | 0, _, _, _, out => out.reverse
+  | fuel + 1, seen, front, back, out =>
+    match front with
+    | [] =>
+      match back.reverse with
+      | [] => out.reverse
+      | f => fastExpand fuel seen f [] out
+    | (γ, w) :: rest =>
+      let r := (succsOf γ).foldl
+        (fun (s : Std.HashMap Config Unit × List (Config × List Act) ×
+                  List (Config × List Act)) ac =>
+          if s.1.contains ac.2 then s
+          else (s.1.insert ac.2 (), (ac.2, w ++ [ac.1]) :: s.2.1,
+                (ac.2, w ++ [ac.1]) :: s.2.2))
+        (seen, back, out)
+      fastExpand fuel r.1 rest r.2.1 r.2.2
 
 /-- The shipped exploration's discovered (state, access word) pairs.
 
@@ -364,7 +409,10 @@ def FUEL : Nat := 1000000
     shipped fact about `visitedP`/`visited` below is either (a) a decidable
     statement discharged by `native_decide` (compiled execution, no kernel
     reduction), or (b) derived from those facts purely symbolically. -/
-def visitedP : List (Config × List Act) := (expand FUEL st0).seen
+def visitedP : List (Config × List Act) :=
+  fastExpand FUEL
+    ((Std.HashMap.emptyWithCapacity : Std.HashMap Config Unit).insert γ0 ())
+    [(γ0, [])] [] [(γ0, [])]
 
 /-- The discovered states. -/
 def visited : List Config := visitedP.map (·.1)
@@ -390,6 +438,9 @@ theorem visited_closed :
     ∀ γ ∈ visited, ∀ q ∈ succsOf γ, q.2 ∈ visited := by
   native_decide
 
+/-- The mechanized state count.  (`native_decide`.) -/
+theorem visited_card : visited.length = 15173 := by native_decide
+
 theorem visited_sound : ∀ γ ∈ visited, Reachable γ := by
   intro γ hγ
   obtain ⟨p, hp, hpc⟩ := List.mem_map.mp hγ
@@ -397,11 +448,8 @@ theorem visited_sound : ∀ γ ∈ visited, Reachable γ := by
   exact hpc ▸ reachable_of_run Reachable.init hwc hrun
 
 /-- **Theorem C2 (completeness).**  Every reachable state is explored. -/
-theorem explore_complete : ∀ γ, Reachable γ → γ ∈ visited := by
-  intro γ hγ
-  induction hγ with
-  | init => exact gamma0_visited
-  | step hr ha hs ih => exact visited_closed _ ih _ (succsOf_mem ha hs)
+theorem explore_complete : ∀ γ, Reachable γ → γ ∈ visited :=
+  complete_of_closed gamma0_visited visited_closed
 
 /-- **Theorem C (explorer correctness).**  The explored set is exactly the
     reachable set. -/

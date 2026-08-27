@@ -1,0 +1,43 @@
+{"plugins":
+ [{"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Basic.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Perm.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Calc.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_SigDec.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Enum.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Explore.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Equiv.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Charact.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Cutoff.so"}],
+ "package": "bounded",
+ "options": {},
+ "name": "Bounded",
+ "isModule": false,
+ "importArts":
+ {"Bounded.SigDec":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/SigDec.olean"]],
+  "Bounded.Perm":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Perm.olean"]],
+  "Bounded.Explore":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Explore.olean"]],
+  "Bounded.Equiv":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Equiv.olean"]],
+  "Bounded.Enum":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Enum.olean"]],
+  "Bounded.Cutoff":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Cutoff.olean"]],
+  "Bounded.Charact":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Charact.olean"]],
+  "Bounded.Calc":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Calc.olean"]],
+  "Bounded.Basic":
+  [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/Bounded/Basic.olean"]]},
+ "dynlibs": []}

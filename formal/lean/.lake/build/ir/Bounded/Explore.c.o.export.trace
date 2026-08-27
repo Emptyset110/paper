@@ -1,0 +1,18 @@
+{"synthetic": false,
+ "schemaVersion": "2025-09-10",
+ "outputs": "5f1f8331b6a06cf1.o",
+ "log":
+ [{"message":
+   ".> /home/rebuilding/.elan/toolchains/leanprover--lean4---v4.33.1/bin/clang -c -o /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Explore.c.o.export /home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Explore.c -I /home/rebuilding/.elan/toolchains/leanprover--lean4---v4.33.1/include -fstack-clash-protection -ffp-contract=off -fdata-sections -ffunction-sections -fPIC -fvisibility=hidden -Wno-unused-command-line-argument --sysroot /home/rebuilding/.elan/toolchains/leanprover--lean4---v4.33.1 -nostdinc -isystem /home/rebuilding/.elan/toolchains/leanprover--lean4---v4.33.1/include/clang -O3 -DNDEBUG -DLEAN_EXPORTING",
+   "level": "trace"}],
+ "inputs":
+ [["Bounded.Explore:c",
+   [["/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/ir/Bounded/Explore.c",
+     "8971b73f60633bd0"],
+    ["Lean 4.33.1, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6",
+     "0051240b7c23c453"]]],
+  ["Lean 4.33.1, commit 819816b2e0a3bf405af45ae5c7af2491d8f5bee6",
+   "0051240b7c23c453"],
+  ["traceArgs: #[-O3, -DNDEBUG, -DLEAN_EXPORTING]", "c1efb66122fb2b9a"],
+  ["x86_64-unknown-linux-gnu", "53a0e8937c307c28"]],
+ "depHash": "5c81d14e213412c0"}

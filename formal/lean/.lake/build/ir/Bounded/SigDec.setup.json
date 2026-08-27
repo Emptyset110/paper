@@ -1,4 +1,10 @@
-{"plugins": [],
+{"plugins":
+ [{"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Basic.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Perm.so"},
+  {"path":
+   "/home/rebuilding/Studio/cordis-dev/paper/formal/lean/.lake/build/lib/lean/bounded_Bounded_Calc.so"}],
  "package": "bounded",
  "options": {},
  "name": "Bounded.SigDec",
