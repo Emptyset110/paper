@@ -4,6 +4,17 @@
 
 > This is a preprint under active revision. The content may change substantially; please cite the latest version and check back before relying on specific results.
 
+## Conformance proof
+
+[`proof/`](proof/conformance.md) formalizes the plugin system of §5 as a
+labeled transition system, derives a 32-obligation test set in bijection
+with the calculus's clauses, and proves sufficiency (induction over runs,
+axioms stated) and necessity (clause-injectivity plus an executable
+27-mutant kill matrix). The suite runs against an executable reference
+model of the calculus, two real Cordis builds, and a two-node
+cordis-node system; results and the four upstream divergences it found
+are in the document.
+
 ## Abstract
 
 Modern software—from plugin systems to self-evolving agent harnesses—increasingly requires _dynamic composition_, yet its formal foundations remain underdeveloped. We identify two orthogonal dimensions of the problem: _temporal composability_, the ability to completely revert a component's side effects upon removal, and _spatial composability_, the ability to declare and reactively manage inter-component dependencies.
