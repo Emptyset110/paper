@@ -1,0 +1,511 @@
+
+[cong:A1] states=588 windows=4498 classes=66 wall=0.2s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 1290 | 3 | 0 | 0 |
+| CO-Prov | 645 | 3 | 0 | 0 |
+| L-Begin | 101 | 6 | 0 | 0 |
+| L-Divert | 151 | 8 | 0 | 6 |
+| L-Finish | 29 | 2 | 0 | 1 |
+| L-Iter | 37 | 5 | 0 | 1 |
+| L-Leave | 99 | 3 | 0 | 0 |
+| L-Raise | 9 | 4 | 0 | 0 |
+| L-Unload | 183 | 11 | 0 | 2 |
+| O-Insert | 55 | 5 | 0 | 0 |
+| O-Remove | 609 | 6 | 0 | 0 |
+| O-Retire | 645 | 4 | 0 | 0 |
+| O-Update | 645 | 6 | 0 | 0 |
+| **total** | 4498 | 66 | **0** | 10 |
+saturation (BFS phase): last new κ-class at window 2980 of 4128 (1148 windows with no new class); coda added 5 more
+[cong:A2c] expanded 5000/8135 states, 72939 windows, 75 classes, 1s
+[cong:A2c] expanded 10000/13302 states, 145486 windows, 80 classes, 2s
+[cong:A2c] expanded 15000/18724 states, 228994 windows, 85 classes, 4s
+[cong:A2c] expanded 20000/22752 states, 311249 windows, 98 classes, 5s
+[cong:A2c] expanded 25000/27185 states, 407094 windows, 99 classes, 6s
+[cong:A2c] expanded 30000/30499 states, 497020 windows, 99 classes, 8s
+
+[cong:A2c] states=30765 windows=508261 classes=100 wall=8.2s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 144666 | 6 | 0 | 0 |
+| CO-Prov | 72333 | 3 | 0 | 0 |
+| L-Begin | 18477 | 10 | 0 | 0 |
+| L-Divert | 12310 | 12 | 0 | 4 |
+| L-Finish | 5460 | 4 | 0 | 2 |
+| L-Iter | 5000 | 10 | 1 | 2 |
+| L-Leave | 12263 | 3 | 0 | 0 |
+| L-Raise | 1249 | 5 | 0 | 0 |
+| L-Unload | 16448 | 17 | 0 | 1 |
+| O-Insert | 3997 | 8 | 0 | 0 |
+| O-Remove | 71392 | 12 | 0 | 0 |
+| O-Retire | 72333 | 4 | 0 | 0 |
+| O-Update | 72333 | 6 | 0 | 0 |
+| **total** | 508261 | 100 | **1** | 9 |
+excluded harness faults (explorer state-encoding artifact):
+  185 x HARNESS(TypeError:Cannot read properties of null (reading 'removed'))
+saturation (BFS phase): last new κ-class at window 351240 of 507891 (156651 windows with no new class); coda added 1 more
+
+LEVEL-1 COUNTEREXAMPLES (1):
+  L-Iter {T1,T2,T4} — 2 distinct results over 30 windows
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(track)"]}
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(rrev)"]}
+[cong:A2w] expanded 5000/12397 states, 73176 windows, 60 classes, 2s
+[cong:A2w] expanded 10000/21989 states, 144489 windows, 74 classes, 3s
+[cong:A2w] expanded 15000/31910 states, 217282 windows, 88 classes, 4s
+[cong:A2w] expanded 20000/39299 states, 287477 windows, 88 classes, 5s
+[cong:A2w] expanded 25000/47521 states, 358498 windows, 90 classes, 7s
+[cong:A2w] expanded 30000/57034 states, 435414 windows, 92 classes, 8s
+[cong:A2w] expanded 35000/63723 states, 505622 windows, 92 classes, 10s
+[cong:A2w] expanded 40000/70089 states, 575648 windows, 92 classes, 11s
+[cong:A2w] expanded 45000/77234 states, 645856 windows, 92 classes, 12s
+[cong:A2w] expanded 50000/86173 states, 730476 windows, 93 classes, 15s
+[cong:A2w] expanded 55000/94421 states, 808643 windows, 97 classes, 16s
+[cong:A2w] expanded 60000/100909 states, 878695 windows, 97 classes, 18s
+[cong:A2w] expanded 65000/106145 states, 948708 windows, 97 classes, 19s
+[cong:A2w] expanded 70000/111859 states, 1018708 windows, 97 classes, 20s
+[cong:A2w] expanded 75000/117823 states, 1088708 windows, 97 classes, 22s
+[cong:A2w] expanded 80000/123741 states, 1159080 windows, 98 classes, 23s
+[cong:A2w] expanded 85000/133647 states, 1258616 windows, 98 classes, 26s
+[cong:A2w] expanded 90000/142965 states, 1354843 windows, 98 classes, 29s
+[cong:A2w] expanded 95000/149069 states, 1426598 windows, 104 classes, 30s
+[cong:A2w] expanded 100000/154476 states, 1496598 windows, 105 classes, 31s
+[cong:A2w] expanded 105000/159578 states, 1566598 windows, 105 classes, 33s
+[cong:A2w] expanded 110000/164156 states, 1636598 windows, 105 classes, 34s
+[cong:A2w] expanded 115000/168869 states, 1706598 windows, 105 classes, 36s
+[cong:A2w] expanded 120000/174105 states, 1776598 windows, 105 classes, 37s
+[cong:A2w] expanded 125000/180699 states, 1854413 windows, 106 classes, 39s
+[cong:A2w] expanded 130000/188941 states, 1956712 windows, 106 classes, 42s
+[cong:A2w] expanded 135000/197714 states, 2058351 windows, 106 classes, 45s
+[cong:A2w] expanded 140000/206230 states, 2159180 windows, 106 classes, 49s
+[cong:A2w] expanded 145000/213732 states, 2249738 windows, 106 classes, 51s
+[cong:A2w] expanded 150000/218513 states, 2319816 windows, 111 classes, 53s
+[cong:A2w] expanded 155000/222987 states, 2389816 windows, 111 classes, 54s
+[cong:A2w] expanded 160000/227244 states, 2459816 windows, 111 classes, 55s
+[cong:A2w] expanded 165000/230617 states, 2529816 windows, 111 classes, 57s
+[cong:A2w] expanded 170000/234201 states, 2599816 windows, 111 classes, 59s
+[cong:A2w] expanded 175000/238230 states, 2669816 windows, 111 classes, 60s
+[cong:A2w] expanded 180000/245471 states, 2753664 windows, 112 classes, 62s
+[cong:A2w] expanded 185000/252668 states, 2857173 windows, 112 classes, 66s
+[cong:A2w] expanded 190000/260450 states, 2960724 windows, 112 classes, 69s
+[cong:A2w] expanded 195000/268408 states, 3063659 windows, 112 classes, 72s
+[cong:A2w] expanded 200000/276040 states, 3167152 windows, 112 classes, 75s
+[cong:A2w] expanded 205000/283691 states, 3270142 windows, 112 classes, 79s
+[cong:A2w] expanded 210000/291044 states, 3371638 windows, 112 classes, 82s
+[cong:A2w] expanded 215000/296611 states, 3455736 windows, 112 classes, 85s
+
+[cong:A2w] states=300001 (TRUNCATED) windows=3523526 classes=114 wall=86.2s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 1005540 | 6 | 0 | 0 |
+| CO-Prov | 502770 | 3 | 0 | 0 |
+| L-Begin | 119880 | 10 | 0 | 0 |
+| L-Divert | 125131 | 18 | 0 | 7 |
+| L-Finish | 38449 | 4 | 0 | 2 |
+| L-Iter | 38573 | 11 | 1 | 2 |
+| L-Leave | 58089 | 4 | 0 | 0 |
+| L-Raise | 9334 | 5 | 0 | 0 |
+| L-Unload | 108280 | 23 | 0 | 2 |
+| O-Insert | 13677 | 8 | 0 | 0 |
+| O-Remove | 498263 | 12 | 0 | 0 |
+| O-Retire | 502770 | 4 | 0 | 0 |
+| O-Update | 502770 | 6 | 0 | 0 |
+| **total** | 3523526 | 114 | **1** | 13 |
+excluded harness faults (explorer state-encoding artifact):
+  527 x HARNESS(TypeError:Cannot read properties of null (reading 'removed'))
+saturation (BFS phase): last new κ-class at window 3479626 of 3523156 (43530 windows with no new class); coda added 1 more
+
+LEVEL-1 COUNTEREXAMPLES (1):
+  L-Iter {T1,T2,T4} — 2 distinct results over 293 windows
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(track)"]}
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(rrev)"]}
+[cong:sat3] expanded 5000/10278 states, 98044 windows, 50 classes, 2s
+[cong:sat3] expanded 10000/19064 states, 199484 windows, 54 classes, 4s
+[cong:sat3] expanded 15000/27479 states, 301837 windows, 56 classes, 7s
+[cong:sat3] expanded 20000/34716 states, 405301 windows, 56 classes, 9s
+[cong:sat3] expanded 25000/42348 states, 508570 windows, 56 classes, 11s
+[cong:sat3] expanded 30000/49838 states, 612105 windows, 56 classes, 14s
+[cong:sat3] expanded 35000/56172 states, 716389 windows, 56 classes, 16s
+[cong:sat3] expanded 40000/62540 states, 820444 windows, 56 classes, 19s
+[cong:sat3] expanded 45000/70008 states, 924641 windows, 56 classes, 21s
+[cong:sat3] expanded 50000/76351 states, 1029075 windows, 56 classes, 24s
+[cong:sat3] expanded 55000/81867 states, 1133835 windows, 56 classes, 26s
+[cong:sat3] expanded 60000/87312 states, 1238202 windows, 56 classes, 29s
+[cong:sat3] expanded 65000/93742 states, 1343118 windows, 56 classes, 32s
+[cong:sat3] expanded 70000/100230 states, 1447758 windows, 56 classes, 34s
+[cong:sat3] expanded 75000/105592 states, 1552535 windows, 56 classes, 37s
+[cong:sat3] expanded 80000/110755 states, 1657315 windows, 56 classes, 39s
+[cong:sat3] expanded 85000/115921 states, 1762159 windows, 56 classes, 42s
+[cong:sat3] expanded 90000/120636 states, 1866956 windows, 56 classes, 45s
+[cong:sat3] expanded 95000/126344 states, 1971920 windows, 56 classes, 47s
+[cong:sat3] expanded 100000/131876 states, 2076784 windows, 56 classes, 50s
+[cong:sat3] expanded 105000/136468 states, 2181596 windows, 56 classes, 53s
+[cong:sat3] expanded 110000/141058 states, 2286512 windows, 56 classes, 56s
+[cong:sat3] expanded 115000/145703 states, 2391428 windows, 56 classes, 58s
+[cong:sat3] expanded 120000/149630 states, 2496232 windows, 56 classes, 62s
+[cong:sat3] expanded 125000/154391 states, 2601232 windows, 56 classes, 64s
+[cong:sat3] expanded 130000/159116 states, 2706208 windows, 56 classes, 67s
+[cong:sat3] expanded 135000/163374 states, 2810944 windows, 56 classes, 70s
+[cong:sat3] expanded 140000/167268 states, 2915784 windows, 56 classes, 73s
+[cong:sat3] expanded 145000/171103 states, 3020708 windows, 56 classes, 75s
+[cong:sat3] expanded 150000/174372 states, 3125520 windows, 56 classes, 78s
+[cong:sat3] expanded 155000/178432 states, 3230520 windows, 56 classes, 81s
+[cong:sat3] expanded 160000/182267 states, 3335400 windows, 56 classes, 84s
+[cong:sat3] expanded 165000/186174 states, 3439972 windows, 56 classes, 87s
+[cong:sat3] expanded 170000/189254 states, 3544844 windows, 56 classes, 90s
+[cong:sat3] expanded 175000/192168 states, 3649696 windows, 56 classes, 93s
+[cong:sat3] expanded 180000/195251 states, 3754696 windows, 56 classes, 95s
+[cong:sat3] expanded 185000/199258 states, 3859264 windows, 56 classes, 99s
+[cong:sat3] expanded 190000/202308 states, 3964004 windows, 56 classes, 101s
+[cong:sat3] expanded 195000/204783 states, 4068880 windows, 56 classes, 104s
+[cong:sat3] expanded 200000/209143 states, 4173512 windows, 56 classes, 107s
+[cong:sat3] expanded 205000/211912 states, 4278336 windows, 56 classes, 110s
+[cong:sat3] expanded 210000/216834 states, 4383140 windows, 56 classes, 114s
+[cong:sat3] expanded 215000/221064 states, 4488092 windows, 56 classes, 117s
+[cong:sat3] expanded 220000/225560 states, 4593064 windows, 56 classes, 121s
+[cong:sat3] expanded 225000/229529 states, 4698044 windows, 56 classes, 125s
+[cong:sat3] expanded 230000/232650 states, 4802944 windows, 56 classes, 128s
+[cong:sat3] expanded 235000/235213 states, 4907816 windows, 56 classes, 132s
+
+[cong:sat3] states=235316 windows=4914822 classes=61 wall=132.6s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 1398600 | 4 | 0 | 0 |
+| CO-Prov | 699300 | 3 | 0 | 0 |
+| L-Begin | 132907 | 8 | 0 | 0 |
+| L-Divert | 132560 | 8 | 0 | 0 |
+| L-Finish | 29760 | 2 | 0 | 0 |
+| L-Iter | 16592 | 2 | 0 | 0 |
+| L-Leave | 129683 | 4 | 0 | 0 |
+| L-Raise | 12968 | 1 | 0 | 0 |
+| L-Unload | 244794 | 10 | 0 | 0 |
+| O-Insert | 19794 | 3 | 0 | 0 |
+| O-Remove | 699264 | 6 | 0 | 0 |
+| O-Retire | 699300 | 4 | 0 | 0 |
+| O-Update | 699300 | 6 | 0 | 0 |
+| **total** | 4914822 | 61 | **0** | 0 |
+saturation (BFS phase): last new κ-class at window 272086 of 4914452 (4642366 windows with no new class); coda added 5 more
+[cong:dep3] expanded 5000/10594 states, 101524 windows, 47 classes, 2s
+[cong:dep3] expanded 10000/19643 states, 204890 windows, 53 classes, 5s
+[cong:dep3] expanded 15000/28185 states, 308564 windows, 60 classes, 7s
+[cong:dep3] expanded 20000/36183 states, 412554 windows, 60 classes, 9s
+[cong:dep3] expanded 25000/42927 states, 516828 windows, 60 classes, 12s
+[cong:dep3] expanded 30000/52300 states, 620781 windows, 66 classes, 14s
+[cong:dep3] expanded 35000/59175 states, 725259 windows, 66 classes, 16s
+[cong:dep3] expanded 40000/65590 states, 829709 windows, 66 classes, 19s
+[cong:dep3] expanded 45000/72465 states, 934250 windows, 66 classes, 21s
+[cong:dep3] expanded 50000/81459 states, 1038582 windows, 68 classes, 24s
+[cong:dep3] expanded 55000/87889 states, 1143255 windows, 68 classes, 26s
+[cong:dep3] expanded 60000/94165 states, 1247829 windows, 68 classes, 29s
+[cong:dep3] expanded 65000/100579 states, 1352455 windows, 68 classes, 31s
+[cong:dep3] expanded 70000/105928 states, 1457100 windows, 68 classes, 34s
+[cong:dep3] expanded 75000/113674 states, 1561956 windows, 68 classes, 37s
+[cong:dep3] expanded 80000/121392 states, 1666640 windows, 69 classes, 39s
+[cong:dep3] expanded 85000/127800 states, 1771309 windows, 69 classes, 42s
+[cong:dep3] expanded 90000/133694 states, 1876031 windows, 69 classes, 44s
+[cong:dep3] expanded 95000/138888 states, 1980935 windows, 69 classes, 47s
+[cong:dep3] expanded 100000/145040 states, 2085769 windows, 69 classes, 49s
+[cong:dep3] expanded 105000/149577 states, 2190510 windows, 69 classes, 52s
+[cong:dep3] expanded 110000/155973 states, 2295494 windows, 69 classes, 55s
+[cong:dep3] expanded 115000/163037 states, 2400418 windows, 69 classes, 57s
+[cong:dep3] expanded 120000/169581 states, 2505252 windows, 73 classes, 60s
+[cong:dep3] expanded 125000/176188 states, 2610044 windows, 73 classes, 63s
+[cong:dep3] expanded 130000/181293 states, 2714927 windows, 73 classes, 65s
+[cong:dep3] expanded 135000/186404 states, 2819793 windows, 73 classes, 68s
+[cong:dep3] expanded 140000/191113 states, 2924783 windows, 73 classes, 71s
+[cong:dep3] expanded 145000/196932 states, 3029705 windows, 73 classes, 73s
+[cong:dep3] expanded 150000/201205 states, 3134522 windows, 73 classes, 76s
+[cong:dep3] expanded 155000/206464 states, 3239522 windows, 73 classes, 79s
+[cong:dep3] expanded 160000/212615 states, 3344516 windows, 73 classes, 81s
+[cong:dep3] expanded 165000/218228 states, 3449504 windows, 73 classes, 84s
+[cong:dep3] expanded 170000/224694 states, 3554422 windows, 77 classes, 87s
+[cong:dep3] expanded 175000/230338 states, 3659376 windows, 77 classes, 89s
+[cong:dep3] expanded 180000/235304 states, 3764234 windows, 77 classes, 92s
+[cong:dep3] expanded 185000/239701 states, 3869154 windows, 77 classes, 95s
+[cong:dep3] expanded 190000/243753 states, 3974124 windows, 77 classes, 98s
+[cong:dep3] expanded 195000/248891 states, 4079124 windows, 77 classes, 100s
+[cong:dep3] expanded 200000/253339 states, 4183986 windows, 77 classes, 103s
+[cong:dep3] expanded 205000/257557 states, 4288958 windows, 77 classes, 106s
+[cong:dep3] expanded 210000/262226 states, 4393958 windows, 77 classes, 109s
+[cong:dep3] expanded 215000/267492 states, 4498958 windows, 77 classes, 111s
+[cong:dep3] expanded 220000/272422 states, 4603958 windows, 78 classes, 114s
+[cong:dep3] expanded 225000/278369 states, 4708928 windows, 78 classes, 117s
+[cong:dep3] expanded 230000/283186 states, 4813910 windows, 78 classes, 119s
+[cong:dep3] expanded 235000/287666 states, 4918768 windows, 78 classes, 122s
+[cong:dep3] expanded 240000/291591 states, 5023678 windows, 78 classes, 125s
+[cong:dep3] expanded 245000/295070 states, 5128640 windows, 78 classes, 128s
+[cong:dep3] expanded 250000/299963 states, 5233638 windows, 78 classes, 131s
+[cong:dep3] expanded 255000/303610 states, 5338524 windows, 78 classes, 134s
+[cong:dep3] expanded 260000/306856 states, 5443524 windows, 78 classes, 137s
+[cong:dep3] expanded 265000/311379 states, 5548524 windows, 78 classes, 139s
+[cong:dep3] expanded 270000/315142 states, 5653524 windows, 78 classes, 142s
+[cong:dep3] expanded 275000/320233 states, 5758524 windows, 78 classes, 145s
+[cong:dep3] expanded 280000/324928 states, 5863490 windows, 78 classes, 148s
+[cong:dep3] expanded 285000/329248 states, 5968392 windows, 78 classes, 151s
+[cong:dep3] expanded 290000/333116 states, 6073212 windows, 78 classes, 154s
+[cong:dep3] expanded 295000/336235 states, 6178148 windows, 78 classes, 157s
+[cong:dep3] expanded 300000/340302 states, 6283138 windows, 78 classes, 160s
+[cong:dep3] expanded 305000/343263 states, 6388060 windows, 78 classes, 163s
+[cong:dep3] expanded 310000/346401 states, 6493060 windows, 78 classes, 165s
+[cong:dep3] expanded 315000/349396 states, 6598060 windows, 78 classes, 168s
+[cong:dep3] expanded 320000/353526 states, 6703060 windows, 78 classes, 171s
+[cong:dep3] expanded 325000/357641 states, 6807996 windows, 78 classes, 173s
+[cong:dep3] expanded 330000/361847 states, 6912858 windows, 78 classes, 176s
+[cong:dep3] expanded 335000/365428 states, 7017674 windows, 78 classes, 179s
+[cong:dep3] expanded 340000/368763 states, 7122630 windows, 78 classes, 182s
+[cong:dep3] expanded 345000/371363 states, 7227568 windows, 78 classes, 185s
+[cong:dep3] expanded 350000/373641 states, 7332568 windows, 78 classes, 188s
+[cong:dep3] expanded 355000/377230 states, 7437538 windows, 78 classes, 190s
+[cong:dep3] expanded 360000/381256 states, 7542446 windows, 78 classes, 193s
+[cong:dep3] expanded 365000/385946 states, 7647248 windows, 78 classes, 197s
+[cong:dep3] expanded 370000/388924 states, 7752190 windows, 78 classes, 200s
+[cong:dep3] expanded 375000/390811 states, 7857186 windows, 78 classes, 202s
+[cong:dep3] expanded 380000/394660 states, 7962089 windows, 78 classes, 205s
+[cong:dep3] expanded 385000/399703 states, 8067015 windows, 78 classes, 209s
+
+[cong:dep3] states=400003 (TRUNCATED) windows=8075008 classes=83 wall=209.3s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 2294954 | 4 | 0 | 0 |
+| CO-Prov | 1147477 | 3 | 0 | 0 |
+| L-Begin | 214109 | 14 | 0 | 0 |
+| L-Divert | 215866 | 15 | 0 | 0 |
+| L-Finish | 42168 | 2 | 0 | 1 |
+| L-Iter | 28301 | 3 | 1 | 1 |
+| L-Leave | 240151 | 4 | 0 | 0 |
+| L-Raise | 15998 | 1 | 0 | 0 |
+| L-Unload | 390848 | 18 | 0 | 0 |
+| O-Insert | 42741 | 3 | 0 | 0 |
+| O-Remove | 1147441 | 6 | 0 | 0 |
+| O-Retire | 1147477 | 4 | 0 | 0 |
+| O-Update | 1147477 | 6 | 0 | 0 |
+| **total** | 8075008 | 83 | **1** | 2 |
+saturation (BFS phase): last new κ-class at window 4598022 of 8074638 (3476616 windows with no new class); coda added 5 more
+
+LEVEL-1 COUNTEREXAMPLES (1):
+  L-Iter {T1,T2,T4} — 2 distinct results over 7156 windows
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(rrev)"]}
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(track)"]}
+[cong:fail3] expanded 5000/11792 states, 99094 windows, 48 classes, 2s
+[cong:fail3] expanded 10000/22103 states, 200637 windows, 52 classes, 5s
+[cong:fail3] expanded 15000/31073 states, 303438 windows, 52 classes, 7s
+[cong:fail3] expanded 20000/40784 states, 405795 windows, 56 classes, 10s
+[cong:fail3] expanded 25000/49029 states, 509562 windows, 56 classes, 12s
+[cong:fail3] expanded 30000/56993 states, 613293 windows, 56 classes, 15s
+[cong:fail3] expanded 35000/65807 states, 715917 windows, 58 classes, 17s
+[cong:fail3] expanded 40000/74167 states, 819934 windows, 58 classes, 20s
+[cong:fail3] expanded 45000/82066 states, 923926 windows, 58 classes, 22s
+[cong:fail3] expanded 50000/89261 states, 1028248 windows, 58 classes, 25s
+[cong:fail3] expanded 55000/95851 states, 1132717 windows, 58 classes, 28s
+[cong:fail3] expanded 60000/103756 states, 1236142 windows, 58 classes, 30s
+[cong:fail3] expanded 65000/111664 states, 1339851 windows, 58 classes, 33s
+[cong:fail3] expanded 70000/119502 states, 1444114 windows, 58 classes, 36s
+[cong:fail3] expanded 75000/126570 states, 1548667 windows, 58 classes, 38s
+[cong:fail3] expanded 80000/132928 states, 1653151 windows, 58 classes, 41s
+[cong:fail3] expanded 85000/140021 states, 1757824 windows, 58 classes, 44s
+[cong:fail3] expanded 90000/146468 states, 1862587 windows, 58 classes, 47s
+[cong:fail3] expanded 95000/152210 states, 1967170 windows, 58 classes, 49s
+[cong:fail3] expanded 100000/159090 states, 2071594 windows, 58 classes, 52s
+[cong:fail3] expanded 105000/165900 states, 2175832 windows, 58 classes, 55s
+[cong:fail3] expanded 110000/172516 states, 2280130 windows, 58 classes, 58s
+[cong:fail3] expanded 115000/180089 states, 2384767 windows, 58 classes, 60s
+[cong:fail3] expanded 120000/186460 states, 2489436 windows, 58 classes, 63s
+[cong:fail3] expanded 125000/192517 states, 2594272 windows, 58 classes, 66s
+[cong:fail3] expanded 130000/198715 states, 2698794 windows, 58 classes, 69s
+[cong:fail3] expanded 135000/204555 states, 2803743 windows, 58 classes, 72s
+[cong:fail3] expanded 140000/210396 states, 2908674 windows, 58 classes, 74s
+[cong:fail3] expanded 145000/216166 states, 3013560 windows, 58 classes, 77s
+[cong:fail3] expanded 150000/221813 states, 3118335 windows, 58 classes, 80s
+[cong:fail3] expanded 155000/226750 states, 3223191 windows, 58 classes, 83s
+[cong:fail3] expanded 160000/233364 states, 3327756 windows, 58 classes, 86s
+[cong:fail3] expanded 165000/239189 states, 3432594 windows, 58 classes, 89s
+[cong:fail3] expanded 170000/245038 states, 3537102 windows, 58 classes, 92s
+[cong:fail3] expanded 175000/251489 states, 3642063 windows, 58 classes, 94s
+[cong:fail3] expanded 180000/257553 states, 3746934 windows, 58 classes, 97s
+[cong:fail3] expanded 185000/263292 states, 3851724 windows, 58 classes, 100s
+[cong:fail3] expanded 190000/268223 states, 3956606 windows, 58 classes, 103s
+[cong:fail3] expanded 195000/274168 states, 4061477 windows, 58 classes, 106s
+[cong:fail3] expanded 200000/279019 states, 4166324 windows, 58 classes, 109s
+[cong:fail3] expanded 205000/284144 states, 4271294 windows, 58 classes, 112s
+[cong:fail3] expanded 210000/288972 states, 4376279 windows, 58 classes, 115s
+[cong:fail3] expanded 215000/294156 states, 4481231 windows, 58 classes, 118s
+[cong:fail3] expanded 220000/299115 states, 4586228 windows, 58 classes, 121s
+[cong:fail3] expanded 225000/303208 states, 4691075 windows, 58 classes, 123s
+[cong:fail3] expanded 230000/309086 states, 4795946 windows, 58 classes, 127s
+[cong:fail3] expanded 235000/314332 states, 4900844 windows, 58 classes, 130s
+[cong:fail3] expanded 240000/319558 states, 5005769 windows, 58 classes, 133s
+[cong:fail3] expanded 245000/324424 states, 5110552 windows, 58 classes, 136s
+[cong:fail3] expanded 250000/329628 states, 5215543 windows, 58 classes, 139s
+[cong:fail3] expanded 255000/335299 states, 5320525 windows, 58 classes, 141s
+[cong:fail3] expanded 260000/340330 states, 5425471 windows, 58 classes, 144s
+[cong:fail3] expanded 265000/344890 states, 5530300 windows, 58 classes, 147s
+[cong:fail3] expanded 270000/349502 states, 5635153 windows, 58 classes, 150s
+[cong:fail3] expanded 275000/354392 states, 5740060 windows, 58 classes, 152s
+[cong:fail3] expanded 280000/358174 states, 5845051 windows, 58 classes, 156s
+[cong:fail3] expanded 285000/362447 states, 5950030 windows, 58 classes, 159s
+[cong:fail3] expanded 290000/366521 states, 6054994 windows, 58 classes, 162s
+[cong:fail3] expanded 295000/371246 states, 6159964 windows, 58 classes, 165s
+[cong:fail3] expanded 300000/375641 states, 6264937 windows, 58 classes, 168s
+[cong:fail3] expanded 305000/379675 states, 6369868 windows, 58 classes, 171s
+[cong:fail3] expanded 310000/384282 states, 6474835 windows, 58 classes, 174s
+[cong:fail3] expanded 315000/388865 states, 6579802 windows, 58 classes, 177s
+[cong:fail3] expanded 320000/393207 states, 6684697 windows, 58 classes, 181s
+[cong:fail3] expanded 325000/396981 states, 6789607 windows, 58 classes, 184s
+
+[cong:fail3] states=400000 (TRUNCATED) windows=6862427 classes=63 wall=185.6s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 1947682 | 4 | 0 | 0 |
+| CO-Prov | 973841 | 3 | 0 | 0 |
+| L-Begin | 220337 | 8 | 0 | 0 |
+| L-Divert | 218386 | 8 | 0 | 0 |
+| L-Finish | 43278 | 2 | 0 | 0 |
+| L-Iter | 31715 | 2 | 0 | 0 |
+| L-Leave | 112239 | 4 | 0 | 0 |
+| L-Raise | 50100 | 2 | 0 | 0 |
+| L-Unload | 297750 | 11 | 0 | 0 |
+| O-Insert | 45612 | 3 | 0 | 0 |
+| O-Remove | 973805 | 6 | 0 | 0 |
+| O-Retire | 973841 | 4 | 0 | 0 |
+| O-Update | 973841 | 6 | 0 | 0 |
+| **total** | 6862427 | 63 | **0** | 0 |
+saturation (BFS phase): last new κ-class at window 707207 of 6862057 (6154850 windows with no new class); coda added 5 more
+[cong:regB] expanded 5000/6388 states, 115278 windows, 61 classes, 3s
+[cong:regB] expanded 10000/11740 states, 255286 windows, 61 classes, 10s
+[cong:regB] expanded 15000/16117 states, 407072 windows, 61 classes, 19s
+
+[cong:regB] states=19707 windows=550362 classes=62 wall=26.7s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 157990 | 6 | 0 | 0 |
+| CO-Prov | 78995 | 3 | 0 | 0 |
+| L-Begin | 15648 | 8 | 0 | 0 |
+| L-Divert | 12966 | 5 | 0 | 1 |
+| L-Finish | 4801 | 3 | 0 | 0 |
+| L-Iter | 2874 | 3 | 0 | 0 |
+| L-Leave | 21666 | 3 | 0 | 0 |
+| L-Raise | 476 | 1 | 0 | 0 |
+| L-Unload | 18494 | 7 | 0 | 0 |
+| O-Insert | 1103 | 3 | 0 | 0 |
+| O-Remove | 77359 | 10 | 0 | 0 |
+| O-Retire | 78995 | 4 | 0 | 0 |
+| O-Update | 78995 | 6 | 0 | 0 |
+| **total** | 550362 | 62 | **0** | 1 |
+excluded harness faults (explorer state-encoding artifact):
+  434 x HARNESS(TypeError:Cannot read properties of null (reading 'removed'))
+saturation (BFS phase): last new κ-class at window 42667 of 549992 (507325 windows with no new class); coda added 1 more
+[cong:regA] expanded 5000/10303 states, 96564 windows, 54 classes, 2s
+[cong:regA] expanded 10000/19232 states, 197463 windows, 63 classes, 5s
+[cong:regA] expanded 15000/28211 states, 300779 windows, 68 classes, 7s
+[cong:regA] expanded 20000/35469 states, 403964 windows, 68 classes, 10s
+[cong:regA] expanded 25000/43964 states, 510141 windows, 68 classes, 13s
+[cong:regA] expanded 30000/52296 states, 617115 windows, 68 classes, 16s
+[cong:regA] expanded 35000/59046 states, 721302 windows, 68 classes, 18s
+[cong:regA] expanded 40000/66490 states, 828955 windows, 68 classes, 22s
+[cong:regA] expanded 45000/76745 states, 947537 windows, 68 classes, 27s
+[cong:regA] expanded 50000/84712 states, 1056717 windows, 68 classes, 30s
+[cong:regA] expanded 55000/90739 states, 1160870 windows, 68 classes, 33s
+[cong:regA] expanded 60000/97434 states, 1269761 windows, 68 classes, 36s
+[cong:regA] expanded 65000/105834 states, 1386179 windows, 68 classes, 42s
+[cong:regA] expanded 70000/112038 states, 1490609 windows, 68 classes, 44s
+[cong:regA] expanded 75000/122935 states, 1623532 windows, 68 classes, 52s
+[cong:regA] expanded 80000/132885 states, 1751231 windows, 68 classes, 58s
+[cong:regA] expanded 85000/139147 states, 1858055 windows, 68 classes, 62s
+[cong:regA] expanded 90000/144509 states, 1962604 windows, 68 classes, 64s
+[cong:regA] expanded 95000/149957 states, 2070112 windows, 68 classes, 67s
+[cong:regA] expanded 100000/158191 states, 2189056 windows, 68 classes, 75s
+[cong:regA] expanded 105000/169277 states, 2324700 windows, 68 classes, 85s
+[cong:regA] expanded 110000/173822 states, 2430363 windows, 68 classes, 88s
+[cong:regA] expanded 115000/182850 states, 2553407 windows, 68 classes, 94s
+[cong:regA] expanded 120000/191333 states, 2688250 windows, 68 classes, 102s
+[cong:regA] expanded 125000/202402 states, 2826622 windows, 68 classes, 111s
+[cong:regA] expanded 130000/210626 states, 2955494 windows, 68 classes, 118s
+[cong:regA] expanded 135000/218602 states, 3079892 windows, 68 classes, 124s
+[cong:regA] expanded 140000/223509 states, 3184642 windows, 68 classes, 127s
+[cong:regA] expanded 145000/228043 states, 3289407 windows, 68 classes, 130s
+[cong:regA] expanded 150000/233731 states, 3402005 windows, 68 classes, 134s
+[cong:regA] expanded 155000/242009 states, 3529532 windows, 68 classes, 141s
+[cong:regA] expanded 160000/252704 states, 3665737 windows, 68 classes, 160s
+[cong:regA] expanded 165000/262268 states, 3805704 windows, 68 classes, 173s
+[cong:regA] expanded 170000/271267 states, 3940589 windows, 68 classes, 185s
+[cong:regA] expanded 175000/275487 states, 4045456 windows, 68 classes, 188s
+[cong:regA] expanded 180000/283612 states, 4170926 windows, 68 classes, 195s
+[cong:regA] expanded 185000/292610 states, 4310819 windows, 68 classes, 204s
+
+[cong:regA] states=300000 (TRUNCATED) windows=4440552 classes=69 wall=212.7s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 1268050 | 6 | 0 | 0 |
+| CO-Prov | 634025 | 3 | 0 | 0 |
+| L-Begin | 146647 | 8 | 0 | 0 |
+| L-Divert | 126612 | 8 | 0 | 2 |
+| L-Finish | 43622 | 3 | 0 | 0 |
+| L-Iter | 28742 | 3 | 0 | 0 |
+| L-Leave | 135646 | 4 | 0 | 0 |
+| L-Raise | 15173 | 1 | 0 | 0 |
+| L-Unload | 131948 | 10 | 0 | 0 |
+| O-Insert | 12861 | 3 | 0 | 0 |
+| O-Remove | 629176 | 10 | 0 | 0 |
+| O-Retire | 634025 | 4 | 0 | 0 |
+| O-Update | 634025 | 6 | 0 | 0 |
+| **total** | 4440552 | 69 | **0** | 2 |
+excluded harness faults (explorer state-encoding artifact):
+  786 x HARNESS(TypeError:Cannot read properties of null (reading 'removed'))
+saturation (BFS phase): last new κ-class at window 263871 of 4440182 (4176311 windows with no new class); coda added 1 more
+[cong:A3c] expanded 5000/19816 states, 122980 windows, 46 classes, 2s
+[cong:A3c] expanded 10000/30786 states, 233436 windows, 46 classes, 4s
+[cong:A3c] expanded 15000/43017 states, 348266 windows, 54 classes, 6s
+[cong:A3c] expanded 20000/54066 states, 459349 windows, 60 classes, 8s
+[cong:A3c] expanded 25000/62374 states, 567268 windows, 60 classes, 10s
+[cong:A3c] expanded 30000/71137 states, 675713 windows, 60 classes, 12s
+[cong:A3c] expanded 35000/81764 states, 786872 windows, 61 classes, 14s
+[cong:A3c] expanded 40000/91683 states, 898410 windows, 64 classes, 16s
+[cong:A3c] expanded 45000/102376 states, 1011532 windows, 76 classes, 18s
+[cong:A3c] expanded 50000/110617 states, 1119045 windows, 76 classes, 20s
+[cong:A3c] expanded 55000/120368 states, 1228735 windows, 77 classes, 22s
+[cong:A3c] expanded 60000/127820 states, 1336498 windows, 77 classes, 24s
+[cong:A3c] expanded 65000/135319 states, 1444840 windows, 77 classes, 26s
+[cong:A3c] expanded 70000/142961 states, 1552846 windows, 77 classes, 28s
+[cong:A3c] expanded 75000/151901 states, 1662107 windows, 77 classes, 30s
+[cong:A3c] expanded 80000/161377 states, 1772588 windows, 77 classes, 32s
+[cong:A3c] expanded 85000/170479 states, 1882465 windows, 78 classes, 35s
+[cong:A3c] expanded 90000/179546 states, 1993659 windows, 78 classes, 37s
+[cong:A3c] expanded 95000/187853 states, 2104587 windows, 78 classes, 39s
+[cong:A3c] expanded 100000/197528 states, 2218402 windows, 81 classes, 42s
+[cong:A3c] expanded 105000/205924 states, 2325775 windows, 81 classes, 44s
+[cong:A3c] expanded 110000/213109 states, 2433251 windows, 81 classes, 46s
+[cong:A3c] expanded 115000/221682 states, 2544090 windows, 81 classes, 49s
+[cong:A3c] expanded 120000/229874 states, 2651414 windows, 81 classes, 51s
+[cong:A3c] expanded 125000/236406 states, 2759526 windows, 81 classes, 53s
+[cong:A3c] expanded 130000/243034 states, 2870023 windows, 81 classes, 55s
+[cong:A3c] expanded 135000/249380 states, 2978649 windows, 81 classes, 57s
+[cong:A3c] expanded 140000/255689 states, 3087081 windows, 81 classes, 60s
+[cong:A3c] expanded 145000/263064 states, 3196271 windows, 81 classes, 62s
+[cong:A3c] expanded 150000/270603 states, 3303950 windows, 81 classes, 64s
+[cong:A3c] expanded 155000/278856 states, 3414353 windows, 81 classes, 66s
+[cong:A3c] expanded 160000/286099 states, 3523664 windows, 81 classes, 68s
+[cong:A3c] expanded 165000/294723 states, 3632939 windows, 81 classes, 71s
+
+[cong:A3c] states=300000 (TRUNCATED) windows=3713532 classes=82 wall=72.7s
+| rule | reachable windows | κ-classes | non-singleton (L1) | non-singleton (L2, frame) |
+|---|---:|---:|---:|---:|
+| CO-Acc | 1006408 | 6 | 0 | 0 |
+| CO-Prov | 503204 | 3 | 0 | 0 |
+| L-Begin | 295624 | 10 | 0 | 0 |
+| L-Divert | 53047 | 5 | 0 | 3 |
+| L-Finish | 24651 | 4 | 0 | 1 |
+| L-Iter | 71035 | 9 | 1 | 2 |
+| L-Leave | 11134 | 2 | 0 | 0 |
+| L-Raise | 17797 | 5 | 0 | 0 |
+| L-Unload | 29670 | 8 | 0 | 1 |
+| O-Insert | 191596 | 8 | 0 | 0 |
+| O-Remove | 502958 | 12 | 0 | 0 |
+| O-Retire | 503204 | 4 | 0 | 0 |
+| O-Update | 503204 | 6 | 0 | 0 |
+| **total** | 3713532 | 82 | **1** | 7 |
+saturation (BFS phase): last new κ-class at window 2201448 of 3713162 (1511714 windows with no new class); coda added 1 more
+
+LEVEL-1 COUNTEREXAMPLES (1):
+  L-Iter {T1,T2,T4} — 2 distinct results over 105 windows
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(track)"]}
+     {"d":"fire","r":null,"n":"L-Iter","e":["apply@self"],"u":["self.acc:push(rrev)"]}
+ALLDONE

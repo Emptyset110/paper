@@ -1,0 +1,5673 @@
+{
+ "tag": "A2c",
+ "options": {
+  "maxFibers": 2,
+  "shapes": "P,PT,C,CR,CRR,CC,U,F,FP,G,S,SE,SF,M,A,RGT,DP,T,T2",
+  "isolate": true,
+  "childInserts": true,
+  "updates": false,
+  "setowns": false,
+  "maxStates": 500000,
+  "timeBudgetMs": 1200000
+ },
+ "stats": {
+  "normalizedStates": 30765,
+  "expandedStates": 30765,
+  "truncated": false,
+  "windows": 508261,
+  "codaWindows": 370,
+  "harnessFaults": {
+   "HARNESS(TypeError:Cannot read properties of null (reading 'removed'))": 185
+  },
+  "classes": 100,
+  "bfsWindows": 507891,
+  "bfsClasses": 99,
+  "bfsLastNewClassAtWindow": 351240,
+  "bfsWindowsSinceLastNewClass": 156651,
+  "wallClockMs": 8202
+ },
+ "summary": [
+  {
+   "rule": "CO-Acc",
+   "windows": 144666,
+   "classes": 6,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "CO-Prov",
+   "windows": 72333,
+   "classes": 3,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "L-Begin",
+   "windows": 18477,
+   "classes": 10,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "L-Divert",
+   "windows": 12310,
+   "classes": 12,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 4
+  },
+  {
+   "rule": "L-Finish",
+   "windows": 5460,
+   "classes": 4,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 2
+  },
+  {
+   "rule": "L-Iter",
+   "windows": 5000,
+   "classes": 10,
+   "nonSingletonL1": 1,
+   "nonSingletonL2": 2
+  },
+  {
+   "rule": "L-Leave",
+   "windows": 12263,
+   "classes": 3,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "L-Raise",
+   "windows": 1249,
+   "classes": 5,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "L-Unload",
+   "windows": 16448,
+   "classes": 17,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 1
+  },
+  {
+   "rule": "O-Insert",
+   "windows": 3997,
+   "classes": 8,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "O-Remove",
+   "windows": 71392,
+   "classes": 12,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "O-Retire",
+   "windows": 72333,
+   "classes": 4,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  },
+  {
+   "rule": "O-Update",
+   "windows": 72333,
+   "classes": 6,
+   "nonSingletonL1": 0,
+   "nonSingletonL2": 0
+  }
+ ],
+ "splitsLevel1": [
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T2,T4",
+   "windows": 30,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(track)"
+      ]
+     },
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(rrev)"
+      ]
+     },
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CRR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "splitsLevel2": [
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D12,D3,D5",
+   "windows": 5417,
+   "distinct": 2,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:0->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:1->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "U",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D3,D5,D8",
+   "windows": 2073,
+   "distinct": 2,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:1->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:2->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "S",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D3,D5,D9",
+   "windows": 2312,
+   "distinct": 2,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:1->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:2->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "T2",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D12,D4,D5",
+   "windows": 32,
+   "distinct": 2,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:0->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 8,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Divert",
+      "e": [
+       "divert@self"
+      ],
+      "u": [
+       "self.acc:unchanged",
+       "self.iterAt:1->-",
+       "self.st=unloading",
+       "self.stale=F"
+      ]
+     },
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Finish",
+   "kappa": "F1",
+   "windows": 4968,
+   "distinct": 2,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Finish",
+      "e": [
+       "active@self"
+      ],
+      "u": [
+       "self.iterAt:1->-",
+       "self.st=active"
+      ]
+     },
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Finish",
+      "e": [
+       "active@self"
+      ],
+      "u": [
+       "self.iterAt:2->-",
+       "self.st=active"
+      ]
+     },
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "PT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Finish",
+   "kappa": "F1,F3",
+   "windows": 135,
+   "distinct": 2,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Finish",
+      "e": [
+       "active@self"
+      ],
+      "u": [
+       "self.iterAt:1->-",
+       "self.st=active"
+      ]
+     },
+     "witness": {
+      "depth": 7,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Finish",
+      "e": [
+       "active@self"
+      ],
+      "u": [
+       "self.iterAt:2->-",
+       "self.st=active"
+      ]
+     },
+     "witness": {
+      "depth": 8,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "M",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T4",
+   "windows": 2364,
+   "distinct": 3,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(track)",
+       "self.accLen:0->1",
+       "self.accOrder:->track",
+       "self.iterAt:0->1"
+      ]
+     },
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(track)",
+       "self.accLen:1->2",
+       "self.accOrder:provide->provide>track",
+       "self.iterAt:1->2"
+      ]
+     },
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "PT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(track)",
+       "self.accLen:1->2",
+       "self.accOrder:track->track>track",
+       "self.iterAt:1->2"
+      ]
+     },
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "T2",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T2,T4",
+   "windows": 30,
+   "distinct": 3,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(track)",
+       "self.accLen:0->1",
+       "self.accOrder:->track",
+       "self.iterAt:0->1"
+      ]
+     },
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(rrev)",
+       "self.accLen:0->1",
+       "self.accOrder:->rrev",
+       "self.iterAt:0->1"
+      ]
+     },
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CRR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Iter",
+      "e": [
+       "apply@self"
+      ],
+      "u": [
+       "self.acc:push(track)",
+       "self.accLen:1->2",
+       "self.accOrder:provide->provide>track",
+       "self.iterAt:1->2"
+      ]
+     },
+     "witness": {
+      "depth": 7,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "M",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U10,U3,U6",
+   "windows": 2312,
+   "distinct": 2,
+   "results": [
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Unload",
+      "e": [
+       "revert@self",
+       "deactivated@self"
+      ],
+      "u": [
+       "self.acc:clear",
+       "self.accLen:1->0",
+       "self.accOrder:track->",
+       "self.inst=F",
+       "self.out=bot",
+       "self.st=inactive",
+       "self.stale=F",
+       "self.view=none"
+      ]
+     },
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    },
+    {
+     "result": {
+      "d": "fire",
+      "r": null,
+      "n": "L-Unload",
+      "e": [
+       "revert@self",
+       "revert@self",
+       "deactivated@self"
+      ],
+      "u": [
+       "self.acc:clear",
+       "self.accLen:2->0",
+       "self.accOrder:track>track->",
+       "self.inst=F",
+       "self.out=bot",
+       "self.st=inactive",
+       "self.stale=F",
+       "self.view=none"
+      ]
+     },
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "T2",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  }
+ ],
+ "classList": [
+  {
+   "rule": "O-Insert",
+   "kappa": "I1,I4",
+   "windows": 2377,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"+entry(new):st=inactive,ret=F\"]}",
+     "witness": {
+      "depth": 0,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "P",
+       "ctxKind": "root",
+       "parentIdx": -1
+      },
+      "script": []
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Insert",
+   "kappa": "I1,I4,S1",
+   "windows": 991,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"+entry(new):st=inactive,ret=F\"]}",
+     "witness": {
+      "depth": 0,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "C",
+       "ctxKind": "root",
+       "parentIdx": -1
+      },
+      "script": []
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Insert",
+   "kappa": "I1,I4,I6,S1",
+   "windows": 184,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"+entry(new):st=inactive,ret=F\"]}",
+     "witness": {
+      "depth": 0,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "DP",
+       "ctxKind": "root",
+       "parentIdx": -1
+      },
+      "script": []
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Insert",
+   "kappa": "I1,I4,S2",
+   "windows": 182,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"+entry(new):st=inactive,ret=F\"]}",
+     "witness": {
+      "depth": 0,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "CR",
+       "ctxKind": "iso",
+       "parentIdx": -1
+      },
+      "script": []
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Insert",
+   "kappa": "I2,I4",
+   "windows": 197,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"+entry(new):st=inactive,ret=F\"]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "T",
+       "ctxKind": "child",
+       "parentIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Retire",
+   "kappa": "R1",
+   "windows": 14397,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.ret=T\"]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "O-Retire",
+       "kind": "retire",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Update",
+   "kappa": "W2",
+   "windows": 14397,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.out=bot\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "O-Update",
+       "kind": "update",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Prov",
+   "kappa": "P4",
+   "windows": 59946,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"NO_OWN_BINDING\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "CO-Prov",
+       "kind": "setval",
+       "fIdx": 0,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Acc",
+   "kappa": "A5,P6",
+   "windows": 136025,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"UNDECLARED_ACCESS\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "CO-Acc",
+       "kind": "read",
+       "fIdx": 0,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M2,M3,M6",
+   "windows": 6309,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B3",
+   "windows": 4753,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Begin\",\"e\":[\"begin@self\"],\"u\":[\"self.acc:unchanged\",\"self.inst=T\",\"self.st=reloading\",\"self.view=\"]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Acc",
+   "kappa": "A4,P6",
+   "windows": 4222,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"INACTIVE_ACCESS\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "CO-Acc",
+       "kind": "read",
+       "fIdx": 0,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B3,B7",
+   "windows": 1759,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Insert",
+   "kappa": "I1,I4,I7,S1",
+   "windows": 14,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"DECLARED_CONFLICT\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "DP",
+       "ctxKind": "root",
+       "parentIdx": -1
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "DP",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Insert",
+   "kappa": "I1,I4,S3",
+   "windows": 16,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"+entry(new):st=inactive,ret=F\"]}",
+     "witness": {
+      "depth": 1,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "CR",
+       "ctxKind": "iso",
+       "parentIdx": -1
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "iso"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Retire",
+   "kappa": "R2",
+   "windows": 52915,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.ret=T\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "O-Retire",
+       "kind": "retire",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Update",
+   "kappa": "W1",
+   "windows": 36282,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.out=bot\",\"self.stale=T\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "O-Update",
+       "kind": "update",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M2,M5,M6",
+   "windows": 15977,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "P1,T1,T3",
+   "windows": 1612,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"provide@self:k\"],\"u\":[\"self.acc:push(provide)\",\"self.tbl:bind\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M2,M3,M7",
+   "windows": 265,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "T",
+        "ctx": "child",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M1,M3,M6",
+   "windows": 6539,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.st=removed\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B4",
+   "windows": 5963,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Acc",
+   "kappa": "A3,P6",
+   "windows": 320,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"INACTIVE_ACCESS\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "CO-Acc",
+       "kind": "read",
+       "fIdx": 1,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "T",
+        "ctx": "child",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B4,B7",
+   "windows": 1748,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "P6,T1,T8",
+   "windows": 265,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"readfail@self:k:UNDECLARED_ACCESS\"],\"u\":[\"self.acc:unchanged\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "U",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T4",
+   "windows": 2364,
+   "l2": 3,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"apply@self\"],\"u\":[\"self.acc:push(track)\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Raise",
+   "kappa": "X1,X3,X6",
+   "windows": 265,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Raise\",\"e\":[\"raise@self\"],\"u\":[\"self.acc:unchanged\",\"self.out=xi\",\"self.st=unloading\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Raise",
+   "kappa": "X1,X5,X6",
+   "windows": 265,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Raise\",\"e\":[\"raise@self\"],\"u\":[\"self.acc:unchanged\",\"self.out=xi\",\"self.st=unloading\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "SF",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T10",
+   "windows": 165,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"registered@self\"],\"u\":[\"+entry(new):st=inactive,ret=F\",\"self.acc:push(retire)\"]}",
+     "witness": {
+      "depth": 2,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "RGT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Prov",
+   "kappa": "P3",
+   "windows": 11446,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "CO-Prov",
+       "kind": "setval",
+       "fIdx": 0,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Finish",
+   "kappa": "F1",
+   "windows": 4968,
+   "l2": 2,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Finish\",\"e\":[\"active@self\"],\"u\":[\"self.st=active\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M2,M5,M7",
+   "windows": 4145,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "insert",
+        "shape": "T",
+        "ctx": "child",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M1,M5,M6",
+   "windows": 26618,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D12,D3,D5",
+   "windows": 5417,
+   "l2": 2,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M1,M3,M7",
+   "windows": 1284,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "T",
+        "ctx": "child",
+        "f": 0
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Finish",
+   "kappa": "F2",
+   "windows": 345,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Finish\",\"e\":[\"active@self\"],\"u\":[\"self.st=active\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "U",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Raise",
+   "kappa": "X1,X2,X8",
+   "windows": 265,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Raise\",\"e\":[\"raise@self\"],\"u\":[\"self.acc:unchanged\",\"self.out=xi\",\"self.st=unloading\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Raise",
+   "kappa": "X1,X2,X7",
+   "windows": 226,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Raise\",\"e\":[\"raise@self\"],\"u\":[\"self.acc:unchanged\",\"self.out=xi\",\"self.st=unloading\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "FP",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Update",
+   "kappa": "W5",
+   "windows": 4332,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.out=bot\",\"self.stale=T\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "O-Update",
+       "kind": "update",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U4,U9",
+   "windows": 3350,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"self.acc:unchanged\",\"self.inst=F\",\"self.out=xi\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T9",
+   "windows": 452,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"setvalue@self:k\"],\"u\":[\"self.acc:unchanged\"]}",
+     "witness": {
+      "depth": 3,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "S",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Leave",
+   "kappa": "V6",
+   "windows": 5963,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Leave",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D3,D5,D8",
+   "windows": 2073,
+   "l2": 2,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M1,M5,M7",
+   "windows": 6175,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "insert",
+        "shape": "T",
+        "ctx": "child",
+        "f": 0
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Update",
+   "kappa": "W4",
+   "windows": 12301,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.out=bot\",\"self.stale=T\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "O-Update",
+       "kind": "update",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U10,U3,U9",
+   "windows": 5022,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"self.acc:unchanged\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U4,U6",
+   "windows": 530,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\",\"revert@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=xi\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D3,D5,D9",
+   "windows": 2312,
+   "l2": 2,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U4,U5",
+   "windows": 452,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=xi\",\"self.st=inactive\",\"self.stale=F\",\"self.tbl:withdraw\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "FP",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Retire",
+   "kappa": "R3",
+   "windows": 4080,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.ret=T\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "O-Retire",
+       "kind": "retire",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Update",
+   "kappa": "W3",
+   "windows": 4080,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.out=bot\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "O-Update",
+       "kind": "update",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M2,M4,M6",
+   "windows": 1940,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B2,B3",
+   "windows": 2040,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D10,D3,D5",
+   "windows": 2145,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 4,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "RGT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B3,B5",
+   "windows": 52,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Begin\",\"e\":[\"begin@self\"],\"u\":[\"self.acc:unchanged\",\"self.inst=T\",\"self.st=reloading\",\"self.view=d\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B3,B5,B7",
+   "windows": 10,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CC",
+        "ctx": "root"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Leave",
+   "kappa": "V1,V3",
+   "windows": 6224,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Leave\",\"e\":[\"leave@self\"],\"u\":[\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Leave",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Raise",
+   "kappa": "P2,X1,X4,X6",
+   "windows": 228,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Raise\",\"e\":[\"raise@self\"],\"u\":[\"self.acc:unchanged\",\"self.out=xi\",\"self.st=unloading\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U10,U3,U5",
+   "windows": 1887,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.tbl:withdraw\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D3,D5,D8,D9",
+   "windows": 241,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "PT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U10,U3,U6",
+   "windows": 2312,
+   "l2": 2,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\",\"revert@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "F",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M2,M4,M7",
+   "windows": 100,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       },
+       {
+        "t": "insert",
+        "shape": "T",
+        "ctx": "child",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M1,M4,M6",
+   "windows": 1940,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.st=removed\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B2,B4",
+   "windows": 2040,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U10,U3,U7",
+   "windows": 1965,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"desc.ret=T\",\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "RGT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Retire",
+   "kappa": "R4",
+   "windows": 941,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":null,\"e\":[],\"u\":[\"self.ret=T\"]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "O-Retire",
+       "kind": "retire",
+       "fIdx": 1
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "RGT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "remove",
+        "f": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Update",
+   "kappa": "W6",
+   "windows": 941,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"NO_SUCH_ENTRY\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "O-Update",
+       "kind": "update",
+       "fIdx": 1
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "RGT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "remove",
+        "f": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Prov",
+   "kappa": "P7",
+   "windows": 941,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"NO_SUCH_ENTRY\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "CO-Prov",
+       "kind": "setval",
+       "fIdx": 1,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "RGT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "remove",
+        "f": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Acc",
+   "kappa": "A8",
+   "windows": 1882,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"NO_SUCH_ENTRY\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 5,
+      "window": {
+       "rule": "CO-Acc",
+       "kind": "read",
+       "fIdx": 1,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "RGT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "remove",
+        "f": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Acc",
+   "kappa": "A1,P5",
+   "windows": 1497,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"served<-prov\",\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "CO-Acc",
+       "kind": "read",
+       "fIdx": 0,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T2,T4",
+   "windows": 30,
+   "l2": 3,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"apply@self\"],\"u\":[\"self.acc:push(track)\"]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    },
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"apply@self\"],\"u\":[\"self.acc:push(rrev)\"]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CRR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B4,B5",
+   "windows": 102,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "P5,T1,T2,T5",
+   "windows": 12,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"read@self:k\"],\"u\":[\"self.acc:unchanged\"]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Begin",
+   "kappa": "B1,B4,B5,B7",
+   "windows": 10,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Begin",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CC",
+        "ctx": "root"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "P1,T1,T2,T3",
+   "windows": 10,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"provide@self:k\"],\"u\":[\"self.acc:push(provide)\",\"self.tbl:bind\"]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "M",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U10,U3,U5,U6",
+   "windows": 251,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\",\"revert@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.tbl:withdraw\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "PT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Remove",
+   "kappa": "M1,M4,M7",
+   "windows": 100,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "O-Remove",
+       "kind": "remove",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "G",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Unload"
+       },
+       {
+        "t": "insert",
+        "shape": "T",
+        "ctx": "child",
+        "f": 0
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "T1,T10,T2",
+   "windows": 10,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"registered@self\"],\"u\":[\"+entry(new):st=inactive,ret=F\",\"self.acc:push(retire)\"]}",
+     "witness": {
+      "depth": 6,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "A",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Finish",
+   "kappa": "F1,F3",
+   "windows": 135,
+   "l2": 2,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Finish\",\"e\":[\"active@self\"],\"u\":[\"self.st=active\"]}",
+     "witness": {
+      "depth": 7,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Finish",
+   "kappa": "F2,F3",
+   "windows": 12,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Finish\",\"e\":[\"active@self\"],\"u\":[\"self.st=active\"]}",
+     "witness": {
+      "depth": 7,
+      "window": {
+       "rule": "L-Finish",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "CO-Acc",
+   "kappa": "A2,P5",
+   "windows": 720,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"served<-oth\",\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 7,
+      "window": {
+       "rule": "CO-Acc",
+       "kind": "read",
+       "fIdx": 2,
+       "key": "k1"
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "A",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D12,D4,D5",
+   "windows": 32,
+   "l2": 2,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 8,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U2,U3,U5",
+   "windows": 456,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 8,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 1
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D11,D3,D5",
+   "windows": 15,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 8,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CRR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Iter",
+   "kappa": "P5,T1,T6",
+   "windows": 80,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Iter\",\"e\":[\"read@self:k\"],\"u\":[\"self.acc:unchanged\"]}",
+     "witness": {
+      "depth": 8,
+      "window": {
+       "rule": "L-Iterate",
+       "kind": "life",
+       "fIdx": 2
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "A",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 2,
+        "rule": "L-Begin"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D4,D5,D9",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U11,U3,U9",
+   "windows": 26,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"self.acc:unchanged\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U10,U3,U8",
+   "windows": 15,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\",\"revertread@self:k\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CRR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 0
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D11,D4,D5",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CRR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D4,D5,D8",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "M",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U2,U3,U5,U6",
+   "windows": 112,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"block\",\"r\":null,\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 1
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "PT",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D10,D4,D5",
+   "windows": 55,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 9,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "A",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Leave",
+   "kappa": "V1,V4",
+   "windows": 76,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Leave\",\"e\":[\"leave@self\"],\"u\":[\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 10,
+      "window": {
+       "rule": "L-Leave",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U11,U3,U6",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\",\"revert@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 10,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "C",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U11,U3,U8",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\",\"revertread@self:k\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 10,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "CRR",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Divert",
+   "kappa": "D1,D4,D5,D8,D9",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Divert\",\"e\":[\"divert@self\"],\"u\":[\"self.acc:unchanged\",\"self.st=unloading\",\"self.stale=F\"]}",
+     "witness": {
+      "depth": 10,
+      "window": {
+       "rule": "L-Divert",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "M",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U11,U3,U5",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.tbl:withdraw\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 10,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "M",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U11,U3,U7",
+   "windows": 50,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\"],\"u\":[\"desc.ret=T\",\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 10,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "A",
+        "ctx": "root"
+       },
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "L-Unload",
+   "kappa": "U1,U11,U3,U5,U6",
+   "windows": 5,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"fire\",\"r\":null,\"n\":\"L-Unload\",\"e\":[\"deactivated@self\",\"revert@self\"],\"u\":[\"self.acc:clear\",\"self.inst=F\",\"self.out=bot\",\"self.st=inactive\",\"self.stale=F\",\"self.tbl:withdraw\",\"self.view=none\"]}",
+     "witness": {
+      "depth": 11,
+      "window": {
+       "rule": "L-Unload",
+       "kind": "life",
+       "fIdx": 0
+      },
+      "script": [
+       {
+        "t": "insert",
+        "shape": "P",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Finish"
+       },
+       {
+        "t": "insert",
+        "shape": "M",
+        "ctx": "root"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Begin"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Iter"
+       },
+       {
+        "t": "retire",
+        "f": 1
+       },
+       {
+        "t": "life",
+        "f": 1,
+        "rule": "L-Leave"
+       },
+       {
+        "t": "life",
+        "f": 0,
+        "rule": "L-Divert"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "rule": "O-Insert",
+   "kappa": "I3,I4",
+   "windows": 36,
+   "l2": 1,
+   "l1": [
+    {
+     "r": "{\"d\":\"refuse\",\"r\":\"INACTIVE_EFFECT\",\"n\":null,\"e\":[],\"u\":[]}",
+     "witness": {
+      "depth": -1,
+      "window": {
+       "rule": "O-Insert",
+       "kind": "insert",
+       "shape": "T",
+       "ctxKind": "child",
+       "parentIdx": 0
+      },
+      "script": "coda:T/alone"
+     }
+    }
+   ]
+  }
+ ]
+}

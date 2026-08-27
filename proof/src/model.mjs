@@ -172,6 +172,23 @@ export class Model {
     return true
   }
 
+  // n ∈ dom(F_γ) (Definition 45). O-Retire's *only* premise (p. 31, restated
+  // p. 32: "O-Retire has n ∈ dom(F_γ) as its only premise"), and by parity the
+  // premise every name-taking orchestration input owes: O-Remove writes
+  // γ \ n, after which the name denotes no entry and there is nothing for a
+  // later input to read or write (Lemma 54(5): π, d, p, e come into existence
+  // with the entry and are never written again).
+  inRegistry(fiber) {
+    return !!fiber && !fiber.removed && fiber.uid !== null && this.fibers.get(fiber.uid) === fiber
+  }
+
+  /** The refusal an input owes when its registry premise fails. */
+  static noSuchEntry(op) {
+    const error = new Error(`NO_SUCH_ENTRY: ${op} at a name not in dom(F)`)
+    error.code = 'NO_SUCH_ENTRY'
+    return error
+  }
+
   reliedUpon(fiber) {
     for (const other of this.fibers.values()) {
       if (other === fiber || other.removed) continue
@@ -304,6 +321,13 @@ export class Model {
           }
           fiber.accumulator = []
           fiber.committed = null
+          // The restart mark is a constituent of θ_n, not a field of the
+          // registry: eq. 43's Θ_Γ gives Inactive(ζ) no such component, and
+          // L-Unload's row writes θ_n ↦ Inactive(ζ) whole. A mark surviving
+          // into the next episode would make L-Divert fire where its premise
+          // target_n(γ) ≠ ω is false (and at Inactive there is no ω to compare
+          // against at all — Lemma 54(2)).
+          fiber.stale = false
           fiber.state = 'inactive'
           this.trace.push(`deactivated:${fiber.spec.name}`)
         }
@@ -478,6 +502,12 @@ export class Model {
   // view binding wins; a declared-but-uncommitted key is INACTIVE_ACCESS;
   // the root rejects as UNDECLARED_ACCESS.
   readCommitted(fiber, key) {
+    // Registry premise of the read label (occurrence A8): Algorithm 6 is run
+    // from n's resolution context, and a name O-Remove has taken out of
+    // dom(F_γ) has none. Without it the walk consults the stale record's
+    // declaration and answers INACTIVE_ACCESS ("not yet") where the entry is
+    // gone for good.
+    if (!this.inRegistry(fiber)) throw Model.noSuchEntry('read')
     let walk = fiber
     while (walk) {
       const committed = this.mutant === 'no-commit-view' ? this.liveView(walk) : walk.committed
@@ -527,6 +557,11 @@ export class Model {
 
   /** In-place overwrite of an ACTIVE fiber's own provision (an A_k op). */
   setOwn(fiber, key, value) {
+    // Registry premise (occurrence P7) is checked BEFORE Definition 24's own
+    // precondition: O-Remove clears the table, so without this the input is
+    // refused with P4's reason ("no own binding") at a name that has no entry
+    // at all, and Definition 3 clause 1 compares refusal reasons.
+    if (!this.inRegistry(fiber)) throw Model.noSuchEntry('setval')
     const label = this.labelOf(fiber.ctx, key)
     const entry = fiber.table.get(label)
     if (!entry) throw new Error(`cannot set "${key}" without provide`)
@@ -548,6 +583,10 @@ export class Model {
 
   /** Orchestrator entry update: new config, failure latch cleared, restart. */
   update(fiber, config) {
+    // Registry premise (occurrence W6): the entry must exist. Without it the
+    // input silently rewrites a record O-Remove has already taken out of
+    // dom(F_γ) — a write to a field Lemma 54(5) says no step returns to.
+    if (!this.inRegistry(fiber)) throw Model.noSuchEntry('update')
     fiber.config = config
     fiber.outcome = null
     if (fiber.installed) {
