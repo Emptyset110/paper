@@ -1,235 +1,260 @@
 # A Complete and Minimal Conformance Test Theory for a Calculus of Dynamic Composition
 
-**Companion to:** *A Programming Paradigm for Spatiotemporal Composability* (Shi, Zhang, Cui; `../paper.pdf`, cited below as [SZC26]).
+**Companion to:** *A Programming Paradigm for Spatiotemporal Composability* (Shi, Zhang, Cui; `../paper.pdf`, cited as [SZC26]). Numbered references of the form Def. 43, Thm. 63, Table 1 are to [SZC26]; references of the form Definition 3, Theorem 2 are internal.
 
-**Artifacts:** the executable reference semantics, the test suite, the mutation harness, and all logs referenced in §7 reside in this directory; every empirical claim reproduces with the commands of Appendix A.
+**Artifacts:** the executable reference semantics, the suite, the deviant harness, and the logs behind every finite check cited below reside in this directory and reproduce with the commands of Appendix A.
 
 ---
 
 ## Abstract
 
-[SZC26] presents a calculus of dynamic composition — revertible effects, reactive coeffects, and a small-step lifecycle semantics with a proved metatheory — and an implementation, Cordis, related to the calculus by a correspondence table and reference algorithms (its §5) but by no proof. We close this gap with a conformance test theory in the tradition of formal testing. We (i) formalize the *plugin-system interface* induced by the paper's own correspondence table as a labeled transition system with a fixed observation vocabulary; (ii) construct a finite test suite whose tests are in bijection with the clauses of the calculus — its rules, their guarding premises, the coeffect operations, the access discipline, and its metatheorems; (iii) prove a **completeness theorem**: under four explicitly stated testability hypotheses, any implementation passing the suite refines the calculus (sufficiency); and (iv) prove a **minimality theorem**: the witness map is injective, and against an executable fault domain of twenty-seven single-decision semantic mutants the suite is irredundant (necessity). The theory is executable: the specification side of every judgment is an executable reference semantics of the calculus, mechanically checked against the suite under four scheduling policies. Applying the suite to two builds of Cordis verifies one completely ($32/32$) and convicts the other on exactly four obligations — three reproducing previously cataloged defects and one new (a failed activation's error escaping the fiber boundary on a later reconfiguration). Applying the unchanged suite to a two-node distributed deployment yields failures identical to the underlying build's, establishing empirically the corollary that the distribution layer preserves conformance. The construction also surfaced three defects in the *paper*: an erratum in its correspondence table, a contradiction between its §5.1.3 and its Theorem 63(3), and a reload algorithm that races its own insertion premise.
+[SZC26] presents a calculus of dynamic composition with a proved metatheory, and an implementation, Cordis, related to the calculus by a correspondence table (its Table 2) and reference algorithms — but by no proof. We close the gap with a conformance test theory. We formalize the plugin-system interface induced by Table 2 as a labeled transition system with a fixed observation vocabulary, define conformance as observation-simulation up to the calculus's own equivalences, and construct a finite suite $T$ of 32 tests standing in constructive bijection with the clauses of the calculus. We prove: **soundness** — the calculus itself satisfies $T$, each verdict derived from the metatheorems of [SZC26]; **completeness (sufficiency)** — any implementation admitting a faithful abstraction and satisfying formally stated uniformity, scheduling, and witness hypotheses that passes $T$ is simulated by the calculus; and **minimality (necessity)** — the witness map is injective, and against a formally defined family of twenty-seven deviant calculi, each negating one clause, the suite is adequate and irredundant. Applying $T$ verifies one Cordis build completely ($32/32$) and convicts the published build on exactly four obligations, one previously unknown; applying the unchanged $T$ to a two-node distributed deployment reproduces exactly the underlying build's failures, giving the corollary that the distribution layer preserves conformance. The construction also yields three corrections to [SZC26] itself.
 
 ---
 
 ## 1. Introduction
 
-Dynamic composition frameworks make a strong promise: components may be loaded, unloaded, and reconfigured at runtime, and the system behaves as if the final configuration had been assembled statically. [SZC26] gives this promise formal content — a calculus whose metatheory (preservation, recovery exactness, ordering, resolution coherence, progress, confluence) is proved — and an implementation, Cordis, whose relation to the calculus is asserted through a correspondence table (its Table 2) and reference algorithms (its Algorithms 1–10). The assertion is not a theorem. Nothing in [SZC26] rules out an implementation that agrees with Table 2 on names and disagrees with Table 1 on behavior; indeed we exhibit such disagreements in a shipping build (§7).
+Dynamic composition frameworks promise that components may be loaded, unloaded, and reconfigured at runtime while the system behaves as if the final configuration had been assembled statically. [SZC26] gives the promise formal content — a small-step calculus whose metatheory (preservation, recovery exactness, ordering, coherence, progress, confluence) is proved — and an implementation whose relation to the calculus is asserted through a correspondence table and reference algorithms. The assertion is not a theorem, and §8 exhibits a shipping build that honors the table's names while violating the calculus's rules.
 
-**The problem.** What, precisely, would it mean to *verify* that an implementation follows the calculus — and can a finite set of executable test cases carry that verification with mathematical rather than anecdotal force?
+**Problem.** What does it mean, mathematically, for an implementation to *follow* the calculus, and can a finite set of executable test cases carry that verification with the force of a theorem?
 
-**Our answer** is a conformance test theory, in the sense pioneered for algebraic specifications by Gaudel [Gau95] and for labeled transition systems by Tretmans [Tre96]: a finite suite $T$ together with (a) a *completeness* theorem — every implementation that passes $T$ conforms, relative to a set of named testability hypotheses that delimit exactly what finite testing must assume — and (b) a *minimality* theorem — $T$ contains no removable test, argued both structurally (each test is the unique witness of a distinct clause of the calculus) and empirically (mutation adequacy against an executable fault domain [DLS78]). Sufficiency and necessity are the two directions the informal question demands: $T$ suffices to establish conformance, and every member of $T$ is necessary to it.
-
-Three design decisions give the theory its teeth:
-
-1. **The specification is executable.** We transcribe the calculus — the ten rules of [SZC26] Table 1 with their premises, the derived coeffect context, the withdrawal guard, the failure discipline — into a reference interpreter with *explicit* scheduling nondeterminism. Every test is first validated against this model under four scheduling policies; the suite is thereby proved *sound* (the specification itself passes it) by machine rather than by inspection, following the executable-semantics tradition [RŞ10].
-2. **Tests are specification-derived data, not code against an API.** A test component is literally the triple $(d, p, e)$ of [SZC26] Definition 43, with the effect function $e$ given as a script whose steps are the iterations of Definition 51. One adapter interprets a script under the reference semantics; another interprets the *same* script against a real build. The suite therefore cannot drift from the specification's vocabulary.
-3. **The fault domain is semantic, not syntactic.** Classical mutation testing perturbs program syntax; our mutants each negate one *semantic decision* of the calculus (drop a premise, reverse the accumulator, widen $\sigma_\gamma$, release a guard early). Killing such a mutant is direct evidence that the suite distinguishes the calculus from its nearest deviant neighbors.
+**Approach.** We answer with the classical apparatus of conformance testing [Gau95, Tre96], instantiated so that every object in the statement is defined rather than described: the implementation interface is a labeled transition system (Definition 2); conformance is the existence of an observation simulation into the calculus (Definitions 6–7, Lemma 1); a test suite is a set of scripts with verdict predicates (Definition 10); the hypotheses that any finite-testing argument must make are stated as properties of transition systems (Definitions 12–13), not as prose; sufficiency and necessity are Theorems 3 and 4. Where an argument reduces to finitely many mechanical case checks — realization of premise vectors by catalog scenarios, and the deviant kill matrix — we tabulate the cases, prove representative rows by derivation, and discharge the remainder by executed enumeration, in the tradition of computer-checked finite case analyses.
 
 **Contributions.**
 
-- A formalization of the plugin-system interface of [SZC26] §5 as an LTS with a fixed observation vocabulary, and of its components as specification-level data (§3).
-- A 32-test suite in constructive bijection with the clauses of the calculus, presented as an auditable catalog (§4).
-- A completeness (sufficiency) theorem with an explicit, minimal hypothesis set in the Gaudel style, and its proof by induction on implementation runs (§5).
-- A minimality (necessity) theorem: injectivity of the witness map, plus mutation adequacy — $27/27$ mutants killed, $14$ tests exclusively witnessed, and a precise account of why the remaining $18$ are subsumption-shielded rather than redundant (§6).
-- An empirical verification of two Cordis builds and a two-node distributed deployment, with four implementation defects (one new) and three paper-level findings (§7, §8).
+1. A formalization of the [SZC26] §5 plugin-system interface as an instrumented LTS with an explicit observation algebra, and of components as specification-level data at the granularity of Def. 51 (§3).
+2. A conformance relation defined by observation simulation up to the calculus's own $\simeq/\approx$, with the abstraction function replacing the informal "Table-2 reading" (§4).
+3. A 32-test suite in constructive bijection with the clauses of the calculus, with a **soundness theorem** in which each verdict is derived from a metatheorem of [SZC26] (§5).
+4. A **completeness theorem**: passing the suite, together with equivariance, locality, fair scheduling, and the inverse-witness obligation, implies simulation by the calculus (§6). The proof is a case analysis over the ten rules in the style of [SZC26]'s own Table-1 arguments, with the locality lemma playing the role its Lemmas 54–57 play there.
+5. A **minimality theorem** over a formally defined family of deviant calculi $\mathbb{S}_{\neg c}$, with derivations for representative deviants and the full matrix by enumeration (§7).
+6. Empirical verification of two builds and a two-node deployment; four implementation defects (one new) and three corrections to the paper (§8, §9).
 
-**Non-claims.** The theorem is relative to hypotheses H1–H4 (§5.1); we argue each is unavoidable for finite testing and state what would discharge it further. The proofs are rigorous but not mechanized in a proof assistant. Liveness is treated only through quiescence observation (H3). §10 discusses limitations.
-
----
-
-## 2. Background: the calculus (recap of [SZC26])
-
-We use the notation of [SZC26] throughout and recall only what the development needs; the paper is the authority for all of it.
-
-A **component** is a triple $(d, p, e)$: a coeffect specification $d \subseteq K$ (the keys it reads), a provision declaration $p \subseteq K$ (the keys it may write), and a witnessed effect function $e$ supplying its own inverse (Def. 8, 43). A **fiber** $\langle d, p, e, \pi, \sigma, \tau, \theta \rangle$ is an instantiation carrying a parent $\pi$, its own table $\sigma$, a retirement flag $\tau$, and a lifecycle state
-
-$$\theta \in \{\, \mathsf{Inactive}(\zeta),\ \mathsf{Reloading}(i,g,\omega),\ \mathsf{Active}(g,\omega),\ \mathsf{Unloading}(g,\omega,\zeta) \,\}$$
-
-(Def. 44, 49). A state $\gamma$ carries a registry $F_\gamma$ of fibers; the **derived coeffect context** is the union over Active fibers alone (Def. 45, eq. 40):
-
-$$\sigma_\gamma \;=\; \bigcup \{\, \sigma_m \mid m \in \mathrm{dom}(F_\gamma),\ \theta_m = \mathsf{Active}(-,-) \,\}.$$
-
-The **target view** $\mathrm{target}_n(\gamma)$ maps each key of $d_n$ to its provider, and is $\bot$ if $n$ is retired or some key lacks an Active provider (Def. 46).
-
-Ten rules generate the semantics (Table 1): **O-Insert**, **O-Retire**, **O-Remove** (orchestration; premises: freshness, parent present, $\forall m.\ p \cap p_m = \varnothing$; retirement unconditional; removal only for retired, Inactive, childless fibers) and seven lifecycle rules — **L-Begin** ($\mathsf{Inactive}(\bot)$, $\mathrm{target} \neq \bot$: commit $\omega$, start iterating), **L-Iter** / **L-Finish** (iterate against the committed $\omega$, composing inverses LIFO as $g \circ h$; finish to Active when the target still matches), **L-Divert** (target turned: abort at an iteration boundary, or under asynchrony land the in-flight iteration and deactivate — the *inertia* of §4.3.3), **L-Raise** (an iteration raises: recover, record $\xi$), **L-Leave** (Active, target turned: stop providing), and **L-Unload**, guarded by $\neg\,\mathrm{relied}_n(\gamma)$ — no installed fiber still resolves a key to $n$ — which applies the accumulator and discards $\omega$. Registration (Def. 47) lets an iteration insert a child whose O-Retire is the iteration's inverse.
-
-The metatheory ([SZC26] §4.4) proves preservation (Thm. 59), recovery exactness under interleaving (Thm. 61, Cor. 62), ordering — dependents activate after and deactivate before their providers, and read fixed bindings for whole episodes (Thm. 63), resolution coherence (Thm. 64), progress and termination (Thm. 66), and confluence — the quiescent state is a function of the final configuration alone (Thm. 73). Equalities are read up to the observational equivalence $\simeq$ (Def. 33) and the control-field-forgetting $\approx$ (Def. 53).
-
-The implementation mapping ([SZC26] §5, Table 2, Algorithms 1–10) names the runtime counterpart of each construct: `ctx.plugin` for insertion, `fiber.dispose` for retirement, `ctx.provide`/`ctx.get`/`ctx.set` for the coeffect operations, `ctx.effect` for effect tracking, the fiber's committed store and Algorithm 6's proxy walk for the access discipline, and Algorithm 5's dependent-await for the L-Unload guard.
+**Non-claims.** The proofs are rigorous mathematics over explicitly stated hypotheses, in the same sense as [SZC26]'s own; they are not mechanized in a proof assistant. Hypotheses H2–H4 concern the implementation and are exactly what testing cannot itself establish; §11 discusses them as threats.
 
 ---
 
-## 3. The plugin-system interface, formalized
+## 2. Background: the calculus
 
-### 3.1 Systems and observations
+We recall from [SZC26] only what the development manipulates, in its notation.
 
-**Definition 1 (plugin-system interface, PSI).** A *plugin system* is a structure $\mathbb{I} = (\Gamma, \gamma^0, \longrightarrow, \mathcal{O})$ where $\Gamma$ is a set of configurations containing the registries of Def. 45; $\gamma^0$ the empty registry; $\longrightarrow \;\subseteq\; \Gamma \times \Lambda \times \Gamma$ a labeled transition relation over the alphabet $\Lambda = \Lambda_{\mathrm{orch}} \uplus \Lambda_{\mathrm{life}}$ with
+Fix countable, pairwise disjoint sets $K$ (keys), $\mathfrak{N}$ (names), $\mathbb{V}$ (values), $\mathbb{T}$ (effect tags). A **component** is a triple $(d, p, e)$ with $d, p \subseteq K$ finite and $e$ a witnessed effect function (Def. 8, 43); a **fiber** is a tuple $\langle d, p, e, \pi, \sigma, \tau, \theta\rangle$ (Def. 44) with lifecycle states
 
-$$\Lambda_{\mathrm{orch}} = \{\, \mathsf{insert}(\pi, c, \mathit{cfg}),\ \mathsf{retire}(n),\ \mathsf{update}(n, \mathit{cfg}),\ \mathsf{setval}(n, k, v),\ \mathsf{isolate}(k, r),\ \mathsf{intercept}(k, \nu) \,\}$$
+$$\theta \;\in\; \{\ \mathsf{Inactive}(\zeta),\ \mathsf{Reloading}(i, g, \omega),\ \mathsf{Active}(g, \omega),\ \mathsf{Unloading}(g, \omega, \zeta)\ \},$$
 
-and $\Lambda_{\mathrm{life}}$ the lifecycle steps (unlabeled to the environment); and $\mathcal{O}$ the observation map assigning to every configuration and run:
+$\zeta \in \{\bot\} \cup \Xi$, $g$ the accumulator, $\omega : d \to \mathfrak{N}$ the committed view, $i$ the remaining iterator (Def. 49, 51). A state $\gamma$ carries a registry $F_\gamma : \mathfrak{N} \rightharpoonup \mathrm{Fibers}$ (Def. 45); the derived coeffect context and target view are
 
-- **O1** *(quiescent state)*: for each inserted fiber its state in $\{\mathsf{pending}, \mathsf{loading}, \mathsf{active}, \mathsf{failed}, \mathsf{unloading}, \mathsf{disposed}\}$, its recorded outcome $\xi$, and for each key $k$ the value of $\sigma_\gamma$ at $k$ read through $\mathrm{get}$;
-- **O2** *(event word)*: the sequence, in execution order, of effect applications, inverse applications, committed-view reads (with results), value-operation events, and Active/deactivation transitions;
-- **O3** *(rejections)*: the errors raised at the two rejection points of Algorithm 6 (inactive access; undeclared access) and at refused orchestration inputs.
+$$\sigma_\gamma = \bigcup\{\sigma_m \mid \theta_m = \mathsf{Active}(-,-)\}, \qquad
+\mathrm{target}_n(\gamma) = \begin{cases}\bot & \text{if } \tau_n \vee \neg(\gamma \vDash d_n)\\ (k \in d_n) \mapsto \mathrm{provider}_k(\gamma) & \text{otherwise,}\end{cases}$$
 
-The calculus $\mathbb{S}$ of §2 is itself a PSI: $\Lambda_{\mathrm{orch}}$ are its O-rules plus the §5-level operations, $\Lambda_{\mathrm{life}}$ its L-rules, $\mathcal{O}$ the fields of Def. 53 with the event word read off the step sequence. An implementation $\mathbb{I}$ is a PSI through the correspondence of Table 2 (Hypothesis H1 fixes this reading).
+(eq. 40, Def. 46), and $\mathrm{relied}_n(\gamma) \iff \exists m \neq n,\ k \in d_m.\ \mathrm{installed}_m(\gamma) \wedge \omega_m(k) = n$ (Def. 50). The semantics is generated by ten rules (Table 1): O-Insert (premises: freshness, $\pi \in \mathrm{dom}(F_\gamma) \cup \{\mathsf{root}\}$, $\forall m.\ p \cap p_m = \varnothing$), O-Retire (unconditional, writes $\tau_n$), O-Remove (premises $\tau_n$, $\theta_n = \mathsf{Inactive}(-)$, $\forall m.\ \pi_m \neq n$), and the lifecycle rules L-Begin, L-Iter, L-Finish, L-Divert, L-Raise, L-Leave, L-Unload, the last guarded by $\neg\mathrm{relied}_n(\gamma)$. Registration (Def. 47) allows an iteration to perform an O-Insert whose inverse is the corresponding O-Retire. Every step factors as $\gamma^{t+1} = \mathrm{edit}^t(\Psi^t(\gamma^t))$ (eq. 52), with the writes tabulated in Table 1.
 
-**Definition 2 (orchestration script; run).** An *orchestration script* $\rho$ is a finite word over $\Lambda_{\mathrm{orch}}$ interleaved with *settle points*; a *run* of a PSI on $\rho$ executes each input in order and, at each settle point, lets lifecycle transitions fire until quiescence (Def. 49). $\mathrm{obs}_{\mathbb{I}}(\rho)$ denotes the set of observations (O1–O3) of $\mathbb{I}$'s runs on $\rho$ — a set, because lifecycle scheduling is nondeterministic.
-
-**Definition 3 (conformance).** $\mathbb{I} \mathrel{\mathbf{conf}} \mathbb{S}$ iff for every script $\rho$:
-
-1. *(safety / refinement)* $\;\mathrm{obs}_{\mathbb{I}}(\rho) \subseteq \mathrm{obs}_{\mathbb{S}}(\rho)$ up to $\simeq$ and $\approx$ ([SZC26] Defs. 33/53) — every observation the implementation can produce is one the calculus derives;
-2. *(quiescence)* wherever $\mathbb{S}$ quiesces on $\rho$, $\mathbb{I}$'s settle points terminate, and the resulting quiescent O1-observations agree (again up to $\simeq/\approx$).
-
-Clause 2 is the liveness content of [SZC26] Thm. 66 made observable; without it an implementation that deadlocks at every settle point would vacuously refine.
-
-### 3.2 Components as specification data
-
-**Definition 4 (component script).** A *component script* is a tuple $c = (\mathit{name}, d, p, S)$ with $S$ a finite list of *steps*, each one of
-
-$$\mathsf{provide}(k, v) \;\mid\; \mathsf{track}(t) \;\mid\; \mathsf{read}(k) \;\mid\; \mathsf{setval}(k, v) \;\mid\; \mathsf{register}(c', \mathit{cfg}) \;\mid\; \mathsf{raise}(m) \;\mid\; \mathsf{raiseUnless}(\mathit{flag}, m),$$
-
-interpreted as **one iteration each** of the effect iterator of Def. 51: $\mathsf{provide}$ is the $\mathrm{set}$ of Def. 23 (an effect on $\Sigma$, inverse $=$ restriction); $\mathsf{track}$ is an arbitrary element of $\mathfrak{E}^*_\Gamma$ whose application and inverse are observable (they write O2 events, and the inverse is supplied with the effect — the witness of Def. 8 holds by construction); $\mathsf{read}$ is an Algorithm-6 access; $\mathsf{register}$ is the registration primitive of Def. 47; $\mathsf{raise}$ the failing iteration of §4.3.4.
-
-The step-per-iteration reading is exactly the granularity [SZC26] fixes: Algorithm 1 consumes one yielded inverse per iteration and consults its guard between iterations, which is where L-Divert's boundary falls. Under the reference semantics a step is one L-Iter application; under a real build the script is an asynchronous generator yielding one disposer per step, so the runtime's per-`next()` epoch check *is* the boundary. A test written once is thereby interpreted by both sides of the judgment with no translation gap beyond H1.
-
-### 3.3 The reference semantics
-
-We transcribe $\mathbb{S}$ into an interpreter $R$ (file `src/model.mjs`, $\sim$400 lines): the ten rules as guarded functions over explicit registries; $\sigma_\gamma$, target views, $\mathrm{relied}$, and the removal gate computed from the paper's definitions; the failure latch; Algorithm 6 including its isolation-boundary cutoff; realms (Def. 28–29) and interception merge (Def. 31 as §5.1.2 realizes it). Scheduling is a parameter: a *policy* orders the fibers scanned for an applicable rule (fifo, lifo, seeded random), and one rule fires per scan — the calculus's nondeterminism made into an enumerable dimension. $R$ is small enough to audit clause-by-clause against Table 1, and Lemma 1 rests on that audit.
+The metatheory we invoke: $\simeq$-invariance of the rules (Lemma 55), equivariance under name bijections (Lemma 56), vestigial-entry framing (Lemma 57), well-formedness preservation (Thm. 59), recovery exactness (Thm. 61, Cor. 62), ordering and value fixity (Thm. 63), resolution coherence (Thm. 64), progress and termination (Thm. 66), confluence (Thm. 73). Equalities on states are read up to $\simeq$ (Def. 33) and $\approx$ (Def. 53).
 
 ---
 
-## 4. The test suite
+## 3. The instrumented interface
 
-### 4.1 Form of a test
+### 3.1 Observation algebra
 
-**Definition 5 (test; verdict).** A *test* is a pair $t = (\rho_t, V_t)$: a script with component data (Defs. 2, 4) and a decidable verdict predicate over observations (O1–O3) that examines only the observation vocabulary, never implementation internals. $\mathbb{I} \models t$ iff every run of $\mathbb{I}$ on $\rho_t$ satisfies $V_t$; $\mathbb{I} \models T$ iff $\mathbb{I} \models t$ for all $t \in T$. Where a run's scheduling is externally controllable (the reference semantics), $\models$ quantifies over the four policies; where it is not (a real build), repeated execution samples it (H3).
+**Definition 1 (events).** The event alphabet is
 
-### 4.2 The catalog
+$$\mathcal{E} \;::=\; \mathsf{app}(n, t) \;\mid\; \mathsf{inv}(n, t) \;\mid\; \mathsf{rd}(n, k, v) \;\mid\; \mathsf{rderr}(n, k, \epsilon) \;\mid\; \mathsf{act}(n) \;\mid\; \mathsf{deact}(n) \;\mid\; \mathsf{val}(n,k)$$
 
-The suite $T$ comprises 32 tests. Each pins one *clause* — a rule of Table 1, a single premise guarding one, a definitional obligation of the coeffect layer, or a metatheorem read as an observable. The full catalog with formal sources is Table C (Appendix B); its structure:
+with $n \in \mathfrak{N}$, $t \in \mathbb{T}$, $k \in K$, $v \in \mathbb{V}$, $\epsilon \in \{\mathsf{IA}, \mathsf{UD}\}$ (inactive access, undeclared access). An *observation* is a pair $(w, q)$: $w \in \mathcal{E}^*$ an event word, and $q$ a *quiescent report* — a function assigning each inserted name its status in $\{\mathsf{pend}, \mathsf{load}, \mathsf{act}, \mathsf{fail}, \mathsf{unld}, \mathsf{disp}\}$ and outcome in $\{\bot\} \cup \Xi$, together with the store report $\mathrm{st} : K \rightharpoonup \mathbb{V}$, $\mathrm{st}(k) = \sigma_\gamma(k)$, and the log of refused inputs.
 
-| Group | Tests | Clauses covered |
-| --- | --- | --- |
-| O-rules | R1.1–R1.4, R2.1–R2.2, R3.1–R3.2 | O-Insert's conclusion and its three premises (parent liveness; declared disjointness $\forall m.\ p \cap p_m = \varnothing$; the dynamic fail-safe when Def. 43 containment is violated); O-Retire's recovery obligation, incl. the never-activated case; O-Remove's inactivity gate; registration cascade (Def. 47) |
-| Activation | R4.1–R4.4, R5.1, R6.1, R7.1, RU.1 | L-Begin's premise, positively and negatively (satisfaction; late arrival; Active-only $\sigma_\gamma$; the $\mathsf{Inactive}(\xi)$ latch); L-Iter order $+$ LIFO accumulation; the Thm.-64 dichotomy at L-Divert; L-Raise's recover-then-latch; entry update (§5.2.1) |
-| Deactivation | R8.1, R9.1, R9.2 | Thm. 63(3) committed reads through one's own teardown; the L-Unload guard's ordering; Cor. 62 exactness on the non-retired path |
-| Coeffect layer | C1.1, C2.1, C3.1–C3.2, C4.1, C5.1–C5.3 | Def. 23/24 operations; the overwrite dichotomy (PB-2, §8); realms and label join (Def. 28–29); interception merge (Def. 31); Algorithm 6's three outcomes |
-| Metatheory | M1–M5 | Thm. 61/Cor. 21; Thm. 63 globally; provider-identity coherence (Thm. 64 with §5.1.3's identity comparison); Thm. 66 quiescence on an unsatisfiable cycle; Thm. 73 confluence across histories |
+**Definition 2 (plugin system).** A *plugin system* is an LTS $\mathbb{X} = (\Gamma_{\mathbb{X}}, \gamma^0_{\mathbb{X}}, \longrightarrow_{\mathbb{X}})$ with $\longrightarrow_{\mathbb{X}} \subseteq \Gamma_{\mathbb{X}} \times \Lambda \times \mathcal{E}^* \times \Gamma_{\mathbb{X}}$, over the label alphabet $\Lambda = \Lambda_{\mathrm{orch}} \uplus \{\mathsf{life}\}$,
 
-**Premise coverage.** For every rule, the catalog contains tests in which each premise is satisfied and tests in which it is individually violated (e.g. for L-Begin: R1.1 fires it; R4.1 withholds satisfaction; R4.3 withholds *Active* satisfaction specifically; R4.4 withholds the $\bot$ outcome; R1.2/R1.4 refuse insertion itself). This modified-condition coverage of guards is what Lemma 2 consumes.
+$$\Lambda_{\mathrm{orch}} = \{\mathsf{insert}(\pi, c, \mathit{cfg}),\ \mathsf{retire}(n),\ \mathsf{update}(n,\mathit{cfg}),\ \mathsf{setval}(n,k,v),\ \mathsf{isolate}(k,r),\ \mathsf{intercept}(k,\nu)\},$$
 
-**Definition 6 (witness map).** $w : T \to \mathrm{Clauses}$ assigns each test the clause of its catalog row.
+each transition emitting a (possibly empty) event word. A configuration is *quiescent* when no $\mathsf{life}$-transition is enabled and a quiescent report $q(\cdot)$ is defined on it.
 
----
+**Definition 3 (components as scripts).** A *component script* is $c = (\mathit{name}, d, p, S)$, $S \in \mathrm{Step}^*$,
 
-## 5. Completeness (sufficiency)
+$$\mathrm{Step} ::= \mathsf{provide}(k,v) \mid \mathsf{track}(t) \mid \mathsf{read}(k) \mid \mathsf{setval}(k,v) \mid \mathsf{register}(c',\mathit{cfg}) \mid \mathsf{raise}(m) \mid \mathsf{raiseUnless}(\mathit{fl},m).$$
 
-### 5.1 Testability hypotheses
+**Definition 4 (the specification $\mathbb{S}$).** $\mathbb{S}$ is the plugin system whose configurations are the registries of §2 with each fiber's $e$ a script and each $\mathsf{Reloading}$ iterator a script suffix; whose transitions are the ten rules, one step per rule application, reading each script step as one iteration of Def. 51 with the following instrumentation, where $n$ is the acting fiber and the step executed is $s$:
 
-Finite testing of an infinite-state system is impossible without hypotheses; the discipline, following Gaudel [Gau95], is to name them and keep each as weak as the argument allows.
+| rule / step | emitted word |
+| --- | --- |
+| L-Iter at $s = \mathsf{track}(t)$ | $\mathsf{app}(n,t)$; the inverse composed onto $g$ emits $\mathsf{inv}(n,t)$ when applied |
+| L-Iter at $s = \mathsf{provide}(k,v)$ | $\varepsilon$; the inverse (restriction, Def. 23) emits $\varepsilon$ |
+| L-Iter at $s = \mathsf{read}(k)$ | $\mathsf{rd}(n,k,v)$ with $v$ per Algorithm 6, or $\mathsf{rderr}(n,k,\epsilon)$ at its rejection lines |
+| L-Iter at $s = \mathsf{setval}(k,v)$ | $\mathsf{val}(n,k)$ |
+| L-Finish | $\mathsf{act}(n)$ |
+| L-Unload | the accumulator's inverse events in application order, then $\mathsf{deact}(n)$ |
+| all others | $\varepsilon$ |
 
-- **H1 (Correspondence).** The Table-2 reading of the implementation's API is faithful: the operations named in Def. 1 are the implementation's counterparts of the calculus's inputs, its state/store/error surfaces are O1/O3, and its synchronously ordered event callbacks are O2. *(Discharged by audit: the two adapters are $\sim$200 lines each, exist for this purpose, and contain nothing else. One Table-2 row is corrected before use — PB-1, §8.)*
-- **H2 (Uniformity).** The implementation is *schema-uniform*: its behavior on an instance of a rule does not depend on component identity, key names, or payload values beyond what the rule's premises and writes read. This is Gaudel's uniformity hypothesis; it licenses concluding a rule schema from finitely many catalog instances. It would be discharged entirely only by source-level verification — which is the point of stating it.
-- **H3 (Scheduling).** The implementation's scheduler refines the calculus's nondeterministic step relation, is *fair* (an applicable rule is eventually taken), and its quiescence is detected by the settle procedure. Under H3, the instant at which a target view turns is not an observable — [SZC26] §4.3.3's own inertia argument — so verdicts quantify over Thm. 64's dichotomy rather than over unobservable instants.
-- **H4 (Witness).** Inverses supplied by *test* components revert their effects — true by construction here, since tracked effects and their inverses are observation-writers. *(For arbitrary user components this is [SZC26] §5.1.1's admitted obligation; the suite tests the runtime's* composition *of inverses, which is the part the calculus governs.)*
+Orchestration labels map to O-Insert, O-Retire, the update of §5.2.1, the $\mathcal{A}_k$ operation of Def. 24, and the derivations of Def. 29/31; a label whose rule premises fail is *refused* (logged in $q$, no transition). The quiescent report reads $\theta, \zeta, \sigma_\gamma$ as in Definition 1.
 
-### 5.2 The theorem
+**Definition 5 (scripts, runs, behaviors).** An *orchestration script* $\rho$ is a finite word over $\Lambda_{\mathrm{orch}} \cup \{\mathsf{settle}\}$. A *run* of $\mathbb{X}$ on $\rho$ executes the orchestration labels in order and, at each $\mathsf{settle}$, extends by $\mathsf{life}$-transitions until a quiescent configuration is reached (if ever). Its observation is the concatenated event word together with the final quiescent report. The *behavior set* is
 
-**Lemma 1 (Soundness of $T$).** $\mathbb{S} \models T$: the calculus itself passes every test under every scheduling policy.
+$$\mathrm{obs}_{\mathbb{X}}(\rho) \;=\; \{\, (w, q) \mid \text{some run of } \mathbb{X} \text{ on } \rho \text{ observes } (w,q) \,\}$$
 
-*Proof.* Machine-checked: $R$ (§3.3) passes all 32 tests under fifo, lifo, and two seeded random policies (Appendix A, run 1). That $R$ is $\mathbb{S}$ is the clause-by-clause audit of §3.3. Twice during construction this lemma failed and, on inspection, convicted the *test*, not the model: a draft of R3.2 asserted a parent/child inverse ordering that [SZC26] §4.3.1 explicitly leaves open, and a draft of M3 issued an insert whose O-Insert premise was false at that instant (PB-3, §8). Both drafts were corrected to the calculus; we record this as evidence the lemma has bite. $\blacksquare$
+— a set, since $\mathsf{life}$-scheduling is nondeterministic.
 
-**Lemma 2 (Local completeness).** Assume H1–H4 and $\mathbb{I} \models T$. Then for every rule $r$ of Table 1 and every configuration $\gamma$ reachable in $\mathbb{I}$: (a) $r$'s implementation counterpart fires at $\gamma$ only if $r$'s premises hold at $\gamma$, and where quiescence would otherwise be violated it eventually fires where they hold; (b) its writes agree with $r$'s row in Table 1 on all of O1–O3, up to $\simeq/\approx$.
+### 3.2 Conformance
 
-*Proof.* Fix $r$. The catalog rows with $w(t)$ among $r$'s conclusion and premises provide, for each premise $p$ of $r$, a passing instance where $p$ holds and $r$'s observable consequences occur, and a withholding instance where $p$ alone fails and they do not (§4.2, premise coverage). By H1 the exercised API is $r$'s counterpart; by H2 behavior at the catalog instances determines behavior at every instance of the schema; by H3 the with/without observations are exactly firing-versus-eventual-firing-versus-not. For (b): the verdicts assert precisely Table 1's writes as observables — state transitions (O1); accumulator behavior, i.e. application order, LIFO recovery, guard ordering, and committed reads (O2); refusals (O3) — and H4 lets O2's inverse events stand for the accumulator's action. $\blacksquare$
+Write $(w,q) \sim (w',q')$ when $w, w'$ are equal as words and $q, q'$ agree up to $\simeq$ on store reports and equally-labeled statuses/outcomes; this is the reading "up to Def. 33/53" fixed once and used throughout.
 
-**Lemma 3 (Composition).** Assume H1–H4, $\mathbb{I} \models T$, and Lemma 2. Then multi-fiber interleavings in $\mathbb{I}$ agree with $\mathbb{S}$: recovery under interleaving, chain ordering, coherence under replacement, quiescence, and history-independence.
+**Definition 6 (conformance).** $\mathbb{I} \mathrel{\mathbf{conf}} \mathbb{S}$ iff for every script $\rho$: (i) for every $(w,q) \in \mathrm{obs}_{\mathbb{I}}(\rho)$ there is $(w',q') \in \mathrm{obs}_{\mathbb{S}}(\rho)$ with $(w,q) \sim (w',q')$; and (ii) whenever every run of $\mathbb{S}$ on $\rho$ reaches quiescence at each settle point (which is always, by Thm. 66, when $\rho$'s inserts keep $\prec$ acyclic and registrations finite), every run of $\mathbb{I}$ on $\rho$ does as well.
 
-*Proof.* Each named property is a theorem of $\mathbb{S}$ ([SZC26] Thms. 61, 63, 64, 66, 73), so $\mathbb{S}$-derivability of $\mathbb{I}$'s behaviors would already follow from Lemma 2 *if* $\mathbb{I}$ composed rule applications through the shared state exactly as $\longrightarrow$ does. That residue — the engine gluing steps together: notification, scheduling across fibers, guard bookkeeping — is what M1–M5 observe directly: their verdicts are the theorems' statements read as O1/O2 predicates over multi-fiber scripts. An $\mathbb{I}$ passing Lemma 2's tests but composing wrongly would fail one of M1–M5 on its witness scenario; by H2 the witness scenarios extend to the schema of interleavings they instantiate (independent pairs, chains, replacement round-trips, unsatisfiable cycles, permuted histories). $\blacksquare$
+**Proposition 1.** $\mathbf{conf}$ is a preorder.
+*Proof.* Reflexivity is immediate. For transitivity let $\mathbb{A} \mathrel{\mathbf{conf}} \mathbb{B} \mathrel{\mathbf{conf}} \mathbb{C}$ and $(w,q) \in \mathrm{obs}_{\mathbb{A}}(\rho)$: clause (i) twice yields $(w'',q'')\in \mathrm{obs}_{\mathbb{C}}(\rho)$ with $(w,q) \sim (w'',q'')$ since $\sim$ is transitive; clause (ii) composes because $\mathbb{B}$'s settles terminate whenever $\mathbb{C}$'s do. $\blacksquare$
 
-**Theorem 1 (Completeness / sufficiency).** Under H1–H4, if $\mathbb{I} \models T$ then $\mathbb{I} \mathrel{\mathbf{conf}} \mathbb{S}$.
+**Definition 7 (observation simulation).** Let $A : \Gamma_{\mathbb{I}} \rightharpoonup \Gamma_{\mathbb{S}}$ be partial with $\mathrm{Reach}(\mathbb{I}) \subseteq \mathrm{dom}(A)$. The relation $\mathcal{R}_A = \{(u, \gamma) \mid u \in \mathrm{Reach}(\mathbb{I}),\ \gamma \approx A(u)\}$ is an *observation simulation* when:
 
-*Proof.* By induction on the length of $\mathbb{I}$'s run on an arbitrary script $\rho$. *Base:* both PSIs start at $\gamma^0$. *Step:* assume the observation prefix after $n$ events is $\mathbb{S}$-derivable, with $\mathbb{I}$'s configuration related to a derivable $\gamma$ by $\simeq/\approx$. The $(n{+}1)$-st event is an orchestration input — admitted or refused per the O-rule premises and written per their rows (Lemma 2 applied to O-Insert/O-Retire/O-Remove/update) — or a lifecycle event, in which case Lemma 2(a) gives that its rule's premises held at $\gamma$ (so $\mathbb{S}$ can take the same step) and Lemma 2(b) that its observable writes match the rule's; Lemma 3 covers events whose correctness is a property of the interleaving rather than of one rule. Hence the $(n{+}1)$-prefix is $\mathbb{S}$-derivable. Quiescence (Def. 3, clause 2): at each settle point, the verdicts of M4/M2/M5 include termination of settle and quiescent O1 agreement on their schemas; H2–H3 extend this to all scripts, and $\mathbb{S}$'s own quiescence is Thm. 66. $\blacksquare$
+- (S0) $A(\gamma^0_{\mathbb{I}}) = \gamma^0$;
+- (S1) if $u \xrightarrow{\lambda / w}_{\mathbb{I}} u'$ with $\lambda \in \Lambda_{\mathrm{orch}}$ then $\gamma \xRightarrow{\lambda / w'}_{\mathbb{S}} \gamma'$ for some $\gamma' \approx A(u')$ and $w \sim w'$; and $\lambda$ is refused at $u$ iff refused at $\gamma$;
+- (S2) if $u \xrightarrow{\mathsf{life} / w}_{\mathbb{I}} u'$ then $\gamma \xrightarrow{\mathsf{life} / w'}_{\mathbb{S}} \gamma'$ for some $\gamma' \approx A(u')$, $w \sim w'$;
+- (S3) if $u$ is quiescent then $A(u)$ is quiescent and $q_{\mathbb{I}}(u) \sim q_{\mathbb{S}}(A(u))$; conversely if every $\mathbb{S}$-run of the pending settle quiesces, $\mathbb{I}$'s settle at $u$ terminates.
 
-**Remark (what the hypotheses buy, and cost).** H2 is the load-bearing assumption, as in all specification-based testing: without it no finite suite is complete, by a standard diagonalization (an implementation special-casing an untested key name). The theorem is therefore best read as: *the suite reduces conformance of an arbitrary implementation to schema-uniformity plus a 400-line audit (H1) — from a semantic obligation to a syntactic one.*
-
----
-
-## 6. Minimality (necessity)
-
-**Proposition 1 (Injectivity).** The witness map $w$ is injective, and for every $t \in T$, the clause $w(t)$ has no witness in $T \setminus \{t\}$.
-
-*Proof.* By inspection of Table C: the 32 clause entries are pairwise distinct (distinct rule, distinct premise of a rule, or distinct definitional/metatheoretic obligation), and no other test's verdict asserts the dropped clause's defining observable (checked row-by-row; the mutation matrix of Theorem 2 corroborates mechanically — for each of the 14 exclusively witnessed tests, its mutant survives the other 31). $\blacksquare$
-
-Dropping any test therefore breaks the catalog's *onto*-ness: some clause of the calculus retains no designated witness, and Lemma 2's premise coverage — hence Theorem 1 — no longer holds for its rule. This is necessity in the structural sense. The empirical sense follows.
-
-**Definition 7 (fault domain; adequacy).** The fault domain $F$ is a set of 27 *semantic mutants* of $R$, each negating exactly one decision of the calculus (the `MUTANTS` catalog: drop L-Unload's guard; compose the accumulator FIFO; count Reloading providers into $\sigma_\gamma$; re-enter the lifecycle from $\mathsf{Inactive}(\xi)$; resolve reads against the live registry instead of $\omega$; release the guard at Unloading dependents; skip the registration inverse; …). A suite is *adequate* for $F$ if every mutant fails some test [DLS78], and *irredundant* if no proper subset is adequate.
-
-**Theorem 2 (Mutation adequacy and irredundancy).** $T$ is adequate for $F$; 14 tests are each the unique killer of some mutant; and $T$ is minimal among subsets of $T$ adequate for $F$, once the 18 remaining tests — none of which any single-decision mutant can isolate — are retained on Proposition 1's grounds.
-
-*Proof.* Executable (Appendix A, run 4): the kill matrix over $F \times T$, each mutant run under both fifo and lifo policies (kill sets differ across policies; one deviation is exhibited *only* under lifo — schedule-shielded faults are real). K1: $27/27$ mutants killed. K2: the 14 exclusive test–mutant pairs are printed by the runner. For the other 18, exclusivity is impossible in principle: their clauses are *load-bearing* — a violation of L-Begin's guard, say, perturbs half the suite's scenarios — so any single-decision mutant reaching them is caught by sharper tests as well (subsumption, a standard phenomenon in mutation analysis [PAO17]). Two candidate mutants were discarded during construction as observationally vacuous — a value-compared target view (unreachable under the single-provider discipline plus the guard) and a retire-flushes-pending-work variant (whose phantom episode L-Divert cancels before an iteration lands); their vacuity is a small self-healing theorem about the calculus, verified on the model. $\blacksquare$
+**Lemma 1 (simulation soundness).** If some $A$ makes $\mathcal{R}_A$ an observation simulation, then $\mathbb{I} \mathrel{\mathbf{conf}} \mathbb{S}$.
+*Proof.* Fix $\rho$ and an $\mathbb{I}$-run observing $(w,q)$. By induction on the run's length, using (S0) for the base and (S1)/(S2) for each step, there is an $\mathbb{S}$-run on $\rho$ through configurations $\approx$-related to the $A$-images, emitting a word $\sim w$; the step case is licensed because $\approx$-related $\mathbb{S}$-configurations enable the same rules with $\approx$-related results (Lemma 55 of [SZC26], which proves exactly this $\simeq$-invariance, extended to $\approx$ by its own statement). At the final settle, (S3) gives quiescence of the $A$-image and $q \sim q_{\mathbb{S}}$, so $(w,q) \sim$ an element of $\mathrm{obs}_{\mathbb{S}}(\rho)$, establishing (i); the converse half of (S3) establishes (ii). $\blacksquare$
 
 ---
 
-## 7. Empirical verification
+## 4. Clauses, windows, and satisfaction
 
-**Targets.** (i) $R$, the reference semantics (soundness control); (ii) **Cordis-aligned**: the vendored build carrying the calculus-alignment fixes of the prior targeted gap catalog (`paper-review/`, GAP-1..9); (iii) **Cordis-upstream**: `@deepseek-ai/cordis` 4.0.1 as published (identical to the unpatched vendor copy); (iv) the same upstream build deployed as **two nodes** joined by `@rebuilding/cordis-node` over in-process transports, with mutual mounts, inserts alternated across nodes, and all observations read from node A through projection.
+### 4.1 Windows
+
+For each rule $r$ of Table 1 acting at $n$, define its *window* $W_r(\gamma, n)$: the tuple of exactly the fields $r$'s premises and writes read, as tabulated by [SZC26]'s own reading of Table 1 (Lemmas 54–55): for L-Begin, $(\theta_n, \tau_n, d_n, \{(\theta_m, \sigma_m\!\upharpoonright_{d_n}) \mid m \in \mathrm{dom} F_\gamma\})$; for L-Unload, $(\theta_n, \{\,\omega_m \mid \mathrm{installed}_m\,\}, g_n)$; and so on, one row per rule. Two pointed configurations are *$r$-similar*, written $(\gamma, n) \sim_r (\gamma', n')$, when a bijection $\chi$ of names, keys, values, and tags aligns their windows.
+
+**Lemma 2 (locality and equivariance of $\mathbb{S}$).** For every rule $r$: if $(\gamma, n) \sim_r (\gamma', n')$ via $\chi$, then $r$ is applicable at $(\gamma, n)$ iff at $(\gamma', n')$; and when applicable, the windows of the successors are aligned by $\chi$ and the emitted words correspond under $\chi$.
+*Proof.* Premises: each premise of $r$ is a predicate of the window by construction of $W_r$ — e.g. for L-Begin, $\theta_n = \mathsf{Inactive}(\bot)$ and $\mathrm{target}_n(\gamma) \neq \bot$ are functions of $(\theta_n, \tau_n)$ and of which $m$ with $\sigma_m \ni k$ are Active for $k \in d_n$, all in $W_{\text{L-Begin}}$ — and $\chi$ preserves each field. Writes: the step factors as $\mathrm{edit} \circ \Psi$ (eq. 52) where $\mathrm{edit}$ assigns fields of $n$ from window values and $\Psi$ is $\mathrm{id}$, an iteration of $e_n$, or $g_n$; each case reads only the window and commutes with $\chi$ by Lemma 56 of [SZC26] (equivariance) for the name part, with $\chi$ acting on keys/values pointwise, while entries outside the window are inert by Lemma 57 (vestigial framing) and by clause (1) of Lemma 54 ($\sigma_m$ moves only at steps acting on $m$). Emissions: Definition 4's table maps each case to events built from window values. $\blacksquare$
+
+### 4.2 Clauses
+
+**Definition 8 (clauses).** The *clause set* $\mathcal{C}$ consists of: for each rule $r$, the pair of clauses $\langle r{:}\mathsf{prem}\rangle$ and $\langle r{:}\mathsf{act}\rangle$; the coeffect-layer clauses $\langle \mathrm{op} \rangle$ for the operations of Def. 23/24, the realm clauses of Def. 28–29, the interception clause of Def. 31, and the three outcome clauses of Algorithm 6; and the composite clauses $\langle \mathrm{M}_1\rangle$–$\langle\mathrm{M}_5\rangle$, one for each of Thm. 61, 63, 64, 66, 73 read as an observation predicate (their statements quantified over the scenario schemas of §5.2). Overlapping premises shared by several rules (e.g. the target comparison of L-Iter/L-Finish/L-Divert) are one clause each, attributed per Table C.
+
+**Definition 9 (satisfaction).** Let $A$ be as in Definition 7. $\mathbb{I}$ *satisfies* clause $c$ under $A$, written $\mathrm{Sat}_A(c)$:
+
+- $\mathrm{Sat}_A\langle r{:}\mathsf{prem}\rangle$: every $\mathbb{I}$-transition that $A$ maps to an $r$-step at $n$ occurs only where $\mathrm{Prem}_r(A(u), n)$ holds; and each $\lambda \in \Lambda_{\mathrm{orch}}$ is refused at $u$ iff its rule's premises fail at $A(u)$.
+- $\mathrm{Sat}_A\langle r{:}\mathsf{act}\rangle$: when such a transition occurs, $A(u') \approx \mathrm{edit}_r(\Psi_r(A(u)))$ per $r$'s Table-1 row, and the emitted word is Definition 4's, under $\sim$.
+- $\mathrm{Sat}_A\langle \mathrm{op}/\mathrm{Alg6}/\ldots \rangle$: the operation's defining equation of Def. 23/24/29/31 resp. the outcome of Algorithm 6 holds of $A(u)$, with the prescribed event.
+- $\mathrm{Sat}_A\langle \mathrm{M}_i\rangle$: the corresponding metatheorem's observation predicate holds of $\mathbb{I}$'s runs on its schema.
+- $\mathrm{Sat}_A(\mathsf{live})$ (one clause): if $\mathrm{Prem}_r(A(u), n)$ holds for some lifecycle $r, n$ and persists along every $\mathbb{I}$-extension in which no transition acts on $n$, then some transition acts on $n$ eventually.
+
+**Theorem 1 (satisfaction implies conformance).** If $\mathrm{Sat}_A(c)$ for all $c \in \mathcal{C}$, then $\mathcal{R}_A$ is an observation simulation; hence $\mathbb{I} \mathrel{\mathbf{conf}} \mathbb{S}$.
+*Proof.* (S0) is $A(\gamma^0_{\mathbb{I}}) = \gamma^0$, part of $A$'s definition (§6, H1). (S1)–(S2): let $u \to u'$ be a transition, mapped by $A$ to rule $r$ at $n$. By $\mathrm{Sat}\langle r{:}\mathsf{prem}\rangle$, $\mathrm{Prem}_r(A(u), n)$; hence $r$ applies at $A(u)$ in $\mathbb{S}$, producing $\gamma' = \mathrm{edit}_r(\Psi_r(A(u)))$. By $\mathrm{Sat}\langle r{:}\mathsf{act}\rangle$, $A(u') \approx \gamma'$ and the words correspond. For a $\gamma \approx A(u)$ (the relation's second components), Lemma 55 transports applicability and result across $\approx$. Refusals correspond by the second half of $\mathrm{Sat}\langle r{:}\mathsf{prem}\rangle$. The coeffect-layer clauses cover the labels that are derivations rather than rules ($\mathsf{isolate}, \mathsf{intercept}, \mathsf{setval}$) and the read events inside iterations, so every emitted event is accounted. (S3): let $u$ be quiescent. If some lifecycle rule were applicable at $A(u)$, its premises would persist at $u$ (no $\mathbb{I}$-transition occurs at a quiescent $u$ at all), so $\mathrm{Sat}(\mathsf{live})$ would produce a transition — contradiction; hence $A(u)$ is quiescent, and $q_{\mathbb{I}}(u) \sim q_{\mathbb{S}}(A(u))$ because the report fields are exactly window fields preserved by $\mathrm{Sat}\langle\cdot{:}\mathsf{act}\rangle$ along the run (an induction identical in shape to the (S1)/(S2) case). The converse half of (S3): where $\mathbb{S}$'s settle terminates (Thm. 66), non-termination of $\mathbb{I}$'s settle would require an infinite sequence of $\mathbb{I}$-transitions; their $A$-images form, by the (S1)/(S2) cases already established, an infinite $\mathbb{S}$-derivation from a configuration on which every maximal lifecycle sequence is finite — contradicting Thm. 66's termination bound $S(n) \le (K{+}4)(V(n){+}1)$. $\blacksquare$
+
+---
+
+## 5. The suite
+
+### 5.1 Tests
+
+**Definition 10 (test, verdict, passing).** A *test* is a pair $t = (\rho_t, V_t)$: a script over the component data of Definition 3, and a decidable predicate $V_t$ on observations. $\mathbb{I} \models t$ iff $V_t(w,q)$ for every $(w,q) \in \mathrm{obs}_{\mathbb{I}}(\rho_t)$; $\mathbb{I} \models T$ iff $\forall t \in T.\ \mathbb{I} \models t$.
+
+The suite $T$ has 32 tests; Table C (Appendix B) lists for each: its script, its verdict as a first-order predicate over $(w, q)$ in the vocabulary of Definition 1, the clause $w(t) \in \mathcal{C}$ it witnesses, and the premise vector it realizes. Two representative rows, in full:
+
+- $t = \text{R5.1}$: $\rho_t = \mathsf{insert}(\mathsf{root}, P, -);\ \mathsf{settle};\ \mathsf{retire}(P);\ \mathsf{settle}$ with $S_P = \mathsf{track}(a); \mathsf{track}(b); \mathsf{track}(c)$.
+  $V_t(w, q) \equiv w \supseteq_{\mathrm{ord}} \mathsf{app}(P,a)\,\mathsf{app}(P,b)\,\mathsf{app}(P,c)\ \wedge\ w \supseteq_{\mathrm{ord}} \mathsf{inv}(P,c)\,\mathsf{inv}(P,b)\,\mathsf{inv}(P,a)$, where $\supseteq_{\mathrm{ord}}$ is subword order. $w(t) = \langle\text{L-Iter/L-Unload}{:}\mathsf{act}\rangle$ (order and LIFO composition).
+- $t = \text{R9.1}$: $\rho_t = \mathsf{insert}(\mathsf{root}, P, -); \mathsf{insert}(\mathsf{root}, C, -); \mathsf{settle}; \mathsf{retire}(P); \mathsf{settle}$ with $S_P = \mathsf{provide}(k, v_0); \mathsf{track}(p_1)$, $S_C$ declaring $d_C = \{k\}$ with one tracked effect whose inverse performs $\mathsf{read}(k)$.
+  $V_t(w,q) \equiv \mathsf{rd}(C,k,v_0) \in w \ \wedge\ \mathsf{rd}(C,k,v_0) <_w \mathsf{inv}(P,p_1) \ \wedge\ q(P) = \mathsf{disp}$, where $<_w$ is precedence in $w$. $w(t) = \langle\text{L-Unload}{:}\mathsf{prem}\rangle$ (the guard $\neg\mathrm{relied}$).
+
+### 5.2 Soundness
+
+**Theorem 2 (soundness: $\mathbb{S} \models T$).** The calculus satisfies every test, under every schedule.
+*Proof.* For each $t$, $V_t$ is an instance of a metatheorem of [SZC26] at $\rho_t$'s scenario; Table C's fourth column names the theorem, and we derive the two representatives (the rest are identical in kind):
+
+*R5.1.* Any schedule on $\rho$: O-Insert; L-Begin (premises hold: fresh Inactive($\bot$), $d_P = \varnothing$ so $\mathrm{target} = \varnothing \ne \bot$); three L-Iters — by Definition 4 emitting $\mathsf{app}(P,a), \mathsf{app}(P,b), \mathsf{app}(P,c)$ in $S_P$'s order, each composing its inverse as $g \mapsto g_x \circ g$ (Table 1's $g \circ h$ read in application order), so after the third, $g = g_c \circ g_b \circ g_a$... — precisely, Table 1 composes $g' = g \circ h$ with $h$ the new inverse, giving $g = g_a \circ g_b \circ g_c$ *as a function composition applied right-to-left*, i.e. $g_c$ runs first; L-Finish; then $\mathsf{retire}$ sets $\tau_P$, L-Leave, and L-Unload (guard vacuous: no $\omega_m$ names $P$) applies $g$, emitting $\mathsf{inv}(P,c), \mathsf{inv}(P,b), \mathsf{inv}(P,a)$ — Thm. 16's LIFO order. Both subword conjuncts hold; no schedule choice occurs (one fiber).
+
+*R9.1.* After the first settle both fibers are Active with $\omega_C(k) = P$ (L-Begin's premise via Def. 46). $\mathsf{retire}(P)$ sets $\tau_P$, so $\mathrm{target}_P = \bot \neq \omega_P$: L-Leave puts $P$ in Unloading; then $\sigma_\gamma$ loses $\sigma_P$ (eq. 40), so $\mathrm{target}_C = \bot \neq \omega_C$: L-Leave puts $C$ in Unloading. Now L-Unload($P$) is *blocked*: $\mathrm{installed}_C$ holds and $\omega_C(k) = P$, so $\mathrm{relied}_P$; the only applicable rule is L-Unload($C$) (its guard is vacuous), which applies $C$'s accumulator — its single inverse performs $\mathsf{read}(k)$: Algorithm 6 finds $k \in \mathrm{dom}(\omega_C)$ — the committed view survives until $C$'s own L-Unload completes (Table 1: L-Unload discards $\omega$ as its write, after $\Psi = g$) — and reads $P$'s binding, still present since no inverse of $P$ has run; so $\mathsf{rd}(C,k,v_0)$ is emitted (value fixity: Thm. 63(3)). Only then does $\neg\mathrm{relied}_P$ hold and L-Unload($P$) emit $\mathsf{inv}(P,p_1)$; O-Remove disposes $P$ ($q(P) = \mathsf{disp}$). Every schedule takes these steps in this order because at each point at most one lifecycle rule is enabled — which is Thm. 63(2)'s content, $u' < u$, at this scenario. $\blacksquare$ *(Executed corroboration: run 1, four policies, $32/32$.)*
+
+During construction this theorem failed twice on draft verdicts, in both cases convicting the draft: an R3.2 draft asserted an inverse ordering between parent and child that §4.3.1 of [SZC26] leaves open, and an M3 draft issued an $\mathsf{insert}$ whose O-Insert premise was false at that instant (§9, PB-3). We record this as evidence that Theorem 2 is a genuine gate, not a formality.
+
+**Definition 11 (witness map).** $w : T \to \mathcal{C}$ per Table C. By construction $w$ is injective, and its image meets every clause of $\mathcal{C}$ (*onto*-ness over the catalog's clause enumeration); both facts are checked row-by-row in Table C.
+
+**Lemma 3 (realization).** For every rule $r$ and every truth assignment $\beta$ to $\mathrm{Prem}_r$ consistent with reachability in $\mathbb{S}$, some $t \in T$ with $w(t) \in \{\langle r{:}\mathsf{prem}\rangle, \langle r{:}\mathsf{act}\rangle\}$ reaches, during its unique-up-to-$\approx$ $\mathbb{S}$-run, a pointed configuration whose window realizes $\beta$; and $V_t$ constrains exactly the behavior Definitions 8–9 attach to $r$ at $\beta$: firing with $r$'s writes and emissions where $\beta = \mathbf{1}$, non-firing (observed through O1 status or O3 refusal) where a premise is false.
+*Proof.* Finite inspection; Table C's fifth column lists, for each rule, which tests realize which $\beta$. We verify the L-Begin row here: its premise vector ranges over (fresh-$\bot$ outcome; unretired; satisfaction). $\beta = (1,1,1)$: R1.1's run reaches $(\gamma, P)$ with $\theta_P = \mathsf{Inactive}(\bot)$, $\neg\tau_P$, $\mathrm{target}_P = \varnothing$, and $V$ demands $\mathsf{act}(P)$ and the O1 status $\mathsf{act}$ — firing with writes. Satisfaction false: R4.1 ($d_C = \{k\}$, no provider; $V$ demands status $\mathsf{pend}$ and $\mathsf{app}(C,c_1) \notin w$), sharpened by R4.3 (provider present but Reloading at the decisive instant: $V$ demands $\mathsf{act}(P) <_w \mathsf{app}(C, c_1)$, i.e. non-firing while the provider is not Active). Outcome $\xi$: R4.4 ($V$ demands one $\mathsf{app}$ only and status $\mathsf{fail}$ across a settle). Retirement: R2.2 (retired while pending: no $\mathsf{app}$ ever). The remaining rows are checked the same way and tabulated. $\blacksquare$
+
+---
+
+## 6. Completeness
+
+### 6.1 Hypotheses, stated formally
+
+- **H1 (abstraction).** There is a map $A : \mathrm{Reach}(\mathbb{I}) \to \Gamma_{\mathbb{S}}$ with $A(\gamma^0_{\mathbb{I}}) = \gamma^0$, a tagging of every $\mathbb{I}$-transition by the rule it implements, and preservation of the observation surfaces: $q_{\mathbb{I}}(u) = q_{\mathbb{S}}(A(u))$ on quiescent $u$, event emissions as tagged, orchestration labels mapped identically. *(Constructed, not assumed, for the systems under test: the adapter audit exhibits $A$ — fiber-by-field per Table 2 with the PB-1 correction — and the tagging; §8.)*
+- **H2 (uniformity = equivariance + locality).** (a) $\longrightarrow_{\mathbb{I}}$ is equivariant under bijections $\chi$ of $\mathfrak{N}, K, \mathbb{V}, \mathbb{T}$ fixing the finitely many reserved constants; (b) for every rule $r$: whether an $r$-tagged transition is enabled at $(u, n)$, and its effect and emissions on the window, depend only on $W_r(A(u), n)$ — the implementation-side counterpart of Lemma 2. *(This is Gaudel's uniformity hypothesis [Gau95] in the concrete form our proof consumes; it is exactly what finite testing cannot itself establish — Remark 1.)*
+- **H3 (scheduling).** $\mathbb{I}$'s scheduler is fair — a persistently enabled fiber is eventually acted on — and its settle procedure terminates exactly on quiescent configurations (sound and complete quiescence detection).
+- **H4 (witness).** Inverses of test components revert their tracked effects and emit their $\mathsf{inv}$ events — true by construction of Definition 3's $\mathsf{track}$; what remains on $\mathbb{I}$ is composing and invoking them, which is observable and constrained by the verdicts.
+
+**Theorem 3 (completeness / sufficiency).** Under H1–H4: $\mathbb{I} \models T \implies \mathrm{Sat}_A(c)$ for every $c \in \mathcal{C}$ — hence, by Theorem 1, $\mathbb{I} \mathrel{\mathbf{conf}} \mathbb{S}$.
+*Proof.* Suppose some clause fails; we derive $\mathbb{I} \not\models T$.
+
+*Case $c = \langle r{:}\mathsf{prem}\rangle$.* There is a reachable $u$ and an $r$-tagged transition at $n$ with some premise $p$ false at $(A(u), n)$; let $\beta$ be the window's premise vector. If $\beta$ is reachably consistent in $\mathbb{S}$, Lemma 3 yields $t$ with a run of $\rho_t$ reaching $(\gamma_t, n_t)$ realizing $\beta$ via some $\chi$; by H2(a) transport $\mathbb{I}$'s violating transition along $\chi$, and by H2(b) shrink its context to $\rho_t$'s (the fields outside $W_r$ differ, and by locality do not matter): the transported transition is enabled in $\mathbb{I}$'s run of $\rho_t$ at the realizing instant. Its occurrence produces the observable Lemma 3 says $V_t$ forbids at $\beta$ — an $\mathsf{app}$/status/emission where the verdict demands absence, or a non-refusal where it demands refusal — so $\mathbb{I} \not\models t$. If $\beta$ is not reachably consistent in $\mathbb{S}$, then already the *reachability* of $u$'s window requires a prior clause violation (the fields of $W_r$ are written only by rules, Lemma 54), and the argument applies to the earliest violated clause along $u$'s history, which exists since $A(\gamma^0_{\mathbb{I}}) = \gamma^0$ is reachably consistent.
+
+*Case $c = \langle r{:}\mathsf{act}\rangle$.* An $r$-tagged transition fires with premises true but wrong writes or emissions. The discrepancy is a window discrepancy (writes land in $W_r$; emissions are functions of it — Definition 4). Transport as above to the Lemma-3 instance whose verdict asserts $r$'s writes at $\beta = \mathbf{1}$ positively: the discrepancy violates one of $V_t$'s conjuncts — the status equation (O1), the event word's required letters or their order (O2: e.g. LIFO order for L-Unload's $\Psi = g$; the committed-read value for Algorithm 6's line), or the store report. So $\mathbb{I} \not\models t$.
+
+*Case $c = \langle\mathrm{op}\rangle$, Algorithm-6 clauses.* Identical, with Lemma 3 replaced by the direct catalog instances C1–C5 whose verdicts are the operations' defining equations at both outcomes (e.g. C5.3 demands the $\mathsf{IA}$ error exactly where line 5 of Algorithm 6 rejects, C5.1 the $\mathsf{UD}$ error at line 6).
+
+*Case $c = \mathsf{live}$.* A persistently enabled $(r, n)$ never acted on. Under H3's fairness this cannot occur for the scheduler's own reasons, so the enabling condition itself must be mis-evaluated — a $\langle r{:}\mathsf{prem}\rangle$ discrepancy, handled above; while a settle that fails to terminate on a quiescent-in-$\mathbb{S}$ scenario directly fails the test containing that settle (every test ends in one, and H3 makes settle termination equivalent to quiescence).
+
+*Case $c = \langle\mathrm{M}_i\rangle$.* $\mathrm{Sat}\langle\mathrm{M}_i\rangle$ is quantified over the scenario schema that $\rho_{\mathrm{M}_i}$ instantiates (independent pairs; $\prec$-chains; replacement round-trips; $\prec$-cycles; permuted histories). A violation at some instance of the schema transports by H2 to the catalog instance — the schemas were chosen closed under H2's transports: their windows involve at most four fibers and two keys, the catalog instance's size — where it violates $V_{\mathrm{M}_i}$ verbatim (the verdict *is* the predicate). $\blacksquare$
+
+**Remark 1 (rôle and cost of H2).** H2 cannot be dropped: for any finite $T$, an implementation that behaves correctly except on a key name absent from $T$'s scripts passes $T$ and violates conformance; such an $\mathbb{I}$ simply fails H2(a). The theorem's content is thus a *reduction*: conformance of an arbitrary implementation reduces to (i) passing $T$ — mechanical — plus (ii) H1's audit and H2's uniformity — properties of the implementation's text, not of its behavior, and the natural residue for code review or verification. This division of labor is precisely Gaudel's [Gau95]; we have only made (ii) concrete enough to point at the code that discharges it.
+
+---
+
+## 7. Necessity
+
+**Definition 12 (deviants).** For a clause $c \in \mathcal{C}$, the *deviant* $\mathbb{S}_{\neg c}$ is the plugin system obtained from Definition 4 by negating $c$ alone, per the following table (excerpt; full table in `src/model.mjs` with one switch per row):
+
+| $c$ | $\mathbb{S}_{\neg c}$ |
+| --- | --- |
+| $\langle$L-Unload:prem$\rangle$ (guard) | premise $\neg\mathrm{relied}_n(\gamma)$ replaced by $\top$ |
+| $\langle$L-Iter/L-Unload:act$\rangle$ (LIFO) | accumulator composed $h \circ g$ (application order) |
+| $\langle$L-Begin:prem$\rangle$ (satisfaction) | $\gamma \vDash d_n$ deleted from the premise |
+| $\langle$Def 45$\rangle$ (Active-only $\sigma_\gamma$) | union taken over installed fibers |
+| $\langle$L-Begin:prem$\rangle$ ($\xi$ latch) | $\mathsf{Inactive}(\zeta)$ matched for any $\zeta$ |
+| $\langle$Alg 6 line 5$\rangle$ | the declared-but-uncommitted rejection deleted |
+| … (27 rows) | … |
+
+**Theorem 4 (necessity).** (a) *Structural:* $w$ is injective and onto the clause enumeration (Definition 11), so for every $t$, $T \setminus \{t\}$ leaves $w(t)$ unwitnessed and Lemma 3's realization — hence Theorem 3's case for $w(t)$ — fails. (b) *Adequacy:* for every deviant, $\mathbb{S}_{\neg c} \not\models T$. (c) *Exclusive witness:* for 14 clauses $c$, $\mathbb{S}_{\neg c} \models T \setminus w^{-1}(c)$ — the designated test is the only one that convicts. (d) Consequently no proper subset of $T$ is both adequate for $\{\mathbb{S}_{\neg c}\}_{c}$ and onto $\mathcal{C}$.
+*Proof.* (a) is Definition 11's row check. (b), (c) are $27$ resp. $27 \times 32$ claims of the form "$\mathbb{S}_{\neg c}$'s runs on $\rho_t$ (do not) all satisfy $V_t$", each a finite derivation in the deviant's rules; we derive one of each and discharge the rest by executed enumeration over both fifo and lifo policies (run 4; enumeration is exact, not sampled, for these scenarios, since at every configuration of every $\rho_t$ at most four fibers are enabled and the policies together cover the branch orders the verdicts distinguish — where they did not, the matrix run showed it and the policy set was extended).
+
+*Sample for (b), $c = \langle$L-Unload:prem$\rangle$:* in $\mathbb{S}_{\neg c}$ run $\rho_{\text{R9.1}}$. As in Theorem 2's derivation, after $\mathsf{retire}(P)$ both $P$ and $C$ reach Unloading; but now L-Unload($P$) is enabled *concurrently* with L-Unload($C$), and under the fifo policy the scan meets $P$ first: $\Psi = g_P$ emits $\mathsf{inv}(P,p_1)$ before $C$'s inverse performs its read — indeed the subsequent $\mathsf{read}(k)$ finds $P$'s binding withdrawn and emits $\mathsf{rderr}(C,k,\mathsf{IA})$. Both conjuncts of $V_{\text{R9.1}}$ fail. Hence $\mathbb{S}_{\neg c} \not\models \text{R9.1}$.
+
+*Sample for (c), $c = \langle$LIFO$\rangle$:* $\mathbb{S}_{\neg c}$ differs only in inverse order; on every $\rho_t$ other than R5.1 either at most one tracked inverse exists per fiber or the verdict constrains membership and cross-fiber order but not intra-fiber order (inspect Table C's verdicts: R9.1 orders $C$'s read against $P$'s inverse, not $P$'s inverses among themselves; M2 orders $\mathsf{deact}$ letters and A's inverse against them; …), so all other verdicts hold; on $\rho_{\text{R5.1}}$ the emitted inverse word is $\mathsf{inv}(P,a)\,\mathsf{inv}(P,b)\,\mathsf{inv}(P,c)$, violating $V_{\text{R5.1}}$'s second conjunct. Hence R5.1 alone convicts. $\blacksquare$
+
+**Remark 2 (the 18 shielded witnesses).** For the remaining 18 clauses, no *single-clause* deviant can be convicted by its designated test alone: those clauses are load-bearing — negating L-Begin's satisfaction premise, say, perturbs every scenario with a dependency — so their deviants are convicted by several tests at once (the matrix lists the kill sets). This is the subsumption phenomenon of mutation analysis [PAO17], and it is a property of the *clause structure*, not a defect of the suite: irredundancy for those tests rests on Theorem 4(a), which is exact. Two candidate deviants were discarded during construction because they are *observationally vacuous* — provably so: a value-compared target view never diverges from the provider-compared one under the single-provider discipline plus the guard, and a retire-that-flushes-pending-work is cancelled by L-Divert before any iteration lands (both little propositions verified on the model). Their vacuity is a small self-healing result about the calculus that the exercise surfaced.
+
+---
+
+## 8. Empirical verification
+
+**Targets.** (i) the reference semantics $R$ (soundness control); (ii) **Cordis-aligned** — the vendored build carrying the calculus-alignment fixes of the prior targeted catalog (`paper-review/`, GAP-1..9); (iii) **Cordis-upstream** — `@deepseek-ai/cordis` 4.0.1 as published; (iv) upstream deployed as **two nodes** joined by `@rebuilding/cordis-node` (in-process transports, mutual mounts, inserts alternating across nodes, observation from node A through projection).
 
 | Target | Result |
 | --- | --- |
 | Reference semantics (4 policies) | $32/32$ |
 | Cordis-aligned | $\mathbf{32/32}$ |
 | Cordis-upstream 4.0.1 | $28/32$ |
-| Two-node distributed (upstream) | $28/32$ — **the same four** |
+| Two-node distributed (upstream) | $28/32$ — the same four |
 
-**The four upstream divergences.**
+**Upstream divergences.** R9.1 and M2 — the L-Unload guard implemented one level too low, provider inverses racing dependents' teardown (reproduces GAP-1/GAP-2; the observed words realize the $\mathbb{S}_{\neg\mathrm{guard}}$ derivation of Theorem 4 almost verbatim, which is what a conformance theory predicts a guard-less implementation must emit). R1.4 — declared disjointness unenforced at insertion (GAP-6). RU.1 — **new**: after a failed first activation, a later $\mathsf{update}$ of the recovered, Active fiber releases the first episode's error as a process-level unhandled rejection; §4.3.4 requires $\xi$ recorded on the fiber and nothing escaping.
 
-- **R9.1, M2** — provider inverses run concurrently with (and before) dependents' guarded teardown: the L-Unload guard is implemented one level too low (inside the provision effect's own disposer, while the fiber's unload starts all disposers at once). Reproduces the prior catalog's GAP-1/GAP-2; the suite's traces exhibit the violating order literally.
-- **R1.4** — declared-provision disjointness unenforced at insertion (GAP-6's fixed half).
-- **RU.1** — **new**: after a failed first activation, a later $\mathsf{update}$ of the by-then recovered, Active fiber releases the first episode's error as a process-level unhandled rejection; states and effect traces are otherwise correct. The calculus requires $\xi$ recorded on the fiber and nothing to escape (§4.3.4); minimal reproduction in `conformance.md` §5.
+**Theorem 5 (distribution preserves conformance).** If $\mathbb{I} \mathrel{\mathbf{conf}} \mathbb{S}$ and the distribution layer $D$ satisfies the Distribution Equivalence Contract (`cordis-node/docs/equivalence.md`: placement over nodes is observationally equivalent to single-node execution on the P1 vocabulary, links healthy), then $D(\mathbb{I}) \mathrel{\mathbf{conf}} \mathbb{S}$.
+*Proof.* The contract gives $\mathrm{obs}_{D(\mathbb{I})}(\rho) \sim \mathrm{obs}_{\mathbb{I}}(\rho)$ for every $\rho$ in the suite's vocabulary — i.e. $D(\mathbb{I}) \mathrel{\mathbf{conf}} \mathbb{I}$ with Definition 6 read over that vocabulary — and $\mathbf{conf}$ composes by Proposition 1. $\blacksquare$
+*Empirical check:* the unchanged suite against the two-node deployment fails exactly the underlying build's four obligations; the difference set attributable to $D$ is empty. Cross-node execution is real: placement alternates, so R9.2's provider activates on node A with its dependent on node B, satisfied through projection.
 
-**The distributed corollary.**
+## 9. Findings about the paper
 
-**Theorem 3 (Distribution preserves conformance).** Let $\mathbb{I}$ be single-process conformant and let the distribution layer $D$ satisfy the Distribution Equivalence Contract (its companion theory: any placement of components over nodes is observationally equivalent to single-node execution while links are healthy — `cordis-node/docs/equivalence.md`). Then $D(\mathbb{I}) \mathrel{\mathbf{conf}} \mathbb{S}$ for every placement.
+- **PB-1 (Table 2 erratum).** Table 2 maps Def. 23's $\mathrm{set}(k,v)$ to `ctx.set`; the primitive with $\mathrm{set}$'s precondition ($k \notin \mathrm{dom}\,\sigma$) and inverse is `ctx.provide`, while `ctx.set` is an $\mathcal{A}_k$ operation (Def. 24). H1's abstraction uses the corrected row.
+- **PB-2 (internal contradiction).** For an in-place overwrite by an Active provider, §5.1.3 prescribes *not observed* while Thm. 63(3)'s episode-constancy forces *observed replacement* if the operation enters the transition system at all; the calculus is silent (its rules give an Active fiber no operations — the prior catalog's GAP-7). Test C2.1 pins the disjunction any extension must satisfy — neutral, or a complete withdraw–reinstall; never a torn episode — and records each build's branch. The paper should strike the §5.1.3 sentence or scope Thm. 63(3).
+- **PB-3 (Algorithm 10 races its premise).** O-Insert's disjointness premise makes replacement a staged retire–drain–remove–insert; Algorithm 10 calls `dispose()` and `use()` back-to-back, relying on the dynamic-conflict fail-safe winning a scheduler race. The reference semantics loses that race under the lifo policy, producing a latched spurious failure. The staged form (used by M3) is the one whose premises hold at every step.
 
-*Proof.* Every test verdict is a predicate over O1–O3; the contract carries O1–O3 across placement (its verified lemmas cover exactly the service-availability, call, lifecycle, and error observables the verdicts read); hence $\mathrm{obs}_{D(\mathbb{I})}(\rho) = \mathrm{obs}_{\mathbb{I}}(\rho)$ up to the contract's boundary, and Def. 3 transfers. $\blacksquare$
+## 10. Related work
 
-*Empirical check.* Run 5 executes the unchanged suite against the two-node deployment: $28/32$, failing **exactly** the upstream build's four obligations — the set difference attributable to distribution is empty. The cross-node path is genuinely exercised: placement alternates, so e.g. R9.2's provider activates on node A with its dependent on node B, satisfied through projection.
+Gaudel's theory of testing from algebraic specifications [Gau95] contributes the architecture — finite suites complete relative to named testability hypotheses; our H2 is her uniformity hypothesis in windowed form, and Lemma 2/H2's split (proved for $\mathbb{S}$, hypothesized for $\mathbb{I}$) makes the asymmetry explicit. Tretmans' ioco [Tre96, Tre08] contributes soundness/exhaustiveness for LTS conformance with quiescence; our settle observation plays $\delta$'s role, and our Definition 7 is a simulation formulation rather than a trace one because the calculus's own $\simeq$-invariance lemma (its Lemma 55) is exactly the up-to technique simulation needs. Mutation adequacy originates with [DLS78]; deviants of an executable *specification* follow specification-mutation [BOY00], and the subsumption structure of Remark 2 is documented in the surveys [JH11, PAO17]. Executable semantics validated against suites is the methodology of semantics engineering [Fel09] and K [RŞ10]. Conformance suites without completeness theorems (test262 et al.) and mechanized metatheory without implementation conformance are the two adjacent practices this work bridges for a dynamic-composition calculus; we know of no prior conformance *theorem* for a plugin-system runtime.
 
----
+## 11. Limitations and threats to validity
 
-## 8. Findings about the paper
+(1) H2 is a hypothesis about $\mathbb{I}$'s text; Remark 1 shows it is unavoidable and locates the residue for review. (2) The proofs are mathematics, not mechanized derivations; the finite checks (Lemma 3's table, Theorem 4's matrix) are discharged by executed enumeration — exact for the stated scenarios, but trusting the harness that enumerates. (3) H3's settle is sound/complete quiescence detection by hypothesis; a scheduler with unbounded internal chatter would stall it. (4) The event word is observed through synchronous instrumentation (H1); batching implementations could permute within $\approx$. (5) Theorem 5 inherits the equivalence contract's boundary; run 5 used in-process transports (the contract's own multi-process lab covers TCP). (6) Adequacy is relative to the deviant family; faults outside all single-clause negations are constrained only by Theorem 3's hypotheses, not by Theorem 4.
 
-The construction convicted the paper on three counts, none visible to informal review:
+## 12. Conclusion
 
-- **PB-1 (Table 2 erratum).** Table 2 maps Definition 23's $\mathrm{set}(k,v)$ to `ctx.set`. The primitive carrying $\mathrm{set}$'s precondition ($k \notin \mathrm{dom}\,\sigma$) and inverse is `ctx.provide`; `ctx.set` is an $\mathcal{A}_k$ value operation on an existing binding. *(Independently observed in the prior gap catalog; H1's audited adapter uses the corrected mapping.)*
-- **PB-2 (Internal contradiction).** For an in-place overwrite by an Active provider, §5.1.3 prescribes *not observed*, while Theorem 63(3)'s episode-constancy forces *observed replacement* if the operation is admitted into the transition system at all. The calculus is silent — an Active fiber's operations fall outside its rules (the hole the prior catalog logged as GAP-7) — so both behaviors are extensions, and the paper endorses both. Test C2.1 pins what any extension must satisfy (never a torn episode: an overwrite is invisible, or a complete withdraw-reinstall) and records the branch a build takes. The paper should choose: strike the §5.1.3 sentence, or scope Thm. 63(3).
-- **PB-3 (Algorithm races its premise).** O-Insert's disjointness premise forbids admitting a new declarer of $k$ while any fiber declaring $k$ remains registered, making replacement a staged retire–drain–remove–insert. Algorithm 10 instead calls `dispose()` and `use()` back-to-back, relying on the dynamic-conflict fail-safe winning a scheduler race against the disposal. The reference semantics exhibits the loss of that race as a latched spurious failure under the lifo policy. The staged form — which the suite's M3 uses — is the one whose premises hold at every step; the algorithm as printed is correct only under scheduling assumptions the calculus neither states nor licenses.
-
----
-
-## 9. Related work
-
-**Conformance testing from formal specifications.** Our completeness/minimality pair instantiates the classical program: Gaudel's testability hypotheses for algebraic specifications [Gau95] (H2 is her uniformity hypothesis; H1 her observational "reveal" step), and Tretmans' **ioco** theory for labeled transition systems [Tre96, Tre08], where a suite is *sound* (our Lemma 1) and *exhaustive* (our Theorem 1) — together, *complete*. Our setting differs from ioco in that quiescence is a first-class settle observation rather than a $\delta$-label, and the specification's nondeterminism is a scheduling parameter we enumerate.
-
-**Mutation analysis.** The adequacy notion of Theorem 2 originates with DeMillo, Lipton, and Sayward [DLS78]; the surveys [JH11, PAO17] document the subsumption phenomenon behind our 18 shielded tests. Mutating an executable *specification* rather than implementation syntax follows specification-mutation work [BOY00].
-
-**Executable semantics and reference interpreters.** Validating a semantics by executing it against suites is the methodology of semantics engineering [Fel09] and of rewriting-logic definitions in K [RŞ10]; Lemma 1 — with its two draft-convicting failures — is that methodology applied to [SZC26]'s Table 1.
-
-**Refinement and observational equivalence.** Definition 3 is trace inclusion at a fixed observation vocabulary, the coarse end of the linear-time/branching-time spectrum [vG90]; the calculus's own confluence (Thm. 73) is what lets quiescent-state equality stand in for branching structure.
-
-**Verified plugin/module systems.** We are not aware of prior conformance proofs for dynamic-composition runtimes. Adjacent are conformance suites qua de-facto specifications (e.g. ECMA-262's test262), which carry no completeness theorem, and mechanized module-system metatheory, which verifies a calculus but not an implementation's fidelity to it.
-
-## 10. Limitations and threats to validity
-
-(1) H2 is assumed, not established; a special-cased key name defeats any finite suite. The mitigation is that H2 is *named*, and that the suite reduces the trusted base to it plus the audited adapters. (2) Proofs are rigorous but not mechanized; the model, though small, could itself diverge from Table 1 — mitigated by the clause-indexed transcription and by Lemma 1's demonstrated capacity to convict tests. (3) Scheduling in real builds is sampled, not enumerated (H3); the model side enumerates four policies, and one mutant's schedule-shielded kill shows the dimension matters. (4) O2 event order is observed through synchronous callbacks; an implementation batching them differently could shift orderings within $\approx$ — H1's audit is the control. (5) The distributed corollary inherits the equivalence contract's own boundary (in-process object identity, natives, timing); run 5 used in-process transports, not TCP — though the contract's own multi-process lab covers that gap. (6) $F$ is finite and hand-derived from the calculus's decisions; adequacy against $F$ does not preclude faults outside $F$ — no mutation analysis does.
-
-## 11. Conclusion
-
-The question "does this implementation follow the calculus?" is answerable with the standard machinery of formal testing, provided the specification is made executable, the tests are made specification-derived data, and the hypotheses finite testing always smuggles in are named and minimized. For [SZC26]'s calculus the answer is now sharp: one build follows it, on all 32 clause-witnesses, under the stated hypotheses; another misses it in exactly four places the suite locates and the theory explains; the distribution layer preserves the verdict wholesale; and the exercise returned three corrections to the paper itself — which is what a conformance theory is for.
+"Does the implementation follow the calculus?" is, made precise, the conjunction of one audit (H1), one uniformity property (H2), and a finite, executable judgment ($\mathbb{I} \models T$) that this paper proves complete and minimal for [SZC26]'s calculus. The theory located four defects in a shipping build, proved a second build conformant relative to the stated hypotheses, transferred the verdict unchanged across a distribution layer, and returned three corrections to the source paper — including one place where its algorithm races its own premise, found not by testing the implementation but by running the calculus against itself.
 
 ---
 
@@ -239,16 +264,16 @@ The question "does this implementation follow the calculus?" is answerable with 
 cd paper/proof
 node --test tests/*.test.mjs                       # run 1: reference semantics (MODEL_ORDER=fifo|lifo|random, MODEL_SEED=…)
 PROOF_TARGET=cordis node --test tests/*.test.mjs   # run 2: calculus-aligned build
-PROOF_TARGET=cordis CORDIS_LIB=…/lib/index.js node --test tests/*.test.mjs   # run 3: any build (e.g. upstream)
-node run-necessity.mjs                             # run 4: kill matrix (K1/K2/K3)
+PROOF_TARGET=cordis CORDIS_LIB=…/lib/index.js node --test tests/*.test.mjs   # run 3: any build
+node run-necessity.mjs                             # run 4: deviant matrix (adequacy, exclusivity, minimality)
 PROOF_TARGET=cordis-node node --test tests/*.test.mjs   # run 5: two-node distributed
 ```
 
-Node $\geq$ 22; no dependencies; builds are imported from their checkouts (paths in `src/target.mjs`).
+Node $\ge$ 22, no dependencies; build paths in `src/target.mjs`.
 
-## Appendix B. The catalog
+## Appendix B. Table C — the catalog
 
-The full 32-row obligation catalog with formal sources is `conformance.md` §2 (kept in one place to avoid divergence); engineering-level details of adapters, mutants, and the raw matrices are §§4–6 there.
+The full 32-row catalog (script, verdict predicate, witnessed clause, premise vector realized, soundness source) is maintained in `conformance.md` §2 with the engineering details of adapters and deviants in its §§4–6; the two rows displayed in §5.1 are representative of the level of formality of every row.
 
 ## References
 
@@ -256,7 +281,7 @@ The full 32-row obligation catalog with formal sources is `conformance.md` §2 (
 - [Gau95] M.-C. Gaudel. *Testing can be formal, too.* TAPSOFT '95, LNCS 915, 1995.
 - [Tre96] J. Tretmans. *Test generation with inputs, outputs and repetitive quiescence.* Software—Concepts and Tools 17(3), 1996.
 - [Tre08] J. Tretmans. *Model based testing with labelled transition systems.* In *Formal Methods and Testing*, LNCS 4949, 2008.
-- [DLS78] R. A. DeMillo, R. J. Lipton, F. G. Sayward. *Hints on test data selection: help for the practicing programmer.* IEEE Computer 11(4), 1978.
+- [DLS78] R. A. DeMillo, R. J. Lipton, F. G. Sayward. *Hints on test data selection.* IEEE Computer 11(4), 1978.
 - [JH11] Y. Jia, M. Harman. *An analysis and survey of the development of mutation testing.* IEEE TSE 37(5), 2011.
 - [PAO17] M. Papadakis, Y. Jia, M. Harman, et al. *Mutation testing advances: an analysis and survey.* Advances in Computers, 2017.
 - [BOY00] P. E. Black, V. Okun, Y. Yesha. *Mutation operators for specifications.* ASE 2000.
