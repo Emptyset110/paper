@@ -6,11 +6,14 @@
 
 ## Conformance proof
 
-[`proof/PAPER.md`](proof/PAPER.md) — *A Complete and Minimal Conformance
+The conformance-proof work lives in its own workspace,
+[`../proof-by-claude/`](../proof-by-claude/).
+
+[`../proof-by-claude/archive/PAPER.md`](../proof-by-claude/archive/PAPER.md) — *A Complete and Minimal Conformance
 Test Theory for a Calculus of Dynamic Composition* — is the formal
 companion paper (Markdown + LaTeX math): abstract, formal development,
 completeness and minimality theorems with proofs, empirical evaluation,
-related work. [`proof/conformance.md`](proof/conformance.md) is its
+related work. [`../proof-by-claude/archive/conformance.md`](../proof-by-claude/archive/conformance.md) is its
 engineering companion: it formalizes the plugin system of §5 as a
 labeled transition system, derives a 32-obligation test set in bijection
 with the calculus's clauses, and proves sufficiency (induction over runs,
